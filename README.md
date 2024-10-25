@@ -1,4 +1,4 @@
-# Sistema Tóra
+# Tóra
 
 O **Tóra** é um sistema web desenvolvido para o gerenciamento de atiradores no Tiro de Guerra, focado na otimização de processos administrativos como controle de presença, escalas de guarda, e gerenciamento de dados dos atiradores. O sistema oferece uma interface intuitiva e funcionalidades voltadas para todos os membros da organização, como atiradores, monitores e superiores.
 
