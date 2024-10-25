@@ -1,0 +1,301 @@
+/* FONTES
+
+.roboto-thin {
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.roboto-light {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.roboto-regular {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.roboto-medium {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+*/
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box; 
+    text-decoration: none;
+}
+
+body{
+    background-color: whitesmoke;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+
+}
+
+#mainLogin{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+}
+
+#footerLogin{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20vh;
+    font-weight: 500;
+}
+
+#formLogin{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.inputBox{
+    position: relative;
+}
+
+.inputs{
+    padding: 20px 10px 5px;
+    border-radius: 5px;
+    border: 1px solid rgb(150, 150, 150);
+    font-size: 100%;
+    outline: none;
+    font-weight: normal;
+}
+
+.labelInput{
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    pointer-events: none;
+    transition: 0.1s;
+    opacity: 0.65;
+}
+
+.inputs:focus ~ .labelInput,
+.inputs:valid ~ .labelInput{
+    top: 3px;
+    font-size: 12px;
+}
+
+.buttons{
+    background: rgb(0, 136, 255);
+    color: white;
+    font-size: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid rgb(150, 150, 150);
+}
+
+#mainHeader{
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+nav a{
+    color: black;
+}
+
+#mainMenu{
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+/*-------------
+NAVATION STYLES
+-------------*/
+
+.openNavMenuButton{
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    display: flex;
+}
+
+.openNavMenuButton:hover{
+    color: rgb(80, 80, 80);
+    cursor: pointer;
+}
+
+#titleNavMenu{
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#titleNavMenu #buttonCloseNav{
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+.profileImage{
+    position: absolute;
+    right: 10px;
+    top: 5px;
+}
+
+.profileImage ion-icon{
+    font-size: 50px;
+    color: rgb(10, 10, 10);
+}
+.profileImage ion-icon:hover{
+    font-size: 50px;
+    color: rgb(80, 80, 80);
+}
+
+.backNavMunu{
+    display: flex;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.navMunu{
+    display: flex;
+    flex-direction: column;
+    background-color: whitesmoke;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    border-radius: 0 30px 30px 0;
+}
+
+#navLayout{
+    position: relative;
+    bottom: 0;
+    height: 100vh;
+}
+
+#mainNavItem{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+}
+
+#mainNavItem a{
+    padding: 10px 0;
+}
+
+#logoutNavItem{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#logoutNavItem a{
+    font-size: 20px;
+    color: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#logoutNavItem ion-icon{
+    font-size: 25px;
+}
+
+/*------------
+    PROFILE
+------------*/
+
+#perfilContainer{
+    background-color: rgb(230, 230, 230);
+    border-radius: 10px;
+    border: .5px solid rgb(200, 200, 200);
+    margin-top: 30px;
+}
+
+#perfilName{
+    background-color: rgb(170, 170, 170);
+    border-radius: 10px 10px 0 0;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.perfilElements{
+    background-color: rgba(150, 150, 150);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    margin: 10px;
+}
+
+.perfilElements h3{
+    padding: 20px;
+}
+
+.perfilElements h4{
+    padding: 20px;
+    background-color: rgba(200, 200, 200);
+    border-radius: 10px;
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.posts{
+    border: 1px solid black;
+    padding: 10px 30px 30px;
+    margin: 50px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+.posts h1{
+    font-size:calc(12px + 2vw);
+    padding: 10px 20px 20px;
+}
+
+
+@media (min-width: 426px){
+}
+
+@media (min-width: 769px){
+}
+
+@media (min-width: 1025px){
+}
+
+.hide{
+    display: none;
+}
