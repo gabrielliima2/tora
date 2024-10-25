@@ -33,8 +33,6 @@ include('scripts/conexao.php');
         </form>
         <p>Não tem uma conta? <a href="views/cadastro.php" style="color: rgb(0, 136, 255);">Cadastre-se</a></p>
     </main>
-    <footer id="footerLogin">
-        <h3>SUPORTE</h3>
-    </footer>
+    <?php include("components/footer.php"); ?>
 </body>
 </html>

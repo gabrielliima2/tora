@@ -1,5 +1,5 @@
 <?php
-include('../scripts/conexao.php');
+    include('../scripts/conexao.php');
 ?>
 
 <!DOCTYPE html>
@@ -36,8 +36,6 @@ include('../scripts/conexao.php');
         </form>
         <p>Tem uma conta? <a href="../index.php" style="color: rgb(0, 136, 255);">Entrar</a></p>
     </main>
-    <footer id="footerLogin">
-        <h3>SUPORTE</h3>
-    </footer>
+    <?php include("../components/footer.php"); ?>
 </body>
 </html>
