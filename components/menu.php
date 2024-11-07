@@ -9,21 +9,27 @@
             
             <?php if($id_patente === '1'): ?>
                 <a href="home.php">MENU</a>
+                <a href="turma.php">TURMAS</a>
                 <a href="">ESCALA DE GUARDA</a>
                 <a href="">QTQ</a>
                 <a href="profile.php">PERFIL</a>
+
             <?php elseif($id_patente === '2'): ?>
                 <a href="home.php">MENU</a>
                 <a href="">ESCALA DE GUARDA</a>
                 <a href="">QTQ</a>
                 <a href="profile.php">PERFIL</a>
+
+            <?php elseif($id_patente === '3'): ?>
                 <a href="home.php">MENU</a>
                 <a href="">ESCALA DE GUARDA</a>
                 <a href="">QTQ</a>
                 <a href="profile.php">PERFIL</a>
 
             <?php else: ?>
-                <p>Insira o nome da turma</p>
+                <a href="home.php">MENU</a>
+                <a href="">TURMAS</a>
+                <a href="profile.php">PERFIL</a>
             <?php endif; ?>
 
         </div>
