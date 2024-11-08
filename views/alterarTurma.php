@@ -2,70 +2,85 @@
 include("../scripts/conexao.php");
 include("../scripts/protect.php");
 
-// Verifica se o ID foi enviado via POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+$id_patente = $_SESSION['id_patente'];
+verificaAcesso("3");
+verificaAcesso("4");
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['atualizar'])) {
     $id = $_POST['id'];
+    $novoNome = $_POST['nomeTurma'];
+    $novoAno = $_POST['anoTurma'];
 
-    // Carrega os dados da turma existente
-    $query = "SELECT * FROM turma WHERE id = ?";
-    $stmt = $mysqli->prepare($query);
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $turma = $result->fetch_assoc();
+    $queryUpdate = "UPDATE turma SET nome = '$novoNome', ano = '$novoAno' WHERE id = '$id'";
+    $resu = mysqli_query($mysqli, $queryUpdate);
 
-    // Verifica se a turma existe
-    if (!$turma) {
-        echo "Turma não encontrada.";
-        exit;
+    if ($resu) {
+        echo '<div class="backPopUp"></div>
+                <div class="containerPopUp">
+                    <div class="popUp">
+                        <ion-icon class="checkmarkPopUp" name="checkmark-circle-outline"></ion-icon>
+                        <h1>Turma editada com sucesso</h1>
+                        <a href="turma.php" class="buttonsPopUp" name="cancelar">OK</a>
+                    </div>
+                </div>';
+    } else {
+        echo "ERRO ao atualizar os dados: " . mysqli_error($mysqli);
     }
-
-    // Atualiza os dados se o formulário for enviado
-    if (isset($_POST['nomeTurma']) && isset($_POST['anoTurma'])) {
-        $novoNome = $_POST['nomeTurma'];
-        $novoAno = $_POST['anoTurma'];
-
-        // Atualiza a turma no banco de dados
-        $queryUpdate = "UPDATE turma SET nome = ?, ano = ? WHERE id = ?";
-        $stmtUpdate = $mysqli->prepare($queryUpdate);
-        $stmtUpdate->bind_param("sii", $novoNome, $novoAno, $id);
-        
-        if ($stmtUpdate->execute()) {
-            echo "Turma atualizada com sucesso!";
-            header("Location: turma.php"); // Redireciona para a lista de turmas
-            exit;
-        } else {
-            echo "Erro ao atualizar turma: " . $mysqli->error;
-        }
-    }
-} else {
-    echo "ID da turma não foi informado.";
-    exit;
 }
+
+if (isset($_GET["id"])) {
+    $id = $_GET['id'];
+
+    $query = "SELECT * FROM turma WHERE id = $id";
+    $result = mysqli_query($mysqli, $query);
+    $turma = $result->fetch_assoc();
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Editar Turma</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">    
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/script.js" defer></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
+
+    <title>Tóra</title>
 </head>
 <body>
-    <h1>Editar Turma</h1>
-    <form method="POST">
-        <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
+    <?php include("../components/header.php"); ?>
+    <?php include("../components/menu.php"); ?>
 
-        <div>
-            <label>Nome:</label>
-            <input type="text" name="nomeTurma" value="<?php echo htmlspecialchars($turma['nome']); ?>" required>
+    <main id="mainTurma">
+        <div class="FormularioNovaTurma">
+            <h1>Editar Turma</h1>
+            <form method="POST" class="formNovaTurma">
+                <input type="hidden" name="id" value="<?php echo $id; ?>">
+
+                <div>
+                    <div class="inputBox">
+                        <input type="text" name="nomeTurma" id="nomeTurma" class="inputs" value="<?php echo $turma['nome']; ?>" required>
+                        <label class="labelInput">Nome</label>
+                    </div>
+                    <div class="inputBox">
+                        <input type="number" name="anoTurma" id="anoTurma" class="inputs" value="<?php echo $turma['ano']; ?>" required>
+                        <label class="labelInput">Ano</label>
+                    </div>
+                </div>
+                <div class="buttonsAcoesTurma">
+                    <input type="submit" class="buttons criarTurma" name="atualizar" value="Salvar">
+                    <a href="turma.php" class="buttons excluir" name="cancelar">Cancelar</a>
+                </div>
+            </form>
         </div>
-
-        <div>
-            <label>Ano:</label>
-            <input type="number" name="anoTurma" value="<?php echo htmlspecialchars($turma['ano']); ?>" min="2000" max="2200" required>
-        </div>
-
-        <button type="submit">Salvar Alterações</button>
-    </form>
+    </main>
 </body>
 </html>
+<?php
+}
+?>

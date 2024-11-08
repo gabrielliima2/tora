@@ -11,6 +11,7 @@ const fecharPopUpSucesso = document.querySelector('#fecharPopUpSucesso')
 const nomeTurma = document.querySelector('#nomeTurma')
 const anoTurma = document.querySelector('#anoTurma')
 
+
 buttonOpenNav.addEventListener('click', ()=>{
     buttonOpenNav.classList.add('hide')
     navMenu.classList.remove('hide')
@@ -52,7 +53,6 @@ fecharPopUpSucesso.addEventListener('click', ()=>{
     anoTurma.value = ""
     window.location.href = "turma.php";
 })
-
 
 
 
