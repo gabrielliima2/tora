@@ -4,6 +4,7 @@
 
     $id_patente = $_SESSION['id_patente'];
     //verificaAcesso(['sargento']);
+
 ?>
 
 
@@ -28,12 +29,27 @@
     <?php include("../components/header.php"); ?>
     <?php include("../components/menu.php"); ?>
    
-
     <main id="mainMenu">
-    <button type="button" id="novaTurma" class="buttons">Nova turma</button>
+    <?php
+        $query = "SELECT * FROM turma";
+        $result = mysqli_query($mysqli, $query) or die (mysqli_connect_error());
+        if(mysqli_num_rows($result)>0){
+            while ($reg = mysqli_fetch_array($result)) {
+                echo "<div>
+                        <p>" . htmlspecialchars($reg['nome']) . " " . htmlspecialchars($reg['ano']) . "</p>
+                        <a href='#' onclick='editarTurma(" . $reg['id'] . ")'>Editar</a>
+                        <a href='#' onclick='excluirTurma(" . $reg['id'] . ")'>Excluir</a>
+                    </div>";
+            }
+        }else{
+            echo"Nenhuma turma cadastrada!";
+        }
+        
+    ?>
+
     <div id="FormularioNovaTurma" class="hide">
         <h1>Nova turma</h1>
-        <form action="../controllers/nova_turma.php" method="POST">
+        <form method="POST">
             <div class="inputBox">
                 <input type="text" name="nomeTurma" id="nomeTurma" class="inputs" size="20" required>
                 <label class="labelInput">Nome</label>
@@ -42,15 +58,42 @@
                 <input type="number" name="anoTurma" id="anoTurma" class="inputs" size="20" min="2000" max="2200" required>
                 <label class="labelInput">Ano</label>
             </div>
-            <button type="submit" class="buttons">Entrar</button>
+            <button type="submit" class="buttons" id="buttonCriarTurma">Criar</button>
         </form>
     </div>
-    <div>
+    <?php
+         if($_SERVER["REQUEST_METHOD"] == "POST"){
         
-    </div>
+            $nome = $_POST['nomeTurma'];
+            $ano = $_POST['anoTurma'];
+        
+            $queryCheck = "SELECT * FROM turma WHERE ano = '$ano'";
+            $resuCheck = $mysqli->query($queryCheck) or die("Falha na execução do código SQL: " . $mysqli->error);
+        
+            if($resuCheck->num_rows > 0) {
+                echo 'Turma já cadastrada!';
+            } else {
+                // Insere uma nova turma
+                $query = "INSERT INTO turma (nome, ano) VALUES ('$nome', '$ano')";
+                $resu = $mysqli->query($query) or die("Falha na execução do código SQL: " . $mysqli->error);
+        
+                if($resu) {
+                    echo '<div id="popUpTurmaCadastrada">
+                            <p>Turma cadastrada com sucesso</p>
+                        </div>';
+                } else {
+                    echo 'Falha ao cadastrar nova turma!';
+                }
+            }
+    
+        }    
+    ?>
+
 
     </main>
-
+    <footer id="footerTurma">
+        <button type="button" id="novaTurma" class="buttons">Nova turma</button>
+    </footer>
 
 </body>
 </html>
