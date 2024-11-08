@@ -3,8 +3,13 @@ const buttonCloseNav = document.querySelector('#buttonCloseNav')
 const backNavMenu = document.querySelector('#backNavMenu')
 const navMenu = document.querySelector('#navMenu')
 const novaTurma = document.querySelector('#novaTurma')
-const FormularioNovaTurma = document.querySelector('#FormularioNovaTurma')
-const buttonCriarTurma = document.querySelector('#buttonCriarTurma')
+const FormularioNovaTurma = document.querySelector('.FormularioNovaTurma')
+const containerListaTurma = document.querySelector('#containerListaTurma')
+const voltarTelaTurma = document.querySelector('#voltarTelaTurma')
+const popUpTurmaCadastrada = document.querySelector('#popUpTurmaCadastrada')
+const fecharPopUpSucesso = document.querySelector('#fecharPopUpSucesso')
+const nomeTurma = document.querySelector('#nomeTurma')
+const anoTurma = document.querySelector('#anoTurma')
 
 buttonOpenNav.addEventListener('click', ()=>{
     buttonOpenNav.classList.add('hide')
@@ -26,12 +31,29 @@ buttonCloseNav.addEventListener('click', ()=>{
 
 novaTurma.addEventListener('click', ()=>{
     FormularioNovaTurma.classList.remove('hide')
+    voltarTelaTurma.classList.remove('hide')
+    containerListaTurma.classList.add('hide')
     novaTurma.classList.add('hide')
+    nomeTurma.value = ""
+    anoTurma.value = ""
 })
 
-buttonCriarTurma.addEventListener('click', ()=>{
-
+voltarTelaTurma.addEventListener('click', ()=>{
+    FormularioNovaTurma.classList.add('hide')
+    containerListaTurma.classList.remove('hide')
+    novaTurma.classList.remove('hide')
+    voltarTelaTurma.classList.add('hide')
+    nomeTurma.value = ""
+    anoTurma.value = ""
 })
+
+fecharPopUpSucesso.addEventListener('click', ()=>{
+    nomeTurma.value = ""
+    anoTurma.value = ""
+    window.location.href = "turma.php";
+})
+
+
 
 
 function editarTurma(id) {
@@ -67,5 +89,6 @@ function excluirTurma(id) {
         .catch(error => console.error("Erro ao excluir turma:", error));
     }
 }
+
 
 
