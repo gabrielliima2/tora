@@ -31,7 +31,7 @@ if($id_patente == "4"){
     <?php include("../components/menu.php"); ?>
     
     <main id="mainTurma">
-        <div id="containerListaTurma">
+        <div class="containerListaTurma">
             <?php
                 $query = "SELECT * FROM turma";
                 $result = mysqli_query($mysqli, $query) or die(mysqli_connect_error());
