@@ -1,19 +1,3 @@
-<?php
-include("../scripts/conexao.php");
-include("../scripts/protect.php");
-
-$id_patente = $_SESSION['id_patente'];
-$usuario_id = $_SESSION['id']; // ID do usuário logado
-
-// Verifica se existe uma busca e ajusta a consulta SQL
-$search_query = "";
-if (isset($_POST['search'])) {
-    $search_term = mysqli_real_escape_string($mysqli, $_POST['search']); // Protege contra SQL Injection
-    $search_query = "WHERE nome LIKE '%$search_term%'";
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -27,6 +11,33 @@ if (isset($_POST['search'])) {
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
     <title>Tóra</title>
+    <script>
+        function searchTurma() {
+            const searchTerm = document.getElementById('search').value;
+
+            // Cria uma requisição AJAX
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'buscarTurma.php', true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+            // Define a ação para processar o retorno da busca
+            xhr.onload = function() {
+                if (this.status === 200) {
+                    document.getElementById('containerListaTurma').innerHTML = this.responseText;
+                }
+            };
+
+            // Envia a consulta com o termo de busca, vazio ou não
+            xhr.send('search=' + encodeURIComponent(searchTerm));
+        }
+
+        // Adiciona o evento de input para acionar a função de busca em tempo real
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('search').addEventListener('input', searchTurma);
+            // Chama a função ao carregar a página para exibir todas as turmas inicialmente
+            searchTurma();
+        });
+    </script>
 </head>
 <body>
     <?php include("../components/header.php"); ?>
@@ -35,55 +46,10 @@ if (isset($_POST['search'])) {
     <main id="mainTurma">
         <div id="containerListaTurma">
             <!-- Formulário de busca -->
-            <form action="encontrarTurma.php" method="POST" class="search-form">
-                <input type="text" name="search" placeholder="Pesquisar turma" value="<?php echo isset($search_term) ? $search_term : ''; ?>" />
-                <button type="submit">Buscar</button>
+            <form onsubmit="return false;" class="search-form">
+                <input type="text" id="search" name="search" placeholder="Pesquisar turma (nome ou ano)" />
             </form>
-
-            <?php
-                // Consultando as turmas com base na pesquisa (se houver)
-                $query = "SELECT * FROM turma $search_query";
-                $result = mysqli_query($mysqli, $query) or die(mysqli_connect_error());
-
-                if(mysqli_num_rows($result) > 0) {
-                    while ($reg = mysqli_fetch_array($result)) {
-                        // Verificar se o usuário já fez uma solicitação para essa turma
-                        $turma_id = $reg['id'];
-                        $check_query = "SELECT * FROM solicitacoes WHERE usuario_id = '$usuario_id' AND turma_id = '$turma_id' AND status = 'pendente'";
-                        $check_result = mysqli_query($mysqli, $check_query);
-                        
-                        if (mysqli_num_rows($check_result) > 0) {
-                            // O usuário já fez a solicitação
-                            echo "<div class='listaTurmas'>
-                                    <div class='containerInfoTurma'>
-                                        <h3>{$reg['nome']}</h3>
-                                        <p>{$reg['ano']}</p>
-                                    </div>
-                                    <div class='containerAcoesTurma'>
-                                        <a href='cancelarSolicitacao.php?id={$reg['id']}' class='buttons excluir'>
-                                            Cancelar
-                                        </a>
-                                    </div>
-                                  </div>";
-                        } else {
-                            // O usuário ainda não fez a solicitação
-                            echo "<div class='listaTurmas'>
-                                    <div class='containerInfoTurma'>
-                                        <h3>{$reg['nome']}</h3>
-                                        <p>{$reg['ano']}</p>
-                                    </div>
-                                    <div class='containerAcoesTurma'>
-                                        <a href='solicitarAcesso.php?id={$reg['id']}' class='buttons'>
-                                            Participar
-                                        </a>
-                                    </div>
-                                  </div>";
-                        }
-                    }
-                } else {
-                    echo "Nenhuma turma encontrada!";
-                }
-            ?>
+            <!-- Conteúdo da busca será atualizado aqui -->
         </div>
     </main>
 </body>
