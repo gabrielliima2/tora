@@ -409,6 +409,14 @@ NAVIGATION STYLES
     padding: 10px;
 }
 
+#mainPerfil{
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    padding: 10px;
+}
+
 .containerListaTurma{
     padding: 50px 100px;
     height: 80vh;

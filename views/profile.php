@@ -22,32 +22,45 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
 
     <title>Tóra</title>
-
 </head>
 <body>
     <?php include("../components/header.php"); ?>
     <?php include("../components/menu.php"); ?>
 
+    <?php
+        $query = "SELECT * FROM usuarios WHERE id = '$_SESSION[id]'";
+        $resu = mysqli_query($mysqli, $query) or die(mysqli_connect_error());
+        if($resu){
+            $reg = mysqli_fetch_array($resu);
+            echo "";
+        }
+    ?>
+            
     <main id="mainMenu">
         <div id="perfilContainer">
             <div id="perfilName">
-                <h3><?php echo $_SESSION['username']?></h3>
+                <h3><?php echo $reg['nome']?></h3>
+
             </div>
 
             <div class="perfilElements">
                 <h3>PRESENÇAS</h3>
-                <h4><?php echo $_SESSION['username']?></h4>
+                <h4><?php echo $reg['nome']?></h4>
             </div>
             <div class="perfilElements">
                 <h3>FALTAS</h3>
-                <h4><?php echo $_SESSION['username']?></h4>
+                <h4><?php echo $reg['nome']?></h4>
             </div>
 
             <div class="perfilElements">
                 <h3>TEMPO</h3>
-                <h4><?php echo $_SESSION['username']?></h4>
+                <h4><?php echo $reg['nome']?></h4>
             </div>
         </div>
+        <a href='alterarPerfil.php' class='botao editar'>
+            <ion-icon name='pencil-sharp'></ion-icon>
+            <span class='tooltip'>Editar</span>
+        </a>
     </main>
 </body>
 </html>
