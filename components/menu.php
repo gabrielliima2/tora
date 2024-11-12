@@ -1,3 +1,7 @@
+<?php
+$id_patente = $_SESSION['id_patente'];
+?>
+
 <div id="backNavMenu" class="backNavMunu hide"></div>
 <nav id="navMenu" class="navMunu hide">
     <div id="navLayout">

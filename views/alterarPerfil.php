@@ -65,37 +65,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <h1>Editar Perfil</h1>
             <form method="POST" class="formNovaTurma">
                 <input type="hidden" name="id" value="<?php echo $id; ?>">
- 
-                <div>
+
+                <div class="containerEditarPerfil">
+
                     <div class="inputBox">
                         <input type="text" name="nomeUsuario" id="nomeUsuario" class="inputs" value="<?php echo !empty($reg['nome']) ? $reg['nome'] : ''; ?>" required>
                         <label class="labelInput">Nome</label>
                     </div>
+
                     <div class="inputBox">
                         <input type="date" name="dataNascimento" id="dataNascimento" class="inputs" value="<?php echo !empty($reg['nascimento']) ? $reg['nascimento'] : ''; ?>"><!--Se o valor nascimento for vazio ele retorna uma string vazia ("")-->
                         <label class="labelInput">Data de Nascimento</label>
                     </div>
+
                     <div class="inputBox">
                         <input type="text" name="endereco" id="endereco" class="inputs" value="<?php echo !empty($reg['endereco']) ? $reg['endereco'] : ''; ?>">
                         <label class="labelInput">Endereço</label>
                     </div>
+
                     <div class="inputBox">
                         <input type="text" name="bairro" id="bairro" class="inputs" value="<?php echo !empty($reg['bairro']) ? $reg['bairro'] : ''; ?>">
                         <label class="labelInput">Bairro</label>
                     </div>
+
                     <div class="inputBox">
                         <input type="text" name="cidade" id="cidade" class="inputs" value="<?php echo !empty($reg['cidade']) ? $reg['cidade'] : ''; ?>">
                         <label class="labelInput">Cidade</label>
                     </div>
+
                     <div class="inputBox">
                         <input type="text" name="estado" id="estado" class="inputs" value="<?php echo !empty($reg['estado']) ? $reg['estado'] : ''; ?>">
                         <label class="labelInput">Estado</label>
                     </div>
+
                     <div class="inputBox">
                         <input type="text" name="telefone" id="telefone" class="inputs" value="<?php echo !empty($reg['telefone']) ? $reg['telefone'] : ''; ?>">
                         <label class="labelInput">Telefone</label>
                     </div>
+                                    
                 </div>
+
                 <div class="buttonsAcoesTurma">
                     <input type="submit" class="buttons criarTurma" name="atualizar" value="Salvar">
                     <a href="profile.php" class="buttons excluir" name="cancelar">Cancelar</a>

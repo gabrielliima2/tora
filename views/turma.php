@@ -86,7 +86,7 @@ if($id_patente == "4"){
                 $ano = $_POST['anoTurma'];
                 $id_usuario = $_SESSION['id'];
 
-                $query = "INSERT INTO turma (nome, ano, id_usuario) VALUES ('$nome', '$ano','$id_usuario')";
+                $query = "INSERT INTO turma (nome, ano) VALUES ('$nome', '$ano')";
                 $resu = $mysqli->query($query) or die("Falha na execução do código SQL: " . $mysqli->error);
 
                 if($resu) {

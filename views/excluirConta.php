@@ -2,6 +2,7 @@
 session_start();
 include("../scripts/conexao.php");
 include("../scripts/protect.php");
+$id_patente = $_SESSION['id_patente'];
  
 if (!isset($_SESSION['id'])) {
     echo "<script>alert('Usuário não está logado.'); window.location='login.php';</script>";
@@ -47,13 +48,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
  
     <main id="mainPerfil">
         <div class="FormularioNovaTurma">
-            <h1>Tem certeza que deseja excluir sua conta?</h1>
-            <p>Essa ação não pode ser desfeita.</p>
+            <h1>Deseja excluir sua conta?</h1>
+            <p>Essa ação não podera ser desfeita</p>
  
             <form method="POST">
-                <div class="buttonsAcoesTurma">
-                    <input type="submit" class="buttons criarTurma" name="confirmar" value="Sim, excluir minha conta">
-                    <input type="submit" class="buttons excluir" name="cancelar" value="Não, cancelar">
+                <div class="buttonsAcoesTurma" style="gap:30px;">
+                    <input type="submit" class="buttons criarTurma" name="confirmar" value="Sim">
+                    <a href="alterarPerfil.php" class="buttons excluir" name="cancelar">Cancelar</a>
                 </div>
             </form>
         </div>
