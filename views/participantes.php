@@ -9,15 +9,14 @@ if($id_patente == "4"){
     verificaAcesso("3");
 };
 
-$id_turma = $_SESSION['turma_id'];
+$turma_id = $_SESSION['turma_id'];
 
-$query = "SELECT u.nome AS usuario_nome, t.nome AS turma_nome, s.status, s.data_solicitacao, s.id 
-          FROM solicitacoes s 
-          INNER JOIN turma t ON s.turma_id = t.id
-          INNER JOIN usuarios u ON s.usuario_id = u.id
-          WHERE status = 'pendente' AND turma_id = '$id_turma';
-          ";
-$resu = mysqli_query($mysqli, $query) or die(mysqli_error($mysqli));
+$query_usuarios = "SELECT u.nome AS usuario_nome 
+                   FROM turma_usuario tu
+                   INNER JOIN usuarios u ON tu.id_usuario = u.id
+                   WHERE tu.id_turma = '$turma_id'";
+$result_usuarios = mysqli_query($mysqli, $query_usuarios) or die(mysqli_error($mysqli));;
+
 ?>
 
 <!DOCTYPE html>
@@ -40,31 +39,32 @@ $resu = mysqli_query($mysqli, $query) or die(mysqli_error($mysqli));
 
     
     <main id="mainTurma">
-        <div class="containerListaTurma">
-            <?php
-                if(mysqli_num_rows($resu) > 0){
-                    while($reg = mysqli_fetch_array($resu)){
-                        echo "<div class='listaTurmas'>
+
+        <?php
+            if (mysqli_num_rows($result_usuarios) > 0) {
+                while ($usuario = mysqli_fetch_assoc($result_usuarios)) {
+                echo "
+                    <div class='listaTurmas'>
                         <div class='containerInfoTurma'>
-                            <h2>{$reg['turma_nome']}</h2>
-                            <h3>{$reg['usuario_nome']}</h3>
-                            <p>{$reg['status']}</p>
+                            <h3>".$usuario['usuario_nome'] ."</h3>
                         </div>
                         <div class='containerAcoesTurma'>
-                            <a href='aceitarSolicitacao.php?id={$reg['id']}' class='buttons editar'>
-                                Aceitar
-                            </a>
-                            <a href='recusarSolicitacao.php?id={$reg['id']}' class='buttons excluir'>
-                                Recusar
-                            </a>
+                                <a href='patenteParticipante.php' class='botao editar'>
+                                    Patente
+                                    <span class='tooltip'>Alterar patente</span>
+                                </a>
+                                <a href='removerParticipante.php' class='botao excluir'>
+                                    Patente
+                                    <span class='tooltip'>Remover da turma</span>
+                                </a>
                         </div>
                     </div>";
-                    }
-                }else{
-                    echo "Nenhuma solicitação encontrada";
                 }
+            } else {
+                echo "<p>Nenhum participante nesta turma.</p>";
+            }
             ?>
-        </div>
+
     </main>
 </body>
 </html>

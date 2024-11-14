@@ -23,7 +23,7 @@ include('../scripts/conexao.php');
             echo 'E-mail já cadastrado!';
         } else {
             // Insere o novo usuário
-            $query = "INSERT INTO usuarios (nome, email, senha) VALUES ('$username', '$email', '$senha')";
+            $query = "INSERT INTO usuarios (nome, email, senha, id_patente) VALUES ('$username', '$email', '$senha', 1)";
             $resu = $mysqli->query($query) or die("Falha na execução do código SQL: " . $mysqli->error);
 
             if($resu) {

@@ -25,7 +25,7 @@ $user_id = $_SESSION['id']; // ID do usuário logado
     
     <main id="mainTurma">
         <div class="containerListaTurma">
-            <h2>TURMAS QUE VOCÊ FAZ PARTE</h2>
+            <h2>Suas turmas</h2>
             <?php
                 $query = "
                     SELECT t.*
@@ -42,10 +42,9 @@ $user_id = $_SESSION['id']; // ID do usuário logado
                         echo "  
                         <div class='listaTurmas'>
                             <div class='containerInfoTurma'>
-                                <a href='#' onclick='abrirTurma({$turma_id})' class='containerInfoTurma'>
+                                <a href='#' onclick='abrirTurma({$turma_id})' class='linkAbrir'></a>
                                     <h3>{$reg['nome']}</h3>
                                     <p>{$reg['ano']}</p>
-                                </a>
                             </div>
                         </div>";
                     }

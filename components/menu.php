@@ -13,13 +13,11 @@ $id_patente = $_SESSION['id_patente'];
             <?php if($id_patente === '4'): ?>
                 <a href="home.php">INÍCIO</a>
                 <a href="criarTurma.php">TURMAS</a>
-                <a href="visualizarSolicitacoes.php">SOLICITAÇÕES</a>
                 <a href="profile.php">PERFIL</a>
 
             <?php elseif($id_patente === '3'): ?>
                 <a href="home.php">INÍCIO</a>
                 <a href="criarTurma.php">TURMAS</a>
-                <a href="visualizarSolicitacoes.php">SOLICITAÇÕES</a>
                 <a href="profile.php">PERFIL</a>
 
             <?php elseif($id_patente === '2'): ?>

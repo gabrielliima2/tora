@@ -11,7 +11,10 @@ $id_patente = $_SESSION['id_patente'];
         </div>
         <div id="mainNavItem">
             <?php if($id_patente === '4'): ?>
+                <a href="home.php">INÍCIO</a>
                 <a href="criarTurma.php">TURMAS</a>
+                <a href="participantes.php">PARTICIPANTES</a>
+                <a href="visualizarSolicitacoes.php">SOLICITAÇÕES</a>
                 <a href="abrirTurma.php">NOTÍCIAS</a>
                 <a href="">ESCALAS DE GUARDA</a>
                 <a href="">CHAMADAS</a>
@@ -19,6 +22,7 @@ $id_patente = $_SESSION['id_patente'];
                 <a href="profile.php">PERFIL</a>
 
             <?php elseif($id_patente === '3'): ?>
+                <a href="home.php">INÍCIO</a>
                 <a href="criarTurma.php">TURMAS</a>
                 <a href="abrirTurma.php">NOTÍCIAS</a>
                 <a href="">ESCALAS DE GUARDA</a>
@@ -27,7 +31,8 @@ $id_patente = $_SESSION['id_patente'];
                 <a href="profile.php">PERFIL</a>
 
             <?php elseif($id_patente === '2'): ?>
-                <a href="usuarioTurma.php">TURMAS</a>
+                <a href="home.php">INÍCIO</a>
+                <a href="usuarioTurma.php">SUAS TURMAS</a>
                 <a href="abrirTurma.php">NOTÍCIAS</a>
                 <a href="">ESCALAS DE GUARDA</a>
                 <a href="">CHAMADAS</a>
@@ -35,7 +40,8 @@ $id_patente = $_SESSION['id_patente'];
                 <a href="profile.php">PERFIL</a>
 
             <?php else: ?>
-                <a href="usuarioTurma.php">TURMAS</a>
+                <a href="home.php">INÍCIO</a>
+                <a href="usuarioTurma.php">SUAS TURMAS</a>
                 <a href="abrirTurma.php">NOTÍCIAS</a>
                 <a href="">ESCALAS DE GUARDA</a>
                 <a href="">CHAMADAS</a>

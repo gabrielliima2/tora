@@ -39,10 +39,10 @@ if($id_patente == "4"){
                         echo "  
                         <div class='listaTurmas'>
                             <div class='containerInfoTurma'>
-                                <a href='#' onclick='abrirTurma({$turma_id})' class='containerInfoTurma'>
+                                <a href='#' onclick='abrirTurma({$turma_id})' class='linkAbrir'></a>
                                     <h3>{$reg['nome']}</h3>
                                     <p>{$reg['ano']}</p>
-                                </a>
+                                
                             </div>
                             <div class='containerAcoesTurma'>
                                 <a href='alterarTurma.php?id={$reg['id']}' class='botao editar'>
