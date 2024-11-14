@@ -44,21 +44,22 @@ $resu = mysqli_query($mysqli, $query) or die(mysqli_error($mysqli));
             <?php
                 if(mysqli_num_rows($resu) > 0){
                     while($reg = mysqli_fetch_array($resu)){
-                        echo "<div class='listaTurmas'>
-                        <div class='containerInfoTurma'>
-                            <h2>{$reg['turma_nome']}</h2>
-                            <h3>{$reg['usuario_nome']}</h3>
-                            <p>{$reg['status']}</p>
-                        </div>
-                        <div class='containerAcoesTurma'>
-                            <a href='aceitarSolicitacao.php?id={$reg['id']}' class='buttons editar'>
-                                Aceitar
-                            </a>
-                            <a href='recusarSolicitacao.php?id={$reg['id']}' class='buttons excluir'>
-                                Recusar
-                            </a>
-                        </div>
-                    </div>";
+                        echo "  <div class='listaTurmas'>
+                                    <div class='containerInfoTurma'>
+                                        <h2>{$reg['turma_nome']}</h2>
+                                        <h3>{$reg['usuario_nome']}</h3>
+                                        <p>{$reg['status']}</p>
+                                    </div>
+                                    <div class='containerAcoesTurma'>
+                                        <a href='aceitarSolicitacao.php?id={$reg['id']}' class='buttons editar'>
+                                            Aceitar
+                                        </a>
+                                        <a href='recusarSolicitacao.php?id={$reg['id']}' class='buttons excluir'>
+                                            Recusar
+                                        </a>
+                                    </div>
+                                </div>
+                            ";
                     }
                 }else{
                     echo "Nenhuma solicitação encontrada";

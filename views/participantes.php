@@ -11,7 +11,7 @@ if($id_patente == "4"){
 
 $turma_id = $_SESSION['turma_id'];
 
-$query_usuarios = "SELECT u.nome AS usuario_nome 
+$query_usuarios = "SELECT u.nome AS usuario_nome, id_usuario
                    FROM turma_usuario tu
                    INNER JOIN usuarios u ON tu.id_usuario = u.id
                    WHERE tu.id_turma = '$turma_id'";
@@ -39,23 +39,24 @@ $result_usuarios = mysqli_query($mysqli, $query_usuarios) or die(mysqli_error($m
 
     
     <main id="mainTurma">
-
+        <div class="containerListaTurma">
         <?php
             if (mysqli_num_rows($result_usuarios) > 0) {
                 while ($usuario = mysqli_fetch_assoc($result_usuarios)) {
                 echo "
                     <div class='listaTurmas'>
+                        <a href='perfilParticipante.php?id=".$usuario['id_usuario']."' class='linkAbrir'></a>
                         <div class='containerInfoTurma'>
                             <h3>".$usuario['usuario_nome'] ."</h3>
                         </div>
                         <div class='containerAcoesTurma'>
-                                <a href='patenteParticipante.php' class='botao editar'>
+                                <a href='patenteParticipante.php?id=".$usuario['id_usuario']."' class='botao editar'>
                                     Patente
                                     <span class='tooltip'>Alterar patente</span>
                                 </a>
-                                <a href='removerParticipante.php' class='botao excluir'>
-                                    Patente
-                                    <span class='tooltip'>Remover da turma</span>
+                                <a href='removerParticipante.php?id=".$usuario['id_usuario']."' class='botao excluir'>
+                                    Remover
+                                    <span class='tooltip'>Remover usuário</span>
                                 </a>
                         </div>
                     </div>";
@@ -64,7 +65,7 @@ $result_usuarios = mysqli_query($mysqli, $query_usuarios) or die(mysqli_error($m
                 echo "<p>Nenhum participante nesta turma.</p>";
             }
             ?>
-
+        </div>
     </main>
 </body>
 </html>
