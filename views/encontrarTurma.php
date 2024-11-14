@@ -3,13 +3,19 @@ include("../scripts/conexao.php");
 include("../scripts/protect.php");
 
 $id_patente = $_SESSION['id_patente'];
-$usuario_id = $_SESSION['id']; // ID do usuário logado
+$usuario_id = $_SESSION['id'];
 
-// Verifica se existe uma busca e ajusta a consulta SQL
 $search_query = "";
 if (isset($_POST['search'])) {
-    $search_term = mysqli_real_escape_string($mysqli, $_POST['search']); // Protege contra SQL Injection
+    $search_term = mysqli_real_escape_string($mysqli, $_POST['search']); 
     $search_query = "WHERE nome LIKE '%$search_term%' OR ano LIKE '%$search_term%'";
+}
+
+
+if (isset($_POST['turma_id'])) {
+    $_SESSION['turma_id'] = $_POST['turma_id'];
+    header("Location: abrirTurma.php");
+    exit;
 }
 ?>
 
@@ -33,51 +39,54 @@ if (isset($_POST['search'])) {
     
     <main id="mainTurma">
         <div class="containerListaTurma">
-            <!-- Formulário de busca -->
             <form action="encontrarTurma.php" method="POST" class="search-form">
                 <input type="text" name="search" placeholder="Pesquisar" value="<?php echo isset($search_term) ? $search_term : ''; ?>" />
                 <button type="submit">Buscar</button>
             </form>
 
             <?php
-                // Consultando as turmas com base na pesquisa (se houver)
                 $query = "SELECT * FROM turma $search_query";
                 $result = mysqli_query($mysqli, $query) or die(mysqli_connect_error());
 
-                if(mysqli_num_rows($result) > 0) {
+                if (mysqli_num_rows($result) > 0) {
                     while ($reg = mysqli_fetch_array($result)) {
-                        // Verificar se o usuário já fez uma solicitação para essa turma
                         $turma_id = $reg['id'];
+
                         $check_query = "SELECT * FROM solicitacoes WHERE usuario_id = '$usuario_id' AND turma_id = '$turma_id' AND status = 'pendente'";
                         $check_result = mysqli_query($mysqli, $check_query);
+                        $is_pending = mysqli_num_rows($check_result) > 0;
+
+                        $in_turma_query = "SELECT * FROM turma_usuario WHERE id_usuario = '$usuario_id' AND id_turma = '$turma_id'";
+                        $in_turma_result = mysqli_query($mysqli, $in_turma_query);
+                        $is_in_turma = mysqli_num_rows($in_turma_result) > 0;
                         
-                        if (mysqli_num_rows($check_result) > 0) {
-                            // O usuário já fez a solicitação
-                            echo "<div class='listaTurmas'>
-                                    <div class='containerInfoTurma'>
-                                        <h3>{$reg['nome']}</h3>
-                                        <p>{$reg['ano']}</p>
-                                    </div>
-                                    <div class='containerAcoesTurma'>
-                                        <a href='cancelarSolicitacao.php?id={$reg['id']}' class='buttons excluir'>
-                                            Cancelar
-                                        </a>
-                                    </div>
-                                  </div>";
+                        echo "<div class='listaTurmas'>
+                                <div class='containerInfoTurma'>
+                                    <h3>" . htmlspecialchars($reg['nome']) . "</h3>
+                                    <p>" . htmlspecialchars($reg['ano']) . "</p>
+                                </div>
+                                <div class='containerAcoesTurma'>";
+
+                        if ($is_pending) {
+                            echo "<a href='cancelarSolicitacao.php?id={$turma_id}' class='buttons excluir'>
+                                     Cancelar
+                                    <span class='tooltip' style='width: 120px;'>Cancelar solicitação</span>
+                                  </a>";
+                        } elseif ($is_in_turma) {
+                            echo "<form action='encontrarTurma.php' method='POST'>
+                                        <input type='hidden' name='turma_id' value='{$turma_id}'>
+                                        <button type='submit' class='buttons'>Ver turma
+                                        </button>
+                                  </form>";
                         } else {
-                            // O usuário ainda não fez a solicitação
-                            echo "<div class='listaTurmas'>
-                                    <div class='containerInfoTurma'>
-                                        <h3>{$reg['nome']}</h3>
-                                        <p>{$reg['ano']}</p>
-                                    </div>
-                                    <div class='containerAcoesTurma'>
-                                        <a href='solicitarAcesso.php?id={$reg['id']}' class='buttons'>
-                                            Participar
-                                        </a>
-                                    </div>
-                                  </div>";
+                            echo "<a href='solicitarAcesso.php?id={$turma_id}' class='buttons editar'>
+                                    Participar
+                                    <span class='tooltip' style='width: 100px;'>Solicitar entrada</span>
+                                  </a>";
                         }
+
+                        echo "  </div>
+                              </div>";
                     }
                 } else {
                     echo "Nenhuma turma encontrada!";

@@ -1,17 +1,20 @@
 <?php
 include("../scripts/conexao.php");
 include("../scripts/protect.php");
+$id_patente = $_SESSION['id_patente'];
+if($id_patente == "4"){
+    verificaAcesso("4");
+}else{
+    verificaAcesso("3");
+};
 
-// Verifica se o ID foi enviado via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $id = $_POST['id'];
 
-    // Prepara a consulta para excluir a turma
     $query = "DELETE FROM turma WHERE id = ?";
     $stmt = $mysqli->prepare($query);
     $stmt->bind_param("i", $id);
 
-    // Executa a exclusão e verifica o resultado
     if ($stmt->execute()) {
         echo "Turma excluída com sucesso!";
     } else {

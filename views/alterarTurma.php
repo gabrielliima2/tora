@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['atualizar'])) {
                     <div class="popUp">
                         <ion-icon class="checkmarkPopUp" name="checkmark-circle-outline"></ion-icon>
                         <h1>Turma editada com sucesso</h1>
-                        <a href="turma.php" class="buttonsPopUp" name="cancelar">OK</a>
+                        <a href="criarTurma.php" class="buttonsPopUp" name="cancelar">OK</a>
                     </div>
                 </div>';
     } else {
@@ -77,7 +77,7 @@ if (isset($_GET["id"])) {
                 </div>
                 <div class="buttonsAcoesTurma">
                     <input type="submit" class="buttons criarTurma" name="atualizar" value="Salvar">
-                    <a href="turma.php" class="buttons excluir" name="cancelar">Cancelar</a>
+                    <a href="criarTurma.php" class="buttons excluir" name="cancelar">Cancelar</a>
                 </div>
             </form>
         </div>
