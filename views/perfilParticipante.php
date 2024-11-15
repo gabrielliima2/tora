@@ -38,48 +38,50 @@ if(isset($_GET["id"])){
     <?php include("../components/turmaMenu.php"); ?>
 
     <main id="mainPerfil">
+
         <div class="FormularioNovaTurma">
             <div class="formNovaTurma">
                 <div class="containerVisualizarParticipante">
-
-                    <div class="inputBox">
-                        <input type="text" name="nomeUsuario" id="nomeUsuario" class="inputs" value="<?php echo !empty($row['nome']) ? $row['nome'] : ''; ?>" readonly>
-                        <label class="labelInput">Nome</label>
-                    </div>
-
-                    <div class="inputBox">
-                        <input type="date" name="dataNascimento" id="dataNascimento" class="inputs" value="<?php echo !empty($row['nascimento']) ? $row['nascimento'] : ''; ?>" readonly><!--Se o valor nascimento for vazio ele retorna uma string vazia ("")-->
-                        <label class="labelInput">Data de Nascimento</label>
-                    </div>
-
-                    <div class="inputBox">
-                        <input type="text" name="endereco" id="endereco" class="inputs" value="<?php echo !empty($row['endereco']) ? $row['endereco'] : ''; ?>" readonly>
-                        <label class="labelInput">Endereço</label>
-                    </div>
-
-                    <div class="inputBox">
-                        <input type="text" name="bairro" id="bairro" class="inputs" value="<?php echo !empty($row['bairro']) ? $row['bairro'] : ''; ?>" readonly>
-                        <label class="labelInput">Bairro</label>
-                    </div>
-
-                    <div class="inputBox">
-                        <input type="text" name="cidade" id="cidade" class="inputs" value="<?php echo !empty($row['cidade']) ? $row['cidade'] : ''; ?>" readonly>
-                        <label class="labelInput">Cidade</label>
-                    </div>
-
-                    <div class="inputBox">
-                        <input type="text" name="estado" id="estado" class="inputs" value="<?php echo !empty($row['estado']) ? $row['estado'] : ''; ?>" readonly>
-                        <label class="labelInput">Estado</label>
-                    </div>
-
-                    <div class="inputBox">
-                        <input type="text" name="telefone" id="telefone" class="inputs" value="<?php echo !empty($row['telefone']) ? $row['telefone'] : ''; ?>" readonly>
-                        <label class="labelInput">Telefone</label>
-                    </div>
-
-                </div>              
+                    <div class="bloqueiaDigitarInfoParticipante"></div>
+                        <h3>Informações do usuário</h3>
+                        <div class="inputBox">
+                            <input type="text" name="nomeUsuario" id="nomeUsuario" class="inputs" value="<?php echo !empty($row['nome']) ? $row['nome'] : ''; ?>">
+                            <label class="labelInput">Nome</label>
+                        </div>
+    
+                        <div class="inputBox">
+                            <input type="date" name="dataNascimento" id="dataNascimento" class="inputs"  value="<?php echo !empty($row['nascimento']) ? $row['nascimento'] : ''; ?>"><!--Se o valor nascimento for vazio ele retorna uma string vazia ("")-->
+                            <label class="labelInput">Data de Nascimento</label>
+                        </div>
+    
+                        <div class="inputBox">
+                            <input type="text" name="endereco" id="endereco" class="inputs" value="<?php echo !empty($row['endereco']) ? $row['endereco'] : ''; ?>">
+                            <label class="labelInput">Endereço</label>
+                        </div>
+    
+                        <div class="inputBox">
+                            <input type="text" name="bairro" id="bairro" class="inputs" value="<?php echo !empty($row['bairro']) ? $row['bairro'] : ''; ?>">
+                            <label class="labelInput">Bairro</label>
+                        </div>
+    
+                        <div class="inputBox">
+                            <input type="text" name="cidade" id="cidade" class="inputs" value="<?php echo !empty($row['cidade']) ? $row['cidade'] : ''; ?>">
+                            <label class="labelInput">Cidade</label>
+                        </div>
+    
+                        <div class="inputBox">
+                            <input type="text" name="estado" id="estado" class="inputs" value="<?php echo !empty($row['estado']) ? $row['estado'] : ''; ?>">
+                            <label class="labelInput">Estado</label>
+                        </div>
+    
+                        <div class="inputBox">
+                            <input type="text" name="telefone" id="telefone" class="inputs" value="<?php echo !empty($row['telefone']) ? $row['telefone'] : ''; ?>">
+                            <label class="labelInput">Telefone</label>
+                        </div>
+                    </div>              
+                </div>
+                <a href="participantes.php" class="buttons">Voltar</a>
             </div>
-        </div>
     </main>
 </body>
 </html>

@@ -11,11 +11,13 @@ if($id_patente == "4"){
 
 $turma_id = $_SESSION['turma_id'];
 
-$query_usuarios = "SELECT u.nome AS usuario_nome, id_usuario
+$query_usuarios = "SELECT u.nome AS usuario_nome, p.nome AS patente, id_usuario
                    FROM turma_usuario tu
                    INNER JOIN usuarios u ON tu.id_usuario = u.id
+                   INNER JOIN patente p ON u.id_patente = p.id
                    WHERE tu.id_turma = '$turma_id'";
 $result_usuarios = mysqli_query($mysqli, $query_usuarios) or die(mysqli_error($mysqli));;
+
 
 ?>
 
@@ -43,28 +45,31 @@ $result_usuarios = mysqli_query($mysqli, $query_usuarios) or die(mysqli_error($m
         <?php
             if (mysqli_num_rows($result_usuarios) > 0) {
                 while ($usuario = mysqli_fetch_assoc($result_usuarios)) {
-                echo "
+                ?>
                     <div class='listaTurmas'>
-                        <a href='perfilParticipante.php?id=".$usuario['id_usuario']."' class='linkAbrir'></a>
+                        <a href='perfilParticipante.php?id=<?php echo $usuario['id_usuario']?>' class='linkAbrir'></a>
                         <div class='containerInfoTurma'>
-                            <h3>".$usuario['usuario_nome'] ."</h3>
+                            <h3><?php echo $usuario['usuario_nome'];?></h3>
+                            <p><?php echo $usuario['patente'];?></p>
                         </div>
                         <div class='containerAcoesTurma'>
-                                <a href='patenteParticipante.php?id=".$usuario['id_usuario']."' class='botao editar'>
+                                <a href='patenteParticipante.php?id=<?php echo $usuario['id_usuario']?>' class='botao editar'>
                                     Patente
                                     <span class='tooltip'>Alterar patente</span>
                                 </a>
-                                <a href='removerParticipante.php?id=".$usuario['id_usuario']."' class='botao excluir'>
-                                    Remover
+                                <a href='removerParticipante.php?id=<?php echo $usuario['id_usuario']?>' class='botao excluir'>
+                                        Remover
                                     <span class='tooltip'>Remover usuário</span>
                                 </a>
                         </div>
-                    </div>";
+                    </div>
+                <?php
                 }
             } else {
                 echo "<p>Nenhum participante nesta turma.</p>";
             }
             ?>
+            </div>
         </div>
     </main>
 </body>

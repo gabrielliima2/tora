@@ -7,9 +7,10 @@ const FormularioNovaTurma = document.querySelector('.FormularioNovaTurma')
 const containerListaTurma = document.querySelector('.containerListaTurma')
 const voltarTelaTurma = document.querySelector('#voltarTelaTurma')
 const popUpTurmaCadastrada = document.querySelector('#popUpTurmaCadastrada')
-const fecharPopUpSucesso = document.querySelector('#fecharPopUpSucesso')
+const buttonsPopUp = document.querySelector('.buttonsPopUp')
 const nomeTurma = document.querySelector('#nomeTurma')
 const anoTurma = document.querySelector('#anoTurma')
+
 
 
 buttonOpenNav.addEventListener('click', ()=>{
@@ -47,13 +48,6 @@ voltarTelaTurma.addEventListener('click', ()=>{
     nomeTurma.value = ""
     anoTurma.value = ""
 })
-
-fecharPopUpSucesso.addEventListener('click', ()=>{
-    nomeTurma.value = ""
-    anoTurma.value = ""
-    window.location.href = "turma.php";
-})
-
 
 
 function editarTurma(id) {

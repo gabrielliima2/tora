@@ -219,7 +219,7 @@ NAVIGATION STYLES
 .backNavMunu{
     display: flex;
     position: absolute;
-    z-index: 1;
+    z-index: 2;
     top: 0;
     width: 100vw;
     height: 100vh;
@@ -464,6 +464,7 @@ NAVIGATION STYLES
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 5px;
 }
 
 .containerListaTurma::-webkit-scrollbar {
@@ -611,7 +612,7 @@ NAVIGATION STYLES
 }
 
 .FormularioNovaTurma .formNovaTurma .inputBox{
-   margin: 15px;
+   margin: 10px;
 }
 
 .FormularioNovaTurma .formNovaTurma #buttonCriarTurma{
@@ -730,6 +731,7 @@ button:hover{
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
 }
 
 .containerVisualizarParticipante::-webkit-scrollbar {
@@ -750,6 +752,81 @@ button:hover{
     background-color: whitesmoke; /* Cor de fundo da área de rolagem */
     border-radius: 10px; /* Bordas arredondadas */
     border: 1px solid rgb(50, 50, 50);
+}
+
+.bloqueiaDigitarInfoParticipante{
+    background-color: rgba(255, 255, 255, 0);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.containerAlterarParticipante{
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 15px;
+    background-color: rgb(200, 200, 200);
+    border-radius: 5px;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.8);
+    min-width: 300px;
+}
+
+.formAlterarPatenteParticipante{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.formAlterarPatenteParticipante select{
+        min-width: 100%;
+        padding: 10px;
+        margin-top: 8px;
+        font-size: 1em;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        outline: none;
+        appearance: none;
+        background-color: #fff;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='gray' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        cursor: pointer;
+    }
+    
+.formAlterarPatenteParticipante select:focus {
+    border-color: #007bff;
+}
+
+.formAlterarPatenteParticipante label {
+    font-size: 1em;
+    color: #555;
+    display: flex; flex-direction: column; justify-content:center; align-items: center;
+}
+
+.containerRemoverParticipante{
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 15px;
+    background-color: rgb(200, 200, 200);
+    border-radius: 5px;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.8);
+}
+
+.formRemoverPatenteParticipante input{
+    margin-right: 5px;
+}
+
+.formRemoverPatenteParticipante a{
+    margin-left: 5px;
 }
 
 

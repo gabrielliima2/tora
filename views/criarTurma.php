@@ -92,14 +92,17 @@ if($id_patente == "4"){
                 $resu = $mysqli->query($query) or die("Falha na execução do código SQL: " . $mysqli->error);
 
                 if($resu) {
-                    echo '  <div class="backPopUp"></div>
+                    ?>
+                    <div class="backPopUp"></div>
                             <div class="containerPopUp">
                                 <div class="popUp edicao">
                                     <ion-icon class="checkmarkPopUp" name="checkmark-circle-outline"></ion-icon>
                                     <h1>Turma cadastrada com sucesso</h1>
-                                    <button type="button" id="fecharPopUpSucesso" class="buttonsPopUp">OK</button>
+                                    <a href="criarTurma.php"  class="buttonsPopUp"> OK</a>
+
                                 </div>
-                            </div>';
+                            </div>
+                    <?php
                 } else {
                     echo 'Falha ao cadastrar nova turma!';
                 }

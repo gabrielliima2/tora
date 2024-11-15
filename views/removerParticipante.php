@@ -3,7 +3,7 @@ include("../scripts/conexao.php");
 include("../scripts/protect.php");
 
 $id_patente = $_SESSION['id_patente'];
-if($id_patente == "4"){
+if ($id_patente == "4") {
     verificaAcesso("4");
 } else {
     verificaAcesso("3");
@@ -19,21 +19,17 @@ if (isset($_GET["id"])) {
     if ($result_patente) {
         $row = mysqli_fetch_assoc($result_patente);
 
-        // Processar o formulário de alteração de patente
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nova_patente'])) {
-            $nova_patente = $_POST['nova_patente'];
-            $query_update = "UPDATE usuarios SET id_patente = '$nova_patente' WHERE id = '$id_usuario'";
-            if (mysqli_query($mysqli, $query_update)) {
-                echo "Patente alterada com sucesso!";
-                // Atualiza a página para refletir a alteração
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remover_usuario'])) {
+            $query_remover = "DELETE FROM turma_usuario WHERE id_turma = '$turma_id' AND id_usuario = '$id_usuario'";
+            if (mysqli_query($mysqli, $query_remover)) {
+                echo "Usuário removido com sucesso!";
                 header("Location: participantes.php");
                 exit;
             } else {
-                echo "Erro ao alterar a patente: " . mysqli_error($mysqli);
+                echo "Erro ao remover o usuário: " . mysqli_error($mysqli);
             }
         }
 
-        // Buscar todas as patentes para exibir no formulário de seleção
         $query_todas_patentes = "SELECT * FROM patente";
         $result_todas_patentes = mysqli_query($mysqli, $query_todas_patentes);
 ?>
@@ -58,28 +54,15 @@ if (isset($_GET["id"])) {
 
     <main id="mainTurma">
         <div class="containerListaTurma">
-            <div class="containerAlterarParticipante">
+            <div class="containerRemoverParticipante">
+                <ion-icon style="font-size:100px; color:red;" name="alert-circle-outline"></ion-icon>
+                <h2>Deseja remover o participante?</h2>
                 <?php
-                    echo "<h2>" . $row['nome'] . "</h2>";
-                    echo "<p>Patente atual: " . $row['patente'] . "</p>";
+                    echo "<b>" . $row['nome'] . "</b>";
                 ?>
-                <form method="post" class="formAlterarPatenteParticipante">
-                    <label for="nova_patente">Selecionar patente </label>
-                    <div style="display: flex; flex-direction: column; justify-content:center; align-items: center; gap: 15px;">
-                        <select name="nova_patente" id="nova_patente">
-                            <?php
-                            while ($patente = mysqli_fetch_assoc($result_todas_patentes)) {
-                                echo "<option value='" . $patente['id'] . "'";
-                                if ($patente['id'] == $row['id_patente']) echo " selected";
-                                echo ">" . $patente['nome'] . "</option>";
-                            }
-                            ?>
-                        </select>
-                        <div>
-                            <button type="submit" class="buttons">Salvar</button>
-                            <a href="participantes.php" class="buttons excluir" style="margin-top:20px;">Cancelar</a>
-                        </div>
-                    </div>
+                <form method="post" class="formRemoverPatenteParticipante">
+                    <button type="submit" name="remover_usuario" class="buttons editar">Sim</button>
+                    <a href="participantes.php" class="buttons excluir" style="margin-top:20px;">Não</a>
                 </form>
             </div>
         </div>
