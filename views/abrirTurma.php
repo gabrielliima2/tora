@@ -5,7 +5,7 @@ include("../scripts/protect.php");
 
 $id_patente = $_SESSION['id_patente'];
 
-// Captura turma_id da URL e armazena na sessão
+
 if (isset($_GET['turma_id'])) {
     $_SESSION['turma_id'] = $_GET['turma_id'];
 }

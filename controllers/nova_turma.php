@@ -11,7 +11,7 @@ $resuCheck = $mysqli->query($queryCheck) or die("Falha na execução do código 
 if($resuCheck->num_rows > 0) {
     echo 'Turma já cadastrada!';
 } else {
-    // Insere uma nova turma
+
     $query = "INSERT INTO turma (nome, ano) VALUES ('$nome', '$ano')";
     $resu = $mysqli->query($query) or die("Falha na execução do código SQL: " . $mysqli->error);
 
