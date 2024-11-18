@@ -830,6 +830,20 @@ button:hover{
 }
 
 
+#mainNoticias{
+    height: 89vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    padding: 10px;
+}
+
+.inputBox textarea{
+    min-width: 300px;
+    min-height: 150px;
+    max-height: 150px;
+}
+
 .hide{
     display: none;
 }

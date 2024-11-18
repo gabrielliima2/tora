@@ -19,13 +19,12 @@ if (isset($_GET["id"])) {
     if ($result_patente) {
         $row = mysqli_fetch_assoc($result_patente);
 
-        // Processar o formulário de alteração de patente
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nova_patente'])) {
             $nova_patente = $_POST['nova_patente'];
             $query_update = "UPDATE usuarios SET id_patente = '$nova_patente' WHERE id = '$id_usuario'";
             if (mysqli_query($mysqli, $query_update)) {
                 echo "Patente alterada com sucesso!";
-                // Atualiza a página para refletir a alteração
+
                 header("Location: participantes.php");
                 exit;
             } else {
