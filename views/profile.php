@@ -37,6 +37,11 @@
         <div class="containerPerfil">
             <div id="perfilContainer">
                 <div id="perfilName">
+                    <?php if (!empty($reg['foto'])): ?>
+                        <img src="<?php echo $reg['foto']; ?>" alt="Foto de perfil" class="fotoPerfil">
+                    <?php else: ?>
+                            <ion-icon class="fotoPerfil" name="person-circle-outline" style="border:none;"></ion-icon>
+                    <?php endif; ?>
                     <h3><?php echo htmlspecialchars($reg['nome']); ?></h3>
                 </div>
 

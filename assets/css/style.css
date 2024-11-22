@@ -230,18 +230,38 @@ NAVIGATION STYLES
     top: 10px;
 }
 
+.fotoPerfilParticipante{
+    color: black;
+    margin-right: 10px;
+}
+
+.profileImageParticipante{
+    width: 50px; /* Largura da imagem */
+    height: 50px; /* Altura da imagem */
+    object-fit: cover; /* Ajustar a imagem para preencher o espaço */
+    border-radius: 50%; /* Deixar a imagem redonda */
+    border: 1px solid black;
+    color: black;
+}
+
 .profileImage{
     position: absolute;
     right: 10px;
     top: 5px;
+    color: black;
 }
 
-.profileImage ion-icon{
-    font-size: 50px;
-    color: rgb(10, 10, 10);
+.profileImageHeader{
+    width: 50px; /* Largura da imagem */
+    height: 50px; /* Altura da imagem */
+    object-fit: cover; /* Ajustar a imagem para preencher o espaço */
+    border-radius: 50%; /* Deixar a imagem redonda */
+    margin-bottom: 10px; /* Espaçamento abaixo da foto */
+    border: 1px solid black;
+    color: black;
 }
-.profileImage ion-icon:hover{
-    font-size: 50px;
+
+.profileImageHeader:hover{
     color: rgb(80, 80, 80);
 }
 
@@ -359,7 +379,8 @@ NAVIGATION STYLES
     padding: 30px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
+    gap: 20px;
 }
 
 .perfilElements{
@@ -594,6 +615,21 @@ NAVIGATION STYLES
     color: black; 
 }
 
+.containerInfoParticipante{
+    width: 50vw;
+    max-width: 300px;
+    min-width: 100px;
+    height: 100%;
+}
+
+.containerInfoParticipante h3 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-decoration: none; 
+    color: black; 
+}
+
 .buttonEntrarTurma{
     background-color: rgba(200, 200, 200, 0);
     cursor: pointer;
@@ -664,6 +700,19 @@ NAVIGATION STYLES
     background-color: rgb(197, 201, 204);
     border-radius: 5px;
     box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.8);
+}
+.FormularioEditarFotoPerfil{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(197, 201, 204);
+    border-radius: 5px;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.8);
+    min-width: 300px;
+    width: 40vw;
+    max-width: 500px;
 }
 
 .FormularioNovaTurma .formNovaTurma{
@@ -1188,6 +1237,66 @@ table.tabelaChamada th, table.tabelaChamada td {
     gap: 10px;
 }
 
+.fotoPerfil {
+    width: 100px; /* Largura da imagem */
+    height: 100px; /* Altura da imagem */
+    object-fit: cover; /* Ajustar a imagem para preencher o espaço */
+    border-radius: 50%; /* Deixar a imagem redonda */
+    margin-bottom: 10px; /* Espaçamento abaixo da foto */
+}
+
+.fotoPerfilContainer {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+    color: black;
+}
+
+.fotoPerfil {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: opacity 0.3s ease;
+}
+
+.trocarFotoTexto {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    border-radius: 5px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.fotoPerfilContainer:hover .fotoPerfil {
+    opacity: 0.5;
+}
+
+.fotoPerfilContainer:hover .trocarFotoTexto {
+    opacity: 1;
+}
+
+.removerFotoBotao {
+    margin-top: 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.removerFotoBotao:hover {
+    background-color: #c0392b;
+}
 
 
 

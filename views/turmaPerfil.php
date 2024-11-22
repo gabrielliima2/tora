@@ -37,41 +37,46 @@
         <div class="containerPerfil">
             <div id="perfilContainer">
                 <div id="perfilName">
+                    <?php if (!empty($reg['foto'])): ?>
+                        <img src="<?php echo $reg['foto']; ?>" alt="Foto de perfil" class="fotoPerfil">
+                    <?php else: ?>
+                            <ion-icon class="fotoPerfil" name="person-circle-outline" style="border:none;"></ion-icon>
+                    <?php endif; ?>
                     <h3><?php echo htmlspecialchars($reg['nome']); ?></h3>
                 </div>
 
                 <div class="perfilElements">
                     <h3>Nascimento</h3>
                     <div class="perfilInfoBanco">
-                        <h4><?php echo htmlspecialchars($reg['nascimento'] ); ?></h4>
+                        <b><?php echo htmlspecialchars($reg['nascimento'] ); ?></b>
                     </div>
                 </div>
 
                 <div class="perfilElements">
                     <h3>Endereco</h3>
                     <div class="perfilInfoBanco">
-                        <h4><?php echo htmlspecialchars($reg['endereco'] ); ?></h4>
+                        <b><?php echo htmlspecialchars($reg['endereco'] ); ?></b>
                     </div>
                 </div>
 
                 <div class="perfilElements">
                     <h3>Bairro</h3>
                     <div class="perfilInfoBanco">
-                        <h4><?php echo htmlspecialchars($reg['bairro']); ?></h4>
+                        <b><?php echo htmlspecialchars($reg['bairro']); ?></b>
                     </div>
                 </div>
 
                 <div class="perfilElements">
                     <h3>Cidade</h3>
                     <div class="perfilInfoBanco">
-                        <h4><?php echo htmlspecialchars($reg['cidade'] ); ?></h4>
+                        <b><?php echo htmlspecialchars($reg['cidade'] ); ?></b>
                     </div>
                 </div>
 
                 <div class="perfilElements">
                     <h3>Estado</h3>
                     <div class="perfilInfoBanco">
-                        <h4><?php echo htmlspecialchars($reg['estado']); ?></h4>
+                        <b><?php echo htmlspecialchars($reg['estado']); ?></b>
                     </div>
                 </div>
 

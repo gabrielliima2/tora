@@ -11,13 +11,12 @@ if($id_patente == "4"){
 
 $turma_id = $_SESSION['turma_id'];
 
-$query_usuarios = "SELECT u.nome AS usuario_nome, p.nome AS patente, id_usuario
+$query_usuarios = "SELECT u.nome AS usuario_nome, u.foto, p.nome AS patente, id_usuario
                    FROM turma_usuario tu
                    INNER JOIN usuarios u ON tu.id_usuario = u.id
                    INNER JOIN patente p ON u.id_patente = p.id
                    WHERE tu.id_turma = '$turma_id'";
 $result_usuarios = mysqli_query($mysqli, $query_usuarios) or die(mysqli_error($mysqli));;
-
 
 ?>
 
@@ -48,9 +47,16 @@ $result_usuarios = mysqli_query($mysqli, $query_usuarios) or die(mysqli_error($m
                 ?>
                     <div class='listaTurmas'>
                         <a href='perfilParticipante.php?id=<?php echo $usuario['id_usuario']?>' class='linkAbrir'></a>
-                        <div class='containerInfoTurma'>
-                            <h3><?php echo $usuario['usuario_nome'];?></h3>
-                            <p><?php echo $usuario['patente'];?></p>
+                        <div class="fotoPerfilParticipante">
+                            <?php if (!empty($usuario['foto']) && file_exists($usuario['foto'])): ?>
+                                    <img src="<?php echo $usuario['foto']; ?>" alt="Foto de perfil" class="profileImageParticipante">
+                            <?php else: ?>
+                                    <ion-icon name="person-circle-outline" class="profileImageParticipante" style="border:none;"></ion-icon>
+                            <?php endif; ?>
+                        </div>
+                        <div class='containerInfoParticipante'>
+                                <h3><?php echo $usuario['usuario_nome'];?></h3>
+                                <p><?php echo $usuario['patente'];?></p>
                         </div>
                         <div class='containerAcoesTurma'>
                                 <a href='patenteParticipante.php?id=<?php echo $usuario['id_usuario']?>' class='botao editar'>
