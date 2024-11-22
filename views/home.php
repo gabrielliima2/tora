@@ -29,7 +29,7 @@
     <?php include("../components/menu.php"); ?>
    
 
-    <main id="mainMenu">
+    <main id="mainHome">
         <div class="posts">
             <h1>Seja bem-vindo, <?php echo $_SESSION['username']?>!</h1>
             <p>

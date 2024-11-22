@@ -75,7 +75,7 @@ if (isset($_POST['turma_id'])) {
                         } elseif ($is_in_turma) {
                             echo "<form action='encontrarTurma.php' method='POST'>
                                         <input type='hidden' name='turma_id' value='{$turma_id}'>
-                                        <button type='submit' class='buttons'>Ver turma
+                                        <button type='submit' class='buttons'>Acessar
                                         </button>
                                   </form>";
                         } else {

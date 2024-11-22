@@ -60,8 +60,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['titulo'])) {
     }
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao'])) {
+    $acao = $_POST['acao'];
+    $noticia_id = $_POST['noticia_id'];
+
+    if ($acao === 'excluir') {
+
+        $query_delete = $mysqli->prepare("DELETE FROM noticias WHERE id = ?");
+        $query_delete->bind_param("i", $noticia_id);
+
+        if ($query_delete->execute()) {
+            header("Location: abrirTurma.php?turma_id=" . $turma_id);
+            exit();
+        } else {
+            echo "Erro ao excluir a notícia: " . $mysqli->error;
+        }
+
+    } elseif ($acao === 'editar') {
+ 
+        $_SESSION['noticia_editar_id'] = $noticia_id;
+        header("Location: editarNoticia.php");
+        exit();
+    }
+}
+
+
 // Buscar as notícias da turma
-$query_noticias = "SELECT u.nome, n.* FROM noticias n INNER JOIN usuarios u ON n.id_usuario = u.id WHERE id_turma = ? ORDER BY data_hora DESC ";
+$query_noticias = "SELECT u.nome AS username, u.id AS userId, n.* FROM noticias n INNER JOIN usuarios u ON n.id_usuario = u.id WHERE id_turma = ? ORDER BY data_hora DESC ";
 $stmt_noticias = $mysqli->prepare($query_noticias);
 $stmt_noticias->bind_param("i", $turma_id);
 $stmt_noticias->execute();
@@ -97,11 +122,11 @@ $result_noticias = $stmt_noticias->get_result();
                     <ion-icon class="btnCloseNews" size="large" name="close-outline"></ion-icon>
                     <form action="" method="POST" enctype="multipart/form-data" class="formNewPost">
                         <div class="inputBox">
-                            <input type="text" name="titulo" id="titulo" class="inputs" required>
+                            <input type="text" name="titulo" id="titulo" class="inputs" maxlength="150" required>
                             <label class="labelInput">Título</label>
                         </div>
                         <div class="inputBox">
-                            <textarea name="descricao" id="descricao" maxlength="300" class="inputs textareas" required></textarea>
+                            <textarea name="descricao" id="descricao" maxlength="300" style="resize: none" class="inputs textareas" required></textarea>
                             <label class="labelInput">Descrição (até 300 letras)</label>
                         </div>
                         <div class="inputBox">
@@ -120,13 +145,42 @@ $result_noticias = $stmt_noticias->get_result();
                     <article class="noticia">
 
                         <div class="containerNoticia">
-                            <h2><?php echo htmlspecialchars($noticia['nome']); ?></h2>
+                            <div class="userInfo">
+                                <h2><?php echo htmlspecialchars($noticia['username']); ?></h2>
+                                <?php 
+                                    if($_SESSION['id'] == $noticia['userId']){
+                                ?>
+                                    <ion-icon name="ellipsis-horizontal-sharp" class="menu-toggle"></ion-icon>
+                                <?php
+                                    }
+                                ?>
+                               
+                                <div class="menu-options hide">
+                                    <form method="POST" action="">
+                                        <input type="hidden" name="acao" value="editar">
+                                        <input type="hidden" name="noticia_id" value="<?php echo $noticia['id']; ?>">
+                                        <button type="submit" class="menu-item">Editar</button>
+                                    </form>
+                                    <form method="POST" action="" class="delete-form">
+                                        <input type="hidden" name="acao" value="excluir">
+                                        <input type="hidden" name="noticia_id" value="<?php echo $noticia['id']; ?>">
+                                        <button type="button" class="menu-item delete-confirm">Excluir</button>
+                                    </form>
+
+                                    <button type="button" class="menu-item menu-cancel">Cancelar</button>
+                                </div>
+                            </div>
+
                             <h2><?php echo htmlspecialchars($noticia['titulo']); ?></h2>
                             <div class="imagemNoticia">
                                 <?php if ($noticia['imagem']): ?>
-                                    <img src="<?php echo htmlspecialchars($noticia['imagem']); ?>" alt="Imagem da notícia">
-                                    <?php endif; ?>
-                                </div>
+                                    <img 
+                                        src="<?php echo htmlspecialchars($noticia['imagem']); ?>" 
+                                        alt="Imagem da notícia" 
+                                        class="img-clickable"
+                                    >
+                                <?php endif; ?>
+                            </div>
                                 <p><?php echo htmlspecialchars($noticia['descricao']); ?></p>
                                 
                                 <small 
@@ -163,6 +217,12 @@ $result_noticias = $stmt_noticias->get_result();
                 <p>Não há notícias disponíveis para esta turma.</p>
             <?php endif; ?>
         </section>
+        
+        <div id="imageModal" class="modal hide">
+            <span class="close-modal">&times;</span>
+            <img class="modal-content" id="modalImage">
+        </div>
+
     </main>
 </body>
 </html>

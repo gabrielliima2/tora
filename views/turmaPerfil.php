@@ -31,7 +31,7 @@
 </head>
 <body>
     <?php include("../components/header.php"); ?>
-    <?php include("../components/menu.php"); ?>
+    <?php include("../components/turmaMenu.php"); ?>
 
     <main id="mainMenu">
         <div class="containerPerfil">
@@ -43,35 +43,35 @@
                 <div class="perfilElements">
                     <h3>Nascimento</h3>
                     <div class="perfilInfoBanco">
-                        <b><?php echo htmlspecialchars($reg['nascimento'] ); ?></b>
+                        <h4><?php echo htmlspecialchars($reg['nascimento'] ); ?></h4>
                     </div>
                 </div>
 
                 <div class="perfilElements">
                     <h3>Endereco</h3>
                     <div class="perfilInfoBanco">
-                        <b><?php echo htmlspecialchars($reg['endereco'] ); ?></b>
+                        <h4><?php echo htmlspecialchars($reg['endereco'] ); ?></h4>
                     </div>
                 </div>
 
                 <div class="perfilElements">
                     <h3>Bairro</h3>
                     <div class="perfilInfoBanco">
-                        <b><?php echo htmlspecialchars($reg['bairro']); ?></b>
+                        <h4><?php echo htmlspecialchars($reg['bairro']); ?></h4>
                     </div>
                 </div>
 
                 <div class="perfilElements">
                     <h3>Cidade</h3>
                     <div class="perfilInfoBanco">
-                        <b><?php echo htmlspecialchars($reg['cidade'] ); ?></b>
+                        <h4><?php echo htmlspecialchars($reg['cidade'] ); ?></h4>
                     </div>
                 </div>
 
                 <div class="perfilElements">
                     <h3>Estado</h3>
                     <div class="perfilInfoBanco">
-                        <b><?php echo htmlspecialchars($reg['estado']); ?></b>
+                        <h4><?php echo htmlspecialchars($reg['estado']); ?></h4>
                     </div>
                 </div>
 
@@ -83,7 +83,7 @@
                 </div>
             </div>
         </div>
-        <a href='alterarPerfil.php' class='botao editar'>
+        <a href='alterarPerfilTurma.php' class='botao editar'>
             <ion-icon name='pencil-sharp'></ion-icon>
             <span class='tooltip'>Editar</span>
         </a>

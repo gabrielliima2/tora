@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $updateQuery = "UPDATE usuarios SET nome = '$nome', nascimento = '$dataNascimento', endereco = '$endereco', bairro = '$bairro', cidade = '$cidade', estado = '$estado', telefone = '$telefone' WHERE id = '$id'";
  
     if (mysqli_query($mysqli, $updateQuery)) {
-        header("location: profile.php");
+        header("location: turmaPerfil.php");
     } else {
         echo "<script>alert('Erro ao atualizar o perfil.');</script>";
     }
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <?php include("../components/header.php"); ?>
-    <?php include("../components/menu.php"); ?>
+    <?php include("../components/turmaMenu.php"); ?>
  
     <main id="mainPerfil">
         <div class="FormularioNovaTurma">
@@ -107,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 <div class="buttonsAcoesTurma">
                     <input type="submit" class="buttons criarTurma" name="atualizar" value="Salvar">
-                    <a href="profile.php" class="buttons excluir" name="cancelar">Cancelar</a>
+                    <a href="turmaPerfil.php" class="buttons excluir" name="cancelar">Cancelar</a>
                 </div>
             </form>
         </div>

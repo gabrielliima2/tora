@@ -56,7 +56,7 @@ if (isset($_GET["id"])) {
         <div class="containerListaTurma">
             <div class="containerRemoverParticipante">
                 <ion-icon style="font-size:100px; color:red;" name="alert-circle-outline"></ion-icon>
-                <h2>Deseja remover o participante?</h2>
+                <h3>Deseja remover participante?</h3>
                 <?php
                     echo "<b>" . $row['nome'] . "</b>";
                 ?>
