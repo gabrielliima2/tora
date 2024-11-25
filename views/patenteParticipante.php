@@ -32,7 +32,7 @@ if (isset($_GET["id"])) {
             }
         }
 
-        // Buscar todas as patentes para exibir no formulário de seleção
+
         $query_todas_patentes = "SELECT * FROM patente";
         $result_todas_patentes = mysqli_query($mysqli, $query_todas_patentes);
 ?>

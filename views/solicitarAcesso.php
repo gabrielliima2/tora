@@ -7,7 +7,7 @@ $id_patente = $_SESSION['id_patente'];
 if (isset($_GET["id"])) {
     $id = $_GET['id'];
 
-    // Consulta a turma com o ID recebido
+
     $query = "SELECT * FROM turma WHERE id = $id";
     $result = mysqli_query($mysqli, $query);
     $turma = mysqli_fetch_assoc($result);

@@ -11,7 +11,7 @@ if (!$data_chamada_id) {
     die("Chamada não encontrada!");
 }
 
-// Excluir chamada
+
 if (isset($_POST['excluir'])) {
     $deleteChamada = "DELETE FROM chamada WHERE id_data_chamada = '$data_chamada_id'";
     $deleteDataChamada = "DELETE FROM data_chamada WHERE id = '$data_chamada_id'";
@@ -22,7 +22,7 @@ if (isset($_POST['excluir'])) {
     exit;
 }
 
-// Consultar chamada
+
 $queryChamada = "
     SELECT c.id AS chamada_id, u.id AS usuario_id, u.nome, c.id_status 
     FROM chamada c 
@@ -85,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['excluir'])) {
                 <tbody>
                     <?php
                     if ($resultChamada->num_rows > 0) {
-                        $resultChamada->data_seek(0); // Reinicia o ponteiro do resultado
+                        $resultChamada->data_seek(0); 
                         while ($row = $resultChamada->fetch_assoc()) {
                             $statusPresente = $row['id_status'] == 1 ? "checked" : "";
                             $statusAusente = $row['id_status'] == 2 ? "checked" : "";
@@ -131,7 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['excluir'])) {
             const checkboxes = document.querySelectorAll(`input[name='${checkbox.name}']`);
             checkboxes.forEach(chk => {
                 if (chk !== checkbox) {
-                    chk.checked = false; // Desmarca o outro checkbox
+                    chk.checked = false; 
                 }
             });
         }

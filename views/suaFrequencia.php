@@ -3,7 +3,7 @@
     include("../scripts/protect.php");
 
     $id_patente = $_SESSION['id_patente'];
-    $usuario_id = $_SESSION['id']; // O ID do usuário logado
+    $usuario_id = $_SESSION['id']; 
     $turma_id = $_SESSION['turma_id'];
 
     $query = "SELECT * FROM usuarios WHERE id = '$usuario_id'";
@@ -56,7 +56,7 @@
                 </div>
             </a>
             <a href="faltas.php" class="perfilElements">
-                <h3>FALTAS</h3> <!-- Link para as faltas -->
+                <h3>FALTAS</h3> 
                 <div class="frequenciaInfoBanco">
                     <h4><?php echo $faltas; ?></h4>
                 </div>

@@ -2,7 +2,7 @@
 include("../scripts/conexao.php");
 include("../scripts/protect.php");
 
-$user_id = $_SESSION['id']; // ID do usuário logado
+$user_id = $_SESSION['id']; 
 ?>
 
 <!DOCTYPE html>

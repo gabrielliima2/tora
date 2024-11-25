@@ -2,10 +2,10 @@
     include("../scripts/conexao.php");
     include("../scripts/protect.php");
 
-    $usuario_id = $_SESSION['id']; // ID do usuário logado
+    $usuario_id = $_SESSION['id']; 
     $turma_id = $_SESSION['turma_id'];
 
-    // Consultar as datas de presença
+
     $queryPresencas = "SELECT dc.data FROM chamada c
                        INNER JOIN data_chamada dc ON c.id_data_chamada = dc.id
                        WHERE c.id_usuario = '$usuario_id' AND c.id_status = 1 AND c.id_turma = '$turma_id'";
@@ -16,7 +16,7 @@
 
     $presencas = [];
     while ($row = mysqli_fetch_assoc($resultPresencas)) {
-        $presencas[] = date("d/m/Y", strtotime($row['data'])); // Adiciona as datas
+        $presencas[] = date("d/m/Y", strtotime($row['data'])); 
     }
 ?>
 

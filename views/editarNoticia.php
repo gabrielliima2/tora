@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $titulo = $_POST['titulo'];
     $descricao = $_POST['descricao'];
 
-    // Obter o caminho atual da imagem
+
     $query_get_image = $mysqli->prepare("SELECT imagem FROM noticias WHERE id = ?");
     $query_get_image->bind_param("i", $noticia_id);
     $query_get_image->execute();
@@ -24,15 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $imagem_caminho = $imagem_atual;
 
-    // Verificar se há uma nova imagem
+
     if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === UPLOAD_ERR_OK) {
         $extensao = pathinfo($_FILES['imagem']['name'], PATHINFO_EXTENSION);
         $nome_unico = uniqid('img_') . '.' . $extensao;
         $novo_caminho = "../uploads/" . $nome_unico;
 
-        // Mover o arquivo para o local correto
+
         if (move_uploaded_file($_FILES['imagem']['tmp_name'], $novo_caminho)) {
-            // Remover a imagem antiga, se existir
+
             if ($imagem_atual && file_exists($imagem_atual)) {
                 unlink($imagem_atual);
             }
@@ -42,7 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Atualizar os dados no banco
     $query_update = $mysqli->prepare("UPDATE noticias SET titulo = ?, descricao = ?, imagem = ? WHERE id = ?");
     $query_update->bind_param("sssi", $titulo, $descricao, $imagem_caminho, $noticia_id);
 
@@ -55,8 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-
-// Obter os dados da notícia para preencher o formulário
 $query_noticia = $mysqli->prepare("SELECT titulo, descricao FROM noticias WHERE id = ?");
 $query_noticia->bind_param("i", $noticia_id);
 $query_noticia->execute();

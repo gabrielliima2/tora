@@ -3,7 +3,7 @@
     include("../scripts/protect.php");
 
     $id_patente = $_SESSION['id_patente'];
-    $usuario_id = $_SESSION['id']; // O ID do usuário logado
+    $usuario_id = $_SESSION['id']; 
 
     $query = "SELECT * FROM usuarios WHERE id = '$usuario_id'";
     $resu = mysqli_query($mysqli, $query) or die(mysqli_connect_error());

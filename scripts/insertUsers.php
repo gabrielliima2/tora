@@ -73,7 +73,7 @@ function insertUsuarios($mysqli) {
         ['César Costa', 'cesar.costa@example.com', 4],
     ];
 
-    // Gerando o hash da senha "123456"
+  
     $senha = password_hash('123456', PASSWORD_DEFAULT);
 
     foreach ($usuarios as $user) {
@@ -84,7 +84,7 @@ function insertUsuarios($mysqli) {
     }
 }
 
-// Executando as funções para inserir patentes e usuários
+
 insertPatentes($mysqli);
 insertUsuarios($mysqli);
 

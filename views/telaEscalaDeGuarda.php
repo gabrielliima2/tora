@@ -175,7 +175,7 @@ $escalas = mysqli_query($mysqli, $queryEscalas);
                         <td><?= $escala['data'] ?></td>
                         <td>
                             <?php
-                            // Exibe o nome do monitor
+                            
                             $monitor_id = $escala['id_monitor'];
                             $queryMonitor = "SELECT nome FROM usuarios WHERE id = '$monitor_id'";
                             $resultMonitor = mysqli_query($mysqli, $queryMonitor);
