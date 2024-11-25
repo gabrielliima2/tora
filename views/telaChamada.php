@@ -2,7 +2,7 @@
 include("../scripts/conexao.php");
 include("../scripts/protect.php");
 
-date_default_timezone_set('America/Sao_Paulo'); // Define o fuso horário para São Paulo
+date_default_timezone_set('America/Sao_Paulo');
 
 $id_patente = $_SESSION['id_patente'];
 if ($id_patente == "4" || $id_patente == "3" || $id_patente == "2") {}
@@ -17,8 +17,8 @@ if ($id_patente == "4") {
 
 $turma_id = $_SESSION['turma_id'];
 
-$data_hoje = date("d/m/Y"); // Formato dd/mm/aaaa
-$hora_agora = date("H:i:s"); // Formato 24 horas
+$data_hoje = date("d/m/Y"); 
+$hora_agora = date("H:i:s"); 
 
 $queryVerificaData = "SELECT * FROM data_chamada WHERE data = CURDATE() AND id_turma = '$turma_id'";
 $resultVerificaData = $mysqli->query($queryVerificaData);
@@ -26,7 +26,7 @@ $resultVerificaData = $mysqli->query($queryVerificaData);
 $chamada_feita = ($resultVerificaData->num_rows > 0);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $data_banco = date("Y-m-d"); // Formato para salvar no banco
+    $data_banco = date("d-m-Y");
     $queryDataChamada = "INSERT INTO data_chamada (data, hora, id_turma) VALUES ('$data_banco', '$hora_agora', '$turma_id')";
     $mysqli->query($queryDataChamada) or die("Erro ao inserir data da chamada: " . $mysqli->error);
 
@@ -101,7 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $queryUsuarios = "SELECT u.id, u.nome 
                                       FROM turma_usuario tu 
                                       INNER JOIN usuarios u ON tu.id_usuario = u.id 
-                                      WHERE tu.id_turma = '$turma_id'";
+                                      WHERE tu.id_turma = '$turma_id' AND u.id_patente = 1 OR u.id_patente = 2";
                     $resultUsuarios = mysqli_query($mysqli, $queryUsuarios) or die(mysqli_connect_error());
 
                     if (mysqli_num_rows($resultUsuarios) > 0) {

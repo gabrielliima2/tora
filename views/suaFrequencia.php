@@ -45,12 +45,12 @@
 
     <main id="mainMenu">
         <div id="perfilContainer">
-            <div id="perfilName">
+            <div id="perfilName" style="justify-content: center;">
                 <h3><?php echo htmlspecialchars($reg['nome'], ENT_QUOTES, 'UTF-8'); ?></h3>
             </div>
 
             <a href="presencas.php" class="perfilElements">
-                <h3>PRESENÇAS</h3> <!-- Link para as presenças -->
+                <h3>PRESENÇAS</h3>
                 <div class="frequenciaInfoBanco">
                     <h4><?php echo $presencas; ?></h4>
                 </div>
@@ -61,13 +61,6 @@
                     <h4><?php echo $faltas; ?></h4>
                 </div>
             </a>
-
-            <div class="perfilElements">
-                <h3>TEMPO</h3>
-                <div class="frequenciaInfoBanco">
-                    <h4>Tempo</h4> <!-- Aqui você pode adicionar outra lógica se quiser calcular o tempo -->
-                </div>
-            </div>
         </div>
     </main>
 
