@@ -72,6 +72,7 @@ if (isset($_POST['gerar_escala'])) {
 
     gerarEscalasSequenciais($mysqli, $turma_id, $data_inicio, $num_dias);
     echo "Escalas geradas com sucesso!";
+    header("Location: telaEscalaDeGuarda.php");
 }
 
 
@@ -83,8 +84,8 @@ if (isset($_POST['excluir_multiplas'])) {
             mysqli_query($mysqli, $queryExcluir);
         }
         echo "Escalas excluídas com sucesso!";
-    } else {
-        echo "Nenhuma escala selecionada para exclusão.";
+        header("Location: telaEscalaDeGuarda.php");
+
     }
 }
 
@@ -93,6 +94,8 @@ if (isset($_GET['excluir'])) {
     $queryExcluir = "DELETE FROM escala_de_guarda WHERE id = '$escala_id'";
     if (mysqli_query($mysqli, $queryExcluir)) {
         echo "Escala excluída com sucesso!";
+        header("Location: telaEscalaDeGuarda.php");
+
     } else {
         echo "Erro ao excluir escala!";
     }
@@ -111,6 +114,8 @@ if (isset($_POST['editar_escala'])) {
 
     if (mysqli_query($mysqli, $queryEditar)) {
         echo "Escala atualizada com sucesso!";
+        header("Location: telaEscalaDeGuarda.php");
+
     } else {
         echo "Erro ao editar escala!";
     }
@@ -121,6 +126,7 @@ if (isset($_POST['editar_escala'])) {
 $queryEscalas = "SELECT * FROM escala_de_guarda WHERE id_turma = '$turma_id' ORDER BY data";
 $escalas = mysqli_query($mysqli, $queryEscalas);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -134,6 +140,7 @@ $escalas = mysqli_query($mysqli, $queryEscalas);
     <link rel="stylesheet" href="../assets/css/style.css">
     <script src="../assets/js/script.js" defer></script>
     <script src="../assets/js/scriptChamada.js" defer></script>
+    <script src="../assets/js/scriptEscala.js" defer></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
 
@@ -143,122 +150,136 @@ $escalas = mysqli_query($mysqli, $queryEscalas);
 <body>
     <?php include("../components/header.php"); ?>
     <?php include("../components/turmaMenu.php"); ?>
-    <h1>Visualização, Geração e Edição de Escalas de Guarda</h1>
     
-    <h2>Gerar Escalas Automáticas</h2>
-    <form method="POST">
-        <label for="data_inicio">Data de Início:</label>
-        <input type="date" name="data_inicio" required><br>
-        
-        <label for="num_dias">Número de Dias:</label>
-        <input type="number" name="num_dias" min="1" required><br>
-        
-        <button type="submit" name="gerar_escala">Gerar Escalas</button>
-    </form>
+    <main class="mainGerarEscala">
+        <div id="botaoAparecerGerarEscala" class="buttons" style="margin-bottom: 30px;">Gerar Escala</div>
+        <div class="backFormEscala hide"></div>
+        <form method="POST" class="formGerarEscala hide">
+            <h2>Gerar Escala</h2>
+            <p>se nenhuma data for escolhida, uma escala será gerada a partir de hoje.</p>
+            <div class="inputBox">
+                <input type="date" name="data_inicio" class="inputs" ><br>
+                <label for="data_inicio" class="labelInput">Data de Início</label>
+            </div>
 
-    <h2>Escalas Cadastradas</h2>
-    <form method="POST">
-        <table border="1">
-            <thead>
-                <tr>
-                    <th><input type="checkbox" id="selecionarTodos"> Selecionar Todos</th>
-                    <th>Data</th>
-                    <th>Monitor</th>
-                    <th>Atiradores</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($escala = mysqli_fetch_assoc($escalas)) { ?>
+            <div class="inputBox">
+                <input type="number" name="num_dias" min="1" class="inputs" required><br>
+                <label for="num_dias"  class="labelInput">Número de Dias</label>
+            </div>
+
+            
+            <button type="submit" name="gerar_escala" class="buttons">Gerar Escalas</button>
+            <a href="telaEscalaDeGuarda.php" class="buttons excluir">Cancelar</a>
+        </form>
+
+        <h2>Escalas Cadastradas</h2>
+        <form method="POST" class="formEscalasCadastratas">
+            <button type="submit" name="excluir_multiplas" class="buttons excluir" style="margin: 20px;">Excluir Selecionadas</button>    
+            <table border="1">
+                <thead>
                     <tr>
-                        <td><input type="checkbox" name="escalas_selecionadas[]" value="<?= $escala['id'] ?>"></td>
-                        <td><?= $escala['data'] ?></td>
-                        <td>
-                            <?php
-                            
-                            $monitor_id = $escala['id_monitor'];
-                            $queryMonitor = "SELECT nome FROM usuarios WHERE id = '$monitor_id'";
-                            $resultMonitor = mysqli_query($mysqli, $queryMonitor);
-                            $monitor = mysqli_fetch_assoc($resultMonitor);
-                            echo $monitor['nome'];
-                            ?>
-                        </td>
-                        <td>
-                            <?php
-                            
-                            $atiradores_ids = explode(",", $escala['atiradores']);
-                            foreach ($atiradores_ids as $atirador_id) {
-                                $queryAtirador = "SELECT nome FROM usuarios WHERE id = '$atirador_id'";
-                                $resultAtirador = mysqli_query($mysqli, $queryAtirador);
-                                $atirador = mysqli_fetch_assoc($resultAtirador);
-                                echo $atirador['nome'] . "<br>";
-                            }
-                            ?>
-                        </td>
-                        <td>
-
-                            <a href="telaEscalaDeGuarda.php?editar=<?= $escala['id'] ?>">Editar</a> |
-                            <a href="telaEscalaDeGuarda.php?excluir=<?= $escala['id'] ?>" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
-                        </td>
+                        <th><input type="checkbox" id="selecionarTodos"> Selecionar Todos</th>
+                        <th>Data</th>
+                        <th>Monitor</th>
+                        <th>Atiradores</th>
+                        <th>Ações</th>
                     </tr>
-                <?php } ?>
-            </tbody>
-        </table>
-        <button type="submit" name="excluir_multiplas">Excluir Selecionadas</button>
-    </form>
+                </thead>
+                <tbody>
+                    <?php while ($escala = mysqli_fetch_assoc($escalas)) { ?>
+                        <tr>
+                            <td><input type="checkbox" name="escalas_selecionadas[]" value="<?= $escala['id'] ?>"></td>
+                            <td><?= $escala['data'] ?></td>
+                            <td>
+                                <?php
+                                
+                                $monitor_id = $escala['id_monitor'];
+                                $queryMonitor = "SELECT nome FROM usuarios WHERE id = '$monitor_id'";
+                                $resultMonitor = mysqli_query($mysqli, $queryMonitor);
+                                $monitor = mysqli_fetch_assoc($resultMonitor);
+                                echo $monitor['nome'];
+                                ?>
+                            </td>
+                            <td>
+                                <?php
+                                
+                                $atiradores_ids = explode(",", $escala['atiradores']);
+                                foreach ($atiradores_ids as $atirador_id) {
+                                    $queryAtirador = "SELECT nome FROM usuarios WHERE id = '$atirador_id'";
+                                    $resultAtirador = mysqli_query($mysqli, $queryAtirador);
+                                    $atirador = mysqli_fetch_assoc($resultAtirador);
+                                    echo $atirador['nome'] . "<br>";
+                                }
+                                ?>
+                            </td>
+                            <td>
 
-    <?php if (isset($_GET['editar'])) {
-        $escala_id = $_GET['editar'];
-        $queryEscalaEdit = "SELECT * FROM escala_de_guarda WHERE id = '$escala_id'";
-        $resultEscalaEdit = mysqli_query($mysqli, $queryEscalaEdit);
-        $escalaEdit = mysqli_fetch_assoc($resultEscalaEdit);
-        ?>
-        <h2>Editar Escala</h2>
-        <form method="POST">
-            <input type="hidden" name="escala_id" value="<?= $escalaEdit['id'] ?>">
-            <label for="data">Data:</label>
-            <input type="date" name="data" value="<?= $escalaEdit['data'] ?>" required><br>
+                                <a href="telaEscalaDeGuarda.php?editar=<?= $escala['id'] ?>">Editar</a> |
+                                <a href="telaEscalaDeGuarda.php?excluir=<?= $escala['id'] ?>" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </form>
 
-            <label for="monitor_id">Monitor:</label>
-            <select name="monitor_id" required>
-                <?php
-
-                $queryMonitores = "SELECT u.id, u.nome FROM usuarios u 
-                                INNER JOIN turma_usuario tu ON u.id = tu.id_usuario 
-                                WHERE tu.id_turma = '$turma_id' AND u.id_patente = 2";
-                $resultMonitores = mysqli_query($mysqli, $queryMonitores);
-                while ($monitor = mysqli_fetch_assoc($resultMonitores)) {
-                    echo "<option value='" . $monitor['id'] . "' " . ($escalaEdit['id_monitor'] == $monitor['id'] ? "selected" : "") . ">" . $monitor['nome'] . "</option>";
-                }
-                ?>
-            </select><br>
-
-            <label for="atiradores">Atiradores:</label><br>
-            <?php
-
-            $queryAtiradores = "SELECT u.id, u.nome FROM usuarios u 
-                                INNER JOIN turma_usuario tu ON u.id = tu.id_usuario 
-                                WHERE tu.id_turma = '$turma_id' AND u.id_patente = 1";
-            $resultAtiradores = mysqli_query($mysqli, $queryAtiradores);
-            $atiradoresEdit = explode(",", $escalaEdit['atiradores']);
-            while ($atirador = mysqli_fetch_assoc($resultAtiradores)) {
-                echo "<input type='checkbox' name='atiradores[]' value='" . $atirador['id'] . "' " . (in_array($atirador['id'], $atiradoresEdit) ? "checked" : "") . "> " . $atirador['nome'] . "<br>";
-            }
+        <?php if (isset($_GET['editar'])) {
+            $escala_id = $_GET['editar'];
+            $queryEscalaEdit = "SELECT * FROM escala_de_guarda WHERE id = '$escala_id'";
+            $resultEscalaEdit = mysqli_query($mysqli, $queryEscalaEdit);
+            $escalaEdit = mysqli_fetch_assoc($resultEscalaEdit);
             ?>
 
-            <button type="submit" name="editar_escala">Atualizar Escala</button>
-        </form>
-    <?php } ?>
+            <div class="backFormEditarEscala"></div>
+            <div class="formEditarEscala">
+                <h2>Editar Escala</h2>
+                <form method="POST">
+                    <input type="hidden" name="escala_id" value="<?= $escalaEdit['id'] ?>">
+                    <label for="data">Data</label>
+                    <input type="date" name="data" value="<?= $escalaEdit['data'] ?>" required><br>
 
-    
+                    <label for="monitor_id">Monitor</label>
+                    <select name="monitor_id" required>
+                        <?php
+
+                        $queryMonitores = "SELECT u.id, u.nome FROM usuarios u 
+                                        INNER JOIN turma_usuario tu ON u.id = tu.id_usuario 
+                                        WHERE tu.id_turma = '$turma_id' AND u.id_patente = 2";
+                        $resultMonitores = mysqli_query($mysqli, $queryMonitores);
+                        while ($monitor = mysqli_fetch_assoc($resultMonitores)) {
+                            echo "<option value='" . $monitor['id'] . "' " . ($escalaEdit['id_monitor'] == $monitor['id'] ? "selected" : "") . ">" . $monitor['nome'] . "</option>";
+                        }
+                        ?>
+                    </select><br>
+
+                    <label for="atiradores">Atiradores</label><br>
+                    <?php
+
+                    $queryAtiradores = "SELECT u.id, u.nome FROM usuarios u 
+                                        INNER JOIN turma_usuario tu ON u.id = tu.id_usuario 
+                                        WHERE tu.id_turma = '$turma_id' AND u.id_patente = 1";
+                    $resultAtiradores = mysqli_query($mysqli, $queryAtiradores);
+                    $atiradoresEdit = explode(",", $escalaEdit['atiradores']);
+                    while ($atirador = mysqli_fetch_assoc($resultAtiradores)) {
+                        echo "<input type='checkbox' name='atiradores[]' value='" . $atirador['id'] . "' " . (in_array($atirador['id'], $atiradoresEdit) ? "checked" : "") . "> " . $atirador['nome'] . "<br>";
+                    }
+                    ?>
+
+                    <button type="submit" name="editar_escala" class="buttons">Atualizar Escala</button>
+                    <a href="telaEscalaDeGuarda.php" class="buttons excluir">Cancelar</a>
+                </form>
+            </div>
+            <?php } ?>
+    </main>
+
     <script>
-    document.getElementById('selecionarTodos').addEventListener('click', function() {
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]'); 
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = this.checked; 
+        document.getElementById('selecionarTodos').addEventListener('click', function() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]'); 
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked; 
+            });
         });
-    });
-</script>
+    </script>
 
 </body>
 </html>
