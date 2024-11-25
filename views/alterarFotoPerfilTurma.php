@@ -16,15 +16,15 @@ if ($resu) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['atualizar'])) {
     $telefone = mysqli_real_escape_string($mysqli, $_POST['telefone']);
     
-    $fotoPath = $reg['foto']; // Caminho atual da foto
+    $fotoPath = $reg['foto']; 
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
         $foto = $_FILES['foto'];
         $fotoName = uniqid() . "_" . basename($foto['name']);
         $novoFotoPath = "../perfilPicture/" . $fotoName;
 
-        // Movendo o arquivo para a pasta de uploads
+        
         if (move_uploaded_file($foto['tmp_name'], $novoFotoPath)) {
-            // Excluindo a foto antiga, se existir
+            
             if (!empty($fotoPath) && file_exists($fotoPath)) {
                 unlink($fotoPath);
             }
@@ -45,10 +45,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['atualizar'])) {
     }
 }
 
-// Excluir foto de perfil
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['excluirFoto'])) {
     if (!empty($reg['foto']) && file_exists($reg['foto'])) {
-        unlink($reg['foto']); // Exclui a foto atual
+        unlink($reg['foto']); 
     }
 
     $updateQuery = "UPDATE usuarios SET foto = NULL WHERE id = '$id'";

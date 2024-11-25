@@ -18,7 +18,7 @@ $id_patente = $_SESSION['id_patente'];
                 <a href="telaChamada.php">CHAMADAS</a>
                 <a href="suaFrequencia.php">FREQUENCIAS</a>
                 <a href="telaEscalaDeGuarda.php">ESCALAS</a>
-                <a href="">QTQ</a>
+                <a href="telaQTQ.php">QTQ</a>
                 <a href="turmaPerfil.php">PERFIL</a>
 
             <?php elseif($id_patente === '3'): ?>
@@ -27,7 +27,7 @@ $id_patente = $_SESSION['id_patente'];
                 <a href="telaChamada.php">CHAMADAS</a>
                 <a href="suaFrequencia.php">FREQUENCIAS</a>
                 <a href="telaEscalaDeGuarda.php">ESCALAS</a>
-                <a href="">QTQ</a>
+                <a href="telaQTQ.php">QTQ</a>
                 <a href="turmaPerfil.php">PERFIL</a>
 
             <?php elseif($id_patente === '2'): ?>
@@ -36,7 +36,7 @@ $id_patente = $_SESSION['id_patente'];
                 <a href="telaChamada.php">CHAMADAS</a>
                 <a href="suaFrequencia.php">FREQUENCIAS</a>
                 <a href="telaEscalaDeGuarda.php">ESCALAS</a>
-                <a href="">QTQ</a>
+                <a href="telaQTQ.php">QTQ</a>
                 <a href="turmaPerfil.php">PERFIL</a>
 
             <?php else: ?>
@@ -44,7 +44,7 @@ $id_patente = $_SESSION['id_patente'];
                 <a href="abrirTurma.php">NOTÍCIAS</a>
                 <a href="suaFrequencia.php">FREQUENCIAS</a>
                 <a href="telaEscalaDeGuarda.php">ESCALAS</a>
-                <a href="">QTQ</a>
+                <a href="telaQTQ.php">QTQ</a>
                 <a href="turmaPerfil.php">PERFIL</a>
             <?php endif; ?>
 

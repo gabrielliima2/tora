@@ -1,7 +1,7 @@
 <?php
 include('conexao.php');
 
-// Função para inserir patentes
+
 function insertPatentes($mysqli) {
     $patentes = ['Atirador', 'Monitor', 'Secretário', 'Superior'];
     foreach ($patentes as $nome) {
@@ -12,11 +12,10 @@ function insertPatentes($mysqli) {
     }
 }
 
-// Função para inserir os usuários
+
 function insertUsuarios($mysqli) {
-    // Definindo os usuários com seus nomes, e-mails e patentes
+
     $usuarios = [
-        // Atiradores
         ['Carlos Silva', 'carlos.silva@example.com', 1],
         ['Marcos Pereira', 'marcos.pereira@example.com', 1],
         ['André Oliveira', 'andre.oliveira@example.com', 1],

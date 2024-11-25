@@ -129,51 +129,67 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </form>
 
+        <form method="GET" class="formPesquisaData">
+            <label for="data_chamada">Pesquisar por data:</label>
+            <input type="date" name="data_chamada" id="data_chamada" value="<?php echo isset($_GET['data_chamada']) ? $_GET['data_chamada'] : ''; ?>">
+            <button type="submit" class="buttons">Pesquisar</button>
+            <a href="telaChamada.php" class="buttons">Limpar Pesquisa</a>
+        </form>
+
         <h2>Chamadas</h2>
         <div class="containerListaTurma">
             <?php
+            $data_pesquisa = isset($_GET['data_chamada']) ? $_GET['data_chamada'] : null;
+
+            if ($data_pesquisa) {
                 $query = "SELECT DISTINCT dc.id AS data_chamada_id, dc.data, dc.hora
                         FROM data_chamada dc 
                         INNER JOIN chamada c ON dc.id = c.id_data_chamada 
-                        WHERE c.id_turma = '$turma_id' 
+                        WHERE c.id_turma = '$turma_id' AND dc.data = '$data_pesquisa'
                         ORDER BY dc.data ASC, dc.hora ASC";
-                $result = mysqli_query($mysqli, $query) or die(mysqli_connect_error());
+            } else {
 
-                if (mysqli_num_rows($result) > 0) {
-                    $last_date = null;
+                $query = "SELECT DISTINCT dc.id AS data_chamada_id, dc.data, dc.hora
+                        FROM data_chamada dc 
+                        INNER JOIN chamada c ON dc.id = c.id_data_chamada 
+                        WHERE c.id_turma = '$turma_id'
+                        ORDER BY dc.data ASC, dc.hora ASC";
+            }
 
-                    while ($reg = mysqli_fetch_array($result)) {
-                        $current_date = $reg['data'];
+            $result = mysqli_query($mysqli, $query) or die(mysqli_connect_error());
 
-                        if ($current_date !== $last_date) {
-                            if ($last_date !== null) {
-                                echo "</div>"; 
-                            }
+            if (mysqli_num_rows($result) > 0) {
+                $last_date = null;
 
-                            echo "<div class='listaTurmas' style='display:flex; gap: 30px;'>";
-                            echo "<h3>Data: " . date("d/m/Y", strtotime($current_date)) . "</h3>"; // Formato brasileiro
-                            echo "<p>Hora da chamada: " . date("H:i:s", strtotime($reg['hora'])) . "</p>";
+                while ($reg = mysqli_fetch_array($result)) {
+                    $current_date = $reg['data'];
 
-                            echo "<a href='editarChamada.php?id=" . $reg['data_chamada_id'] . "' class='botao editar'>";
-                            echo "<ion-icon name='pencil-sharp'></ion-icon>";
-                            echo "</a>";
-
-                            $last_date = $current_date;
+                    if ($current_date !== $last_date) {
+                        if ($last_date !== null) {
+                            echo "</div>"; 
                         }
-                    }
 
-                    echo "</div>"; // Fecha a última lista
-                } else {
-                    echo "<p>Nenhuma chamada encontrada!</p>";
+                        echo "<div class='listaTurmas' style='display:flex; gap: 30px;'>";
+                        echo "<h3>Data: " . date("d/m/Y", strtotime($current_date)) . "</h3>"; // Formato brasileiro
+                        echo "<p>Hora da chamada: " . date("H:i:s", strtotime($reg['hora'])) . "</p>";
+
+                        echo "<a href='editarChamada.php?id=" . $reg['data_chamada_id'] . "' class='botao editar'>";
+                        echo "<ion-icon name='pencil-sharp'></ion-icon>";
+                        echo "</a>";
+
+                        $last_date = $current_date;
+                    }
                 }
+
+                echo "</div>"; 
+            } else {
+                echo "<p>Nenhuma chamada encontrada!</p>";
+            }
             ?>
         </div>
 
-
-
     </main>
 
-        <!--Para nao dar erro no JS-->
         <input type="hidden" class="novaChamada">
         <input type="hidden" class="editarChamada">
 
@@ -182,7 +198,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             const checkboxes = document.querySelectorAll(`input[name='${checkbox.name}']`);
             checkboxes.forEach(chk => {
                 if (chk !== checkbox) {
-                    chk.checked = false; // Desmarca o outro checkbox
+                    chk.checked = false; 
                 }
             });
         }

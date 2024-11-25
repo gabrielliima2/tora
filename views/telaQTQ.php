@@ -1,0 +1,149 @@
+<?php
+include("../scripts/conexao.php");
+include("../scripts/protect.php");
+
+date_default_timezone_set('America/Sao_Paulo');
+
+$id_usuario = $_SESSION['id']; 
+
+
+if (isset($_GET['excluir'])) {
+    $id_quadro = $_GET['excluir'];
+
+
+    $queryExcluir = "DELETE FROM qtq WHERE id = '$id_quadro'";
+    if ($mysqli->query($queryExcluir)) {
+        echo "Quadro de Trabalho Quinzenal excluído com sucesso!";
+    } else {
+        echo "Erro ao excluir o quadro: " . $mysqli->error;
+    }
+}
+
+
+if (isset($_GET['editar'])) {
+    $id_quadro = $_GET['editar'];
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+        $titulo = $_POST['titulo'];
+        $descricao = $_POST['descricao'];
+        $data = $_POST['data'];
+
+        $queryEditar = "UPDATE qtq SET titulo = '$titulo', descricao = '$descricao', data = '$data' WHERE id = '$id_quadro'";
+        if ($mysqli->query($queryEditar)) {
+            echo "Quadro de Trabalho Quinzenal atualizado com sucesso!";
+            header("Location: telaQtq.php"); 
+        } else {
+            echo "Erro ao editar o quadro: " . $mysqli->error;
+        }
+    }
+
+
+    $queryConsultar = "SELECT * FROM qtq WHERE id = '$id_quadro'";
+    $resultConsultar = $mysqli->query($queryConsultar);
+    $qtq = $resultConsultar->fetch_assoc();
+}
+
+
+$queryQtq = "SELECT * FROM qtq ORDER BY data DESC";
+$resultQtq = $mysqli->query($queryQtq);
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">    
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/script.js" defer></script>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
+
+    <title>Tóra</title>
+</head>
+<body>
+    <?php include("../components/header.php"); ?>
+    <?php include("../components/turmaMenu.php"); ?>
+
+    <main>
+        <h1>Quadro de Trabalho Quinzenal</h1>
+
+
+        <h2>Criar Novo Quadro</h2>
+        <form method="POST" action="telaQtq.php">
+            <label for="titulo">Título:</label>
+            <input type="text" name="titulo" id="titulo" required>
+
+            <label for="descricao">Descrição:</label>
+            <textarea name="descricao" id="descricao" rows="4" required></textarea>
+
+            <label for="data">Data do QTQ:</label>
+            <input type="date" name="data" id="data" required>
+
+            <button type="submit">Criar Quadro</button>
+        </form>
+
+        <?php if (isset($qtq)): ?>
+
+            <h2>Editar Quadro de Trabalho Quinzenal</h2>
+            <form method="POST" action="telaQtq.php?editar=<?= $qtq['id'] ?>">
+                <label for="titulo">Título:</label>
+                <input type="text" name="titulo" id="titulo" value="<?= $qtq['titulo'] ?>" required>
+
+                <label for="descricao">Descrição:</label>
+                <textarea name="descricao" id="descricao" rows="4" required><?= $qtq['descricao'] ?></textarea>
+
+                <label for="data">Data do QTQ:</label>
+                <input type="date" name="data" id="data" value="<?= $qtq['data'] ?>" required>
+
+                <button type="submit">Atualizar Quadro</button>
+            </form>
+        <?php endif; ?>
+
+        <h2>Quadros Criados</h2>
+        <table class="tabelaQtq">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Descrição</th>
+                    <th>Data do QTQ</th>
+                    <th>Autor</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if ($resultQtq->num_rows > 0) {
+                    while ($qtq = $resultQtq->fetch_assoc()) {
+
+                        $id_usuario_criador = $qtq['id_usuario'];
+                        $queryUsuario = "SELECT nome FROM usuarios WHERE id = '$id_usuario_criador'";
+                        $resultUsuario = $mysqli->query($queryUsuario);
+                        $usuario = $resultUsuario->fetch_assoc();
+
+                        echo "<tr>";
+                        echo "<td>" . $qtq['titulo'] . "</td>";
+                        echo "<td>" . $qtq['descricao'] . "</td>";
+                        echo "<td>" . date("d/m/Y", strtotime($qtq['data'])) . "</td>";
+                        echo "<td>" . $usuario['nome'] . "</td>";
+                        echo "<td>
+                                <a href='telaQtq.php?editar=" . $qtq['id'] . "'>Editar</a> |
+                                <a href='telaQtq.php?excluir=" . $qtq['id'] . "' onclick='return confirm(\"Tem certeza que deseja excluir?\")'>Excluir</a>
+                              </td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='5'>Nenhum quadro de trabalho quinzenal encontrado.</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </main>
+
+</body>
+</html>

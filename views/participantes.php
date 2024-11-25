@@ -11,13 +11,30 @@ if($id_patente == "4"){
 
 $turma_id = $_SESSION['turma_id'];
 
-$query_usuarios = "SELECT u.nome AS usuario_nome, u.foto, p.nome AS patente, id_usuario
+
+$pesquisa_nome = isset($_GET['nome']) ? $_GET['nome'] : '';
+$pesquisa_nascimento = isset($_GET['nascimento']) ? $_GET['nascimento'] : '';
+$pesquisa_email = isset($_GET['email']) ? $_GET['email'] : '';
+
+
+$query_usuarios = "SELECT u.nome AS usuario_nome, u.foto, p.nome AS patente, u.id, u.email, u.nascimento
                    FROM turma_usuario tu
                    INNER JOIN usuarios u ON tu.id_usuario = u.id
                    INNER JOIN patente p ON u.id_patente = p.id
                    WHERE tu.id_turma = '$turma_id'";
-$result_usuarios = mysqli_query($mysqli, $query_usuarios) or die(mysqli_error($mysqli));;
 
+
+if ($pesquisa_nome) {
+    $query_usuarios .= " AND u.nome LIKE '%$pesquisa_nome%'";
+}
+if ($pesquisa_nascimento) {
+    $query_usuarios .= " AND u.nascimento LIKE '%$pesquisa_nascimento%'";
+}
+if ($pesquisa_email) {
+    $query_usuarios .= " AND u.email LIKE '%$pesquisa_email%'";
+}
+
+$result_usuarios = mysqli_query($mysqli, $query_usuarios) or die(mysqli_error($mysqli));
 ?>
 
 <!DOCTYPE html>
@@ -38,10 +55,21 @@ $result_usuarios = mysqli_query($mysqli, $query_usuarios) or die(mysqli_error($m
     <?php include("../components/header.php"); ?>
     <?php include("../components/turmaMenu.php"); ?>
 
-    
     <main id="mainTurma">
+      
+        <div class="formPesquisa">
+            <form method="GET" class="formBusca">
+                <input type="text" name="nome" placeholder="Pesquisar por nome" value="<?php echo $pesquisa_nome; ?>">
+                <input type="date" name="nascimento" placeholder="Pesquisar por nascimento" value="<?php echo $pesquisa_nascimento; ?>">
+                <input type="text" name="email" placeholder="Pesquisar por email" value="<?php echo $pesquisa_email; ?>">
+                <button type="submit" class="buttons">Pesquisar</button>
+                <a href="participantes.php" class="buttons">Limpar Pesquisa</a> 
+            </form>
+        </div>
+
+
         <div class="containerListaTurma">
-        <?php
+            <?php
             if (mysqli_num_rows($result_usuarios) > 0) {
                 while ($usuario = mysqli_fetch_assoc($result_usuarios)) {
                 ?>
@@ -49,33 +77,32 @@ $result_usuarios = mysqli_query($mysqli, $query_usuarios) or die(mysqli_error($m
                         <a href='perfilParticipante.php?id=<?php echo $usuario['id_usuario']?>' class='linkAbrir'></a>
                         <div class="fotoPerfilParticipante">
                             <?php if (!empty($usuario['foto']) && file_exists($usuario['foto'])): ?>
-                                    <img src="<?php echo $usuario['foto']; ?>" alt="Foto de perfil" class="profileImageParticipante">
+                                <img src="<?php echo $usuario['foto']; ?>" alt="Foto de perfil" class="profileImageParticipante">
                             <?php else: ?>
-                                    <ion-icon name="person-circle-outline" class="profileImageParticipante" style="border:none;"></ion-icon>
+                                <ion-icon name="person-circle-outline" class="profileImageParticipante" style="border:none;"></ion-icon>
                             <?php endif; ?>
                         </div>
                         <div class='containerInfoParticipante'>
-                                <h3><?php echo $usuario['usuario_nome'];?></h3>
-                                <p><?php echo $usuario['patente'];?></p>
+                            <h3><?php echo $usuario['usuario_nome'];?></h3>
+                            <p><?php echo $usuario['patente'];?></p>
                         </div>
                         <div class='containerAcoesTurma'>
-                                <a href='patenteParticipante.php?id=<?php echo $usuario['id_usuario']?>' class='botao editar'>
-                                    Patente
-                                    <span class='tooltip'>Alterar patente</span>
-                                </a>
-                                <a href='removerParticipante.php?id=<?php echo $usuario['id_usuario']?>' class='botao excluir'>
-                                        Remover
-                                    <span class='tooltip'>Remover usuário</span>
-                                </a>
+                            <a href='patenteParticipante.php?id=<?php echo $usuario['id_usuario']?>' class='botao editar'>
+                                Patente
+                                <span class='tooltip'>Alterar patente</span>
+                            </a>
+                            <a href='removerParticipante.php?id=<?php echo $usuario['id_usuario']?>' class='botao excluir'>
+                                Remover
+                                <span class='tooltip'>Remover usuário</span>
+                            </a>
                         </div>
                     </div>
                 <?php
                 }
             } else {
-                echo "<p>Nenhum participante nesta turma.</p>";
+                echo "<p>Nenhum participante encontrado com os critérios informados.</p>";
             }
             ?>
-            </div>
         </div>
     </main>
 </body>

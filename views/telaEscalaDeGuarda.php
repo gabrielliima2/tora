@@ -185,7 +185,7 @@ $escalas = mysqli_query($mysqli, $queryEscalas);
                         </td>
                         <td>
                             <?php
-                            // Exibe os nomes dos atiradores
+                            
                             $atiradores_ids = explode(",", $escala['atiradores']);
                             foreach ($atiradores_ids as $atirador_id) {
                                 $queryAtirador = "SELECT nome FROM usuarios WHERE id = '$atirador_id'";
@@ -253,9 +253,9 @@ $escalas = mysqli_query($mysqli, $queryEscalas);
     
     <script>
     document.getElementById('selecionarTodos').addEventListener('click', function() {
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]'); // Seleciona todos os checkboxes
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]'); 
         checkboxes.forEach(checkbox => {
-            checkbox.checked = this.checked; // Define todos como o estado do "Selecionar Todos"
+            checkbox.checked = this.checked; 
         });
     });
 </script>

@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao'])) {
 }
 
 
-// Buscar as notícias da turma
+
 $query_noticias = "SELECT u.nome AS username, u.id AS userId, n.* FROM noticias n INNER JOIN usuarios u ON n.id_usuario = u.id WHERE id_turma = ? ORDER BY data_hora DESC ";
 $stmt_noticias = $mysqli->prepare($query_noticias);
 $stmt_noticias->bind_param("i", $turma_id);
