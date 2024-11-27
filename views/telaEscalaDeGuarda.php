@@ -227,13 +227,13 @@ $escalas = mysqli_query($mysqli, $queryEscalas);
     <?php include("../components/turmaMenu.php"); ?>
     
     <main class="mainGerarEscala">
-        <div id="botaoAparecerGerarEscala" class="buttons" style="margin-bottom: 30px;">Gerar Escala</div>
         <div class="backFormEscala hide"></div>
         <form method="POST" class="formGerarEscala hide">
             <h2>Gerar Escala</h2>
             <p>se nenhuma data for escolhida, uma escala será gerada a partir de hoje.</p>
             <div class="inputBox">
-                <input type="date" name="data_inicio" class="inputs" ><br>
+                <input type="date" name="data_inicio" class="inputs" value="<?= date('Y-m-d', strtotime($data_inicio)) ?>"><br>
+
                 <label for="data_inicio" class="labelInput">Data de Início</label>
             </div>
 
@@ -248,9 +248,13 @@ $escalas = mysqli_query($mysqli, $queryEscalas);
         </form>
         
 
-        <h2>Escalas Cadastradas</h2>
+        <h2>Escala de Guarda</h2>
+
         <form method="POST" class="formEscalasCadastratas">
-            <button type="submit" name="excluir_multiplas" class="buttons excluir" style="margin: 20px;">Excluir Selecionadas</button>    
+            <div style="display: flex; align-items:center; justify-content: space-around; padding: 20px; gap: 20px;">
+                <button type="submit" name="excluir_multiplas" class="buttons excluir">Excluir Selecionadas</button>    
+                <div id="botaoAparecerGerarEscala" class="buttons">Gerar Escala</div>
+            </div>
             <table border="1" class="tableEscala">
                 <thead>
                     <tr>
@@ -274,39 +278,70 @@ $escalas = mysqli_query($mysqli, $queryEscalas);
                     ?>
                     <tr class="<?= $classeEspecial ?>">
                         <td><input type="checkbox" name="escalas_selecionadas[]" value="<?= $escala['id'] ?>"></td>
-                        <td><?= $escala['data'] ?></td>
+                        <td><?= date('d/m/Y', strtotime($escala['data'])) ?></td>
                         <td>
                             <?php
                             $monitor_id = $escala['id_monitor'];
                             $queryMonitor = "SELECT nome FROM usuarios WHERE id = '$monitor_id'";
                             $resultMonitor = mysqli_query($mysqli, $queryMonitor);
                             $monitor = mysqli_fetch_assoc($resultMonitor);
-                            echo $monitor['nome'];
+                            
+                            if ($monitor) {
+                                echo $monitor['nome'];
+                            } else {
+                                echo "Nenhum monitor atribuído";
+                            }
                             ?>
                         </td>
+
                         <td>
                             <?php
                             $atiradores_ids = explode(",", $escala['atiradores']);
                             $p1 = array_slice($atiradores_ids, 0, 3);
+                            $p1Nomes = [];
+
                             foreach ($p1 as $atirador_id) {
                                 $queryAtirador = "SELECT nome FROM usuarios WHERE id = '$atirador_id'";
                                 $resultAtirador = mysqli_query($mysqli, $queryAtirador);
                                 $atirador = mysqli_fetch_assoc($resultAtirador);
-                                echo $atirador['nome'] . "<br>";
+                                
+                                if ($atirador) {
+                                    $p1Nomes[] = $atirador['nome'];
+                                }
+                            }
+
+                            if (empty($p1Nomes)) {
+                                echo "Nenhum atirador atribuído";
+                            } else {
+                                echo implode("<br>", $p1Nomes);
                             }
                             ?>
                         </td>
+
                         <td>
                             <?php
                             $p2 = array_slice($atiradores_ids, 3, 3); 
+                            $p2Nomes = [];
+
                             foreach ($p2 as $atirador_id) {
                                 $queryAtirador = "SELECT nome FROM usuarios WHERE id = '$atirador_id'";
                                 $resultAtirador = mysqli_query($mysqli, $queryAtirador);
                                 $atirador = mysqli_fetch_assoc($resultAtirador);
-                                echo $atirador['nome'] . "<br>";
+
+                                if ($atirador) {
+                                    $p2Nomes[] = $atirador['nome'];
+                                }
+                            }
+
+
+                            if (empty($p2Nomes)) {
+                                echo "Nenhum atirador atribuído";
+                            } else {
+                                echo implode("<br>", $p2Nomes);
                             }
                             ?>
                         </td>
+
                         <td>
                             <a href="telaEscalaDeGuarda.php?editar=<?= $escala['id'] ?>" class='botao editar'>
                                 <ion-icon name='pencil-sharp'></ion-icon>
@@ -337,8 +372,7 @@ $escalas = mysqli_query($mysqli, $queryEscalas);
                 <form method="POST">
                     <input type="hidden" name="escala_id" value="<?= $escalaEdit['id'] ?>">
                     <label for="data">Data</label>
-                    <input type="date" name="data" value="<?= $escalaEdit['data'] ?>" required><br>
-
+                    <input type="date" name="data" value="<?= date('Y-m-d', strtotime($escalaEdit['data'])) ?>" required><br>
                     <label for="monitor_id">Monitor</label>
                     <select name="monitor_id" required>
                         <?php

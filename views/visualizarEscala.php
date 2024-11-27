@@ -7,7 +7,6 @@ date_default_timezone_set('America/Sao_Paulo');
 $id_patente = $_SESSION['id_patente'];
 $turma_id = $_SESSION['turma_id'];
 
-
 function isFeriado($data) {
     // Lista de feriados fixos e móveis
     $feriadosFixos = [
@@ -116,36 +115,67 @@ $escalas = mysqli_query($mysqli, $queryEscalas);
                         }
                     ?>
                     <tr class="<?= $classeEspecial ?>">
-                        <td><?= $escala['data'] ?></td>
+                        <td><?= date('d/m/Y', strtotime($escala['data'])) ?></td>
+
                         <td>
                             <?php
                             $monitor_id = $escala['id_monitor'];
                             $queryMonitor = "SELECT nome FROM usuarios WHERE id = '$monitor_id'";
                             $resultMonitor = mysqli_query($mysqli, $queryMonitor);
                             $monitor = mysqli_fetch_assoc($resultMonitor);
-                            echo $monitor['nome'];
+                            
+                            if ($monitor) {
+                                echo $monitor['nome'];
+                            } else {
+                                echo "Nenhum monitor atribuído"; 
+                            }
                             ?>
                         </td>
+
                         <td>
                             <?php
                             $atiradores_ids = explode(",", $escala['atiradores']);
                             $p1 = array_slice($atiradores_ids, 0, 3);
+                            $p1Nomes = [];
+
                             foreach ($p1 as $atirador_id) {
                                 $queryAtirador = "SELECT nome FROM usuarios WHERE id = '$atirador_id'";
                                 $resultAtirador = mysqli_query($mysqli, $queryAtirador);
                                 $atirador = mysqli_fetch_assoc($resultAtirador);
-                                echo $atirador['nome'] . "<br>";
+                                
+                                if ($atirador) {
+                                    $p1Nomes[] = $atirador['nome'];
+                                }
+                            }
+
+
+                            if (empty($p1Nomes)) {
+                                echo "Nenhum atirador atribuído";
+                            } else {
+                                echo implode("<br>", $p1Nomes);
                             }
                             ?>
                         </td>
+
                         <td>
                             <?php
                             $p2 = array_slice($atiradores_ids, 3, 3); 
+                            $p2Nomes = [];
+
                             foreach ($p2 as $atirador_id) {
                                 $queryAtirador = "SELECT nome FROM usuarios WHERE id = '$atirador_id'";
                                 $resultAtirador = mysqli_query($mysqli, $queryAtirador);
                                 $atirador = mysqli_fetch_assoc($resultAtirador);
-                                echo $atirador['nome'] . "<br>";
+
+                                if ($atirador) {
+                                    $p2Nomes[] = $atirador['nome'];
+                                }
+                            }
+
+                            if (empty($p2Nomes)) {
+                                echo "Nenhum atirador atribuído";
+                            } else {
+                                echo implode("<br>", $p2Nomes);
                             }
                             ?>
                         </td>

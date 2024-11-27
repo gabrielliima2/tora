@@ -23,7 +23,9 @@ $id_patente = $_SESSION['id_patente'];
 
             <?php elseif($id_patente === '3'): ?>
                 <a href="home.php">INÍCIO</a>
-                <a href="criarTurma.php">TURMAS</a>
+                <a href="abrirTurma.php">NOTÍCIAS</a>
+                <a href="participantes.php">PARTICIPANTES</a>
+                <a href="visualizarSolicitacoes.php">SOLICITAÇÕES</a>
                 <a href="telaChamada.php">CHAMADAS</a>
                 <a href="suaFrequencia.php">FREQUENCIAS</a>
                 <a href="telaEscalaDeGuarda.php">ESCALAS</a>

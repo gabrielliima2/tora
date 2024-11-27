@@ -122,7 +122,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['excluir'])) {
 
             <div>
                 <button type="submit" class="buttons">Salvar Alterações</button>
-                <button type="submit" class="buttons excluir" name="excluir">Excluir Chamada</button>
+                <?php if($id_patente === '4' || $id_patente === '3'){ ?>
+                    <button type="submit" class="buttons excluir" name="excluir">Excluir Chamada</button>
+                <?php } ?>
+
             </div>
             <a href="telaChamada.php" class="buttons excluir">Cancelar</a>
         </form>

@@ -118,14 +118,14 @@ $resultQtq = $mysqli->query($queryQtq);
                 </div>
                 
                 <div class="inputBox">
-                    <input type="date" name="data" id="data" class="inputs" required>
+                    <input type="date" name="data" id="data" class="inputs" >
                     <label for="data" class="labelInput">Data</label>
                 </div>
                 <div class="inputBox"> 
-                    <select name="id_superior" id="id_superior" class="inputs" required>
+                    <select name="id_superior" id="id_superior" class="inputs">
                         <option value="">Selecione o Superior</option>
                         <?php
-                        $querySuperiores = "SELECT id, nome FROM usuarios WHERE id_patente = 4";
+                        $querySuperiores = "SELECT u.id, u.nome FROM usuarios u INNER JOIN turma_usuario tu ON tu.id_usuario = u.id WHERE u.id_patente = 4 AND tu.id_turma = '$turma_id' ";
                         $resultSuperiores = $mysqli->query($querySuperiores);
 
                         while ($superior = $resultSuperiores->fetch_assoc()) {
@@ -163,16 +163,16 @@ $resultQtq = $mysqli->query($queryQtq);
             </div>
             
             <div class="inputBox">
-                <input type="date" name="data" id="data" class="inputs" >
-                <label for="data" class="labelInput" value="<?= $qtq['data'] ?>">Data</label>
+                <input type="date" name="data" id="data" class="inputs" value="<?= $qtq['data'] ?>" required>
+                <label for="data" class="labelInput" >Data</label>
             </div>
             <div class="inputBox"> 
-                <select name="id_superior" id="id_superior" class="inputs" required>
+                <select name="id_superior" id="id_superior" class="inputs" >
                     <option value="">Selecione o Superior</option>
                     <?php
                     $id_superior_atual = $qtq['id_superior'];
 
-                    $querySuperiores = "SELECT id, nome FROM usuarios WHERE id_patente = 4";
+                    $querySuperiores = "SELECT u.id, u.nome FROM usuarios u INNER JOIN turma_usuario tu ON tu.id_usuario = u.id WHERE u.id_patente = 4 AND tu.id_turma = '$turma_id' ";
                     $resultSuperiores = $mysqli->query($querySuperiores);
 
                     while ($superior = $resultSuperiores->fetch_assoc()) {
@@ -183,30 +183,32 @@ $resultQtq = $mysqli->query($queryQtq);
                 </select>
                 <label for="id_superior" class="labelInput">Superior</label>
             </div>
-
-
-
-                <div class="inputBox">
+            
+            <div class="inputBox">
                     <input type="hidden" name="id_turma" id="id_turma" value="<?php echo $turma_id; ?>" class="inputs" required >
-                </div>
+            </div>
             <div style="margin: 20px;">
                 <button type="submit" class="buttons">Atualizar Quadro</button>
                 <a href="telaQTQ.php" class="buttons excluir">Cancelar</a>
             </div>
+
         </form>
         
         <?php endif; ?>
         
-            <h2>Quadros Criados</h2>
+            <h2 style="padding:20px;">Quadros de Trabalho</h2>
             <div class="containerQuadro">
                 <table class="tableContagemQuadro" >
                     <thead>
                         <tr>
+                            <th>Data do QTQ</th>
                             <th>Título</th>
                             <th>Descrição</th>
-                            <th>Data do QTQ</th>
                             <th>Superior</th>
-                            <th>Ações</th>
+                            <?php if($id_patente== 4 || $id_patente==3){
+                                echo "<th>Ações</th>";
+                            }
+                            ?>
                         </tr>
                     </thead>
                     <tbody>
@@ -223,9 +225,9 @@ $resultQtq = $mysqli->query($queryQtq);
                             if ($resultQtq->num_rows > 0) {
                                 while ($qtq = $resultQtq->fetch_assoc()) {
                                     echo "<tr>";
+                                    echo "<td>" . date("d/m/Y", strtotime($qtq['data'])) . "</td>";
                                     echo "<td>" . $qtq['titulo'] . "</td>";
                                     echo "<td>" . $qtq['descricao'] . "</td>";
-                                    echo "<td>" . date("d/m/Y", strtotime($qtq['data'])) . "</td>";
                                     echo "<td>" . $qtq['autor_nome'] . "</td>";
                                     if($id_patente== 4 || $id_patente==3){
                                         echo "  <td>
