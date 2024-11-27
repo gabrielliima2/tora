@@ -216,55 +216,8 @@ $escalas = mysqli_query($mysqli, $queryEscalas);
             background-color: #ffcccc !important;
         }
 
-        /* Estilos responsivos */
-        @media (max-width: 768px) {
-            table {
-                font-size: 14px;
-            }
-
-            th, td {
-                padding: 8px;
-            }
-
-            td:nth-child(1),
-            td:nth-child(2),
-            td:nth-child(6) {
-                display: none;
-            }
-
-            td:nth-child(4), td:nth-child(5) {
-                display: block;
-                padding-top: 10px;
-            }
-
-            td:nth-child(4):before {
-                content: "P1: ";
-                font-weight: bold;
-            }
-
-            td:nth-child(5):before {
-                content: "P2: ";
-                font-weight: bold;
-            }
-
-            tr {
-                display: block;
-                margin-bottom: 15px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            table {
-                font-size: 12px;
-            }
-
-            th, td {
-                padding: 6px;
-            }
-
-            td:nth-child(4), td:nth-child(5) {
-                display: block;
-            }
+        .thSelecionarTudo{
+            max-width: 100px;
         }
 
     </style>
@@ -302,7 +255,7 @@ $escalas = mysqli_query($mysqli, $queryEscalas);
             <table border="1">
                 <thead>
                     <tr>
-                        <th><input type="checkbox" id="selecionarTodos"><br>Selecionar Todos</th>
+                        <th class="thSelecionarTudo">Selecionar Todos</br><input type="checkbox" id="selecionarTodos"></th>
                         <th>Data</th>
                         <th>Monitor</th>
                         <th>P1</th>
