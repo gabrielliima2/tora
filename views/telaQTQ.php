@@ -5,6 +5,7 @@ include("../scripts/protect.php");
 date_default_timezone_set('America/Sao_Paulo');
 
 $id_usuario = $_SESSION['id']; 
+$id_patente = $_SESSION['id_patente']; 
 $turma_id = $_SESSION['turma_id'];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_GET['editar'])) {
@@ -97,9 +98,12 @@ $resultQtq = $mysqli->query($queryQtq);
     <?php include("../components/turmaMenu.php"); ?>
 
     <main class="mainGerarEscala">
-        
-        <h1>Quadro de Trabalho Quinzenal</h1>
-        <div class="buttons" id="botaoCriarQTQ">Criar QTQ</div>
+        <?php
+            if($id_patente== 4 || $id_patente==3){
+                echo "<div class='buttons' id='botaoCriarQTQ'>Criar QTQ</div>";
+            }
+        ?>
+
         <div class="backFormCriarNovoQuadro hide"></div>
         <form method="POST" action="telaQtq.php" class="formCriarNovoQuadro hide">
                 <h2>Criar Novo Quadro</h2>
@@ -195,7 +199,7 @@ $resultQtq = $mysqli->query($queryQtq);
         
         <div class="tabelaQuadrosCriados">
             <h2>Quadros Criados</h2>
-            <table border="1" >
+            <table class="tableContagemEscalas" >
                 <thead>
                     <tr>
                         <th>Título</th>
@@ -224,10 +228,13 @@ $resultQtq = $mysqli->query($queryQtq);
                                 echo "<td>" . date("d/m/Y", strtotime($qtq['data'])) . "</td>";
                                 echo "<td>" . $qtq['autor_nome'] . "</td>";
                                 echo "<td>" . $qtq['turma_nome'] . "</td>";
-                                echo "<td>
-                                        <a href='telaQtq.php?editar=" . $qtq['id'] . "'>Editar</a> |
-                                        <a href='telaQtq.php?excluir=" . $qtq['id'] . "' onclick='return confirm(\"Tem certeza que deseja excluir?\")'>Excluir</a>
-                                        </td>";
+                                if($id_patente== 4 || $id_patente==3){
+                                    echo "  <td>
+                                                <a href='telaQtq.php?editar=" . $qtq['id'] . "'>Editar</a> |
+                                                <a href='telaQtq.php?excluir=" . $qtq['id'] . "' onclick='return confirm(\"Tem certeza que deseja excluir?\")'>Excluir</a>
+                                            </td>";
+                                }
+                                
                                 echo "</tr>";
                             }
                         } else {

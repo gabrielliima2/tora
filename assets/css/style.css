@@ -1451,8 +1451,8 @@ table.tabelaChamada th, table.tabelaChamada td {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 500px;
     overflow: auto;
+    margin-left: 200px;
 
 }
 
@@ -1577,10 +1577,6 @@ tr:hover {
         padding: 5px  5px 5px 100px;
     }
 
-    .tableContagemEscalas {
-        margin-left: 220px;
-        width: 70%;
-    }
     
 }
 

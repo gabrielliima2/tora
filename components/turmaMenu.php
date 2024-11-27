@@ -35,7 +35,7 @@ $id_patente = $_SESSION['id_patente'];
                 <a href="abrirTurma.php">NOTÍCIAS</a>
                 <a href="telaChamada.php">CHAMADAS</a>
                 <a href="suaFrequencia.php">FREQUENCIAS</a>
-                <a href="telaEscalaDeGuarda.php">ESCALAS</a>
+                <a href="visualizarEscala.php">ESCALAS</a>
                 <a href="telaQTQ.php">QTQ</a>
                 <a href="turmaPerfil.php">PERFIL</a>
 
@@ -43,7 +43,7 @@ $id_patente = $_SESSION['id_patente'];
                 <a href="home.php">INÍCIO</a>
                 <a href="abrirTurma.php">NOTÍCIAS</a>
                 <a href="suaFrequencia.php">FREQUENCIAS</a>
-                <a href="telaEscalaDeGuarda.php">ESCALAS</a>
+                <a href="visualizarEscala.php">ESCALAS</a>
                 <a href="telaQTQ.php">QTQ</a>
                 <a href="turmaPerfil.php">PERFIL</a>
             <?php endif; ?>

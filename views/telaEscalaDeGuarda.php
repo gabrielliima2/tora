@@ -9,10 +9,8 @@ $turma_id = $_SESSION['turma_id'];
 
 if ($id_patente == "4") {
     verificaAcesso("4");
-} else if ($id_patente == "3") {
+} else{
     verificaAcesso("3");
-} else {
-    verificaAcesso("2");
 }
 
 function gerarEscalasSequenciais($mysqli, $turma_id, $data_inicio, $num_dias) {
