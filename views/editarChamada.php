@@ -74,50 +74,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['excluir'])) {
                 <h1>Editar chamada</h1>
                 <p>Realizada em <?php echo date("d-m-Y"); ?> as <?php echo date("H:i:s"); ?></p>
             </div>
-            <table  class="tabelaChamada">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Presente</th>
-                        <th>Ausente</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    if ($resultChamada->num_rows > 0) {
-                        $resultChamada->data_seek(0); 
-                        while ($row = $resultChamada->fetch_assoc()) {
-                            $statusPresente = $row['id_status'] == 1 ? "checked" : "";
-                            $statusAusente = $row['id_status'] == 2 ? "checked" : "";
+            <div class="table-container">
+                <table class="tabelaChamada">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Presente</th>
+                            <th>Ausente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if ($resultChamada->num_rows > 0) {
+                            $resultChamada->data_seek(0); 
+                            while ($row = $resultChamada->fetch_assoc()) {
+                                $statusPresente = $row['id_status'] == 1 ? "checked" : "";
+                                $statusAusente = $row['id_status'] == 2 ? "checked" : "";
 
-                            echo "
-                            <tr>
-                                <td>" . htmlspecialchars($row['nome'], ENT_QUOTES, 'UTF-8') . "</td>
-                                <td class='checkbox-group'>
-                                    <input 
-                                        type='checkbox' 
-                                        name='presencas[" . $row['usuario_id'] . "]' 
-                                        value='1' 
-                                        $statusPresente 
-                                        onclick='desmarcarOutro(this)'>
-                                </td>
-                                <td class='checkbox-group'>
-                                    <input 
-                                        type='checkbox' 
-                                        name='presencas[" . $row['usuario_id'] . "]' 
-                                        value='2' 
-                                        $statusAusente 
-                                        onclick='desmarcarOutro(this)'>
-                                </td>
-                            </tr>";
+                                echo "
+                                <tr>
+                                    <td>" . htmlspecialchars($row['nome'], ENT_QUOTES, 'UTF-8') . "</td>
+                                    <td class='checkbox-group'>
+                                        <input 
+                                            type='checkbox' 
+                                            name='presencas[" . $row['usuario_id'] . "]' 
+                                            value='1' 
+                                            $statusPresente 
+                                            onclick='desmarcarOutro(this)'>
+                                    </td>
+                                    <td class='checkbox-group'>
+                                        <input 
+                                            type='checkbox' 
+                                            name='presencas[" . $row['usuario_id'] . "]' 
+                                            value='2' 
+                                            $statusAusente 
+                                            onclick='desmarcarOutro(this)'>
+                                    </td>
+                                </tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='3'>Nenhuma chamada encontrada!</td></tr>";
                         }
-                    } else {
-                        echo "<tr><td colspan='3'>Nenhuma chamada encontrada!</td></tr>";
-                    }
-                    ?>
-                </tbody>
+                        ?>
+                    </tbody>
+                </table>
+            </div>
 
-            </table>
             <div>
                 <button type="submit" class="buttons">Salvar Alterações</button>
                 <button type="submit" class="buttons excluir" name="excluir">Excluir Chamada</button>

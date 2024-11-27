@@ -160,13 +160,13 @@ $escalas = mysqli_query($mysqli, $queryEscalas);
 
     <style>
         table {
-            width: 80%;
+            width: 100%;
             border-collapse: collapse;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             background-color: #fff;
             border-radius: 10px;
             overflow: hidden;
-            margin-left: 200px;
+            font-size: 11px;
         }
 
         /* Cabeçalho da tabela */
@@ -246,14 +246,15 @@ $escalas = mysqli_query($mysqli, $queryEscalas);
             <button type="submit" name="gerar_escala" class="buttons">Gerar Escalas</button>
             <a href="telaEscalaDeGuarda.php" class="buttons excluir">Cancelar</a>
         </form>
+        
 
         <h2>Escalas Cadastradas</h2>
         <form method="POST" class="formEscalasCadastratas">
             <button type="submit" name="excluir_multiplas" class="buttons excluir" style="margin: 20px;">Excluir Selecionadas</button>    
-            <table border="1">
+            <table border="1" class="tableEscala">
                 <thead>
                     <tr>
-                        <th class="thSelecionarTudo">Selecionar Todos</br><input type="checkbox" id="selecionarTodos"></th>
+                        <th class="thSelecionarTudo">Todos</br><input type="checkbox" id="selecionarTodos"></th>
                         <th>Data</th>
                         <th>Monitor</th>
                         <th>P1</th>

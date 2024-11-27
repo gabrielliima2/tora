@@ -106,7 +106,7 @@ $resultQtq = $mysqli->query($queryQtq);
 
         <div class="backFormCriarNovoQuadro hide"></div>
         <form method="POST" action="telaQtq.php" class="formCriarNovoQuadro hide">
-                <h2>Criar Novo Quadro</h2>
+                <h2>Criar Novo QTQ</h2>
                 <div class="inputBox">
                     <input type="text" name="titulo" id="titulo" class="inputs" required>
                     <label for="titulo" class="labelInput">Título</label>
@@ -151,7 +151,7 @@ $resultQtq = $mysqli->query($queryQtq);
         <div class="backFormEditarQTQ"></div>
 
         <form method="POST" action="telaQtq.php?editar=<?= $qtq['id'] ?>" class="formEditarQTQ">
-            <h2>Editar Quadro de Trabalho Quinzenal</h2>
+            <h2>Editar QTQ</h2>
             <div class="inputBox">
                 <input type="text" name="titulo" id="titulo" class="inputs"  value="<?= $qtq['titulo'] ?>" required>
                 <label for="titulo" class="labelInput">Título</label>
@@ -197,53 +197,58 @@ $resultQtq = $mysqli->query($queryQtq);
         
         <?php endif; ?>
         
-        <div class="tabelaQuadrosCriados">
             <h2>Quadros Criados</h2>
-            <table class="tableContagemEscalas" >
-                <thead>
-                    <tr>
-                        <th>Título</th>
-                        <th>Descrição</th>
-                        <th>Data do QTQ</th>
-                        <th>Autor</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                        $queryQtq = "SELECT qtq.*, usuarios.nome AS autor_nome, turma.nome AS turma_nome 
-                        FROM qtq
-                        JOIN usuarios ON qtq.id_superior = usuarios.id
-                        JOIN turma ON qtq.id_turma = turma.id
-                        WHERE qtq.id_turma = '$turma_id' 
-                        ORDER BY qtq.data DESC ";
-       
-                        $resultQtq = $mysqli->query($queryQtq);
-                        
-                        if ($resultQtq->num_rows > 0) {
-                            while ($qtq = $resultQtq->fetch_assoc()) {
-                                echo "<tr>";
-                                echo "<td>" . $qtq['titulo'] . "</td>";
-                                echo "<td>" . $qtq['descricao'] . "</td>";
-                                echo "<td>" . date("d/m/Y", strtotime($qtq['data'])) . "</td>";
-                                echo "<td>" . $qtq['autor_nome'] . "</td>";
-                                echo "<td>" . $qtq['turma_nome'] . "</td>";
-                                if($id_patente== 4 || $id_patente==3){
-                                    echo "  <td>
-                                                <a href='telaQtq.php?editar=" . $qtq['id'] . "'>Editar</a> |
-                                                <a href='telaQtq.php?excluir=" . $qtq['id'] . "' onclick='return confirm(\"Tem certeza que deseja excluir?\")'>Excluir</a>
-                                            </td>";
+            <div class="containerQuadro">
+                <table class="tableContagemQuadro" >
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Descrição</th>
+                            <th>Data do QTQ</th>
+                            <th>Superior</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $queryQtq = "SELECT qtq.*, usuarios.nome AS autor_nome, turma.nome AS turma_nome 
+                            FROM qtq
+                            JOIN usuarios ON qtq.id_superior = usuarios.id
+                            JOIN turma ON qtq.id_turma = turma.id
+                            WHERE qtq.id_turma = '$turma_id' 
+                            ORDER BY qtq.data ASC ";
+        
+                            $resultQtq = $mysqli->query($queryQtq);
+                            
+                            if ($resultQtq->num_rows > 0) {
+                                while ($qtq = $resultQtq->fetch_assoc()) {
+                                    echo "<tr>";
+                                    echo "<td>" . $qtq['titulo'] . "</td>";
+                                    echo "<td>" . $qtq['descricao'] . "</td>";
+                                    echo "<td>" . date("d/m/Y", strtotime($qtq['data'])) . "</td>";
+                                    echo "<td>" . $qtq['autor_nome'] . "</td>";
+                                    if($id_patente== 4 || $id_patente==3){
+                                        echo "  <td>
+                                                    <a href='telaQtq.php?editar=" . $qtq['id'] . "'  class='botao editar'>
+                                                        <ion-icon name='pencil-sharp'></ion-icon>
+                                                        <span class='tooltip'>Editar</span></a> |
+                                                    <a href='telaQtq.php?excluir=" . $qtq['id'] . "'  class='botao excluir' onclick='return confirm(\"Tem certeza que deseja excluir?\")'>
+                                                        <ion-icon name='trash-outline'></ion-icon>
+                                                        <span class='tooltip'>Excluir</span>
+                                                    </a>
+                                                </td>";
+                                    }
+                                    
+                                    echo "</tr>";
                                 }
-                                
-                                echo "</tr>";
+                            } else {
+                                echo "<tr><td colspan='6'>Nenhum quadro de trabalho quinzenal encontrado.</td></tr>";
                             }
-                        } else {
-                            echo "<tr><td colspan='6'>Nenhum quadro de trabalho quinzenal encontrado.</td></tr>";
-                        }
-       
-                    ?>
-                </tbody>
-            </table>
+        
+                        ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </main>
 

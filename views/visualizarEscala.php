@@ -44,15 +44,6 @@ $escalas = mysqli_query($mysqli, $queryEscalas);
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
 
     <style>
-        table {
-            width: 70%;
-            border-collapse: collapse;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-            border-radius: 10px;
-            overflow: auto;
-            margin-left: 200px;
-        }
 
         th input[type="checkbox"] {
             margin: 0;
@@ -101,10 +92,11 @@ $escalas = mysqli_query($mysqli, $queryEscalas);
 <body>
     <?php include("../components/header.php"); ?>
     <?php include("../components/turmaMenu.php"); ?>
-    
+        <main class="mainGerarEscala">
+
         <h2>Escalas Cadastradas</h2>
         <form method="POST" class="formEscalasCadastratas" > 
-            <table border="1">
+            <table border="1" class="tableVisualizarEscala">
                 <thead>
                     <tr>
                         <th>Data</th>

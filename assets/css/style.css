@@ -267,11 +267,12 @@ NAVIGATION STYLES
 
 .backNavMunu{
     display: flex;
-    position: absolute;
+    position: fixed;
     z-index: 2;
     top: 0;
-    width: 100vw;
-    height: 100vh;
+    right: 0;
+    left: 0;
+    bottom: 0;
     background-color: rgba(0, 0, 0, 0.7);
 }
 
@@ -279,10 +280,11 @@ NAVIGATION STYLES
     display: flex;
     flex-direction: column;
     background-color: whitesmoke;
-    position: absolute;
+    position: fixed;
     left: 0;
     bottom: 0;
     top: 0;
+
     border-radius: 0 30px 30px 0;
     z-index: 2;
 }
@@ -1311,7 +1313,7 @@ table.tabelaChamada th, table.tabelaChamada td {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 95vw;
+    width: 100%;
     overflow: auto;
 }
 
@@ -1335,9 +1337,7 @@ table.tabelaChamada th, table.tabelaChamada td {
     border: 1px solid rgb(50, 50, 50);
 }
 
-.tbodyEscala{
-    
-}
+
 
 .formGerarEscala{
     display: flex;
@@ -1516,6 +1516,51 @@ tr:hover {
     background-color: #f1f1f1;
 }
 
+.tableEscala{
+    margin-left: 100px;
+    width: 100%;
+}
+
+.tableVisualizarEscala{
+    margin-left: 0px;
+    width: 100%;
+}
+
+.table-container {
+    max-height: 300px; /* Defina um limite vertical (ajuste o valor conforme necessário) */
+    overflow-y: auto; /* Habilita o scroll no eixo Y */
+    width: 100%; /* Faz com que o contêiner ocupe toda a largura disponível */
+    border: 1px solid #ccc; /* Opcional: borda para destacar o contêiner */
+}
+
+.tabelaChamada {
+    width: 100%; /* Garante que a tabela preencha o contêiner */
+    border-collapse: collapse; /* Opcional: visual mais limpo */
+}
+
+.tabelaChamada th, .tabelaChamada td {
+    padding: 8px;
+    border: 1px solid #ddd; /* Opcional: borda entre células */
+    text-align: left;
+}
+
+.containerQuadro{
+    max-height: 80vh; /* Defina um limite vertical (ajuste o valor conforme necessário) */
+    overflow-y: auto; /* Habilita o scroll no eixo Y */
+    width: 100%; /* Faz com que o contêiner ocupe toda a largura disponível */
+    border: 1px solid #ccc; /* Opcional: borda para destacar o contêiner */
+}
+.tableContagemQuadro{
+    width: 100%; /* Garante que a tabela preencha o contêiner */
+    border-collapse: collapse; /* Opcional: visual mais limpo */
+}
+
+.tableContagemQuadro th, .tableContagemQuadro td {
+    padding: 8px;
+    border: 1px solid #ddd; /* Opcional: borda entre células */
+    text-align: left;
+}
+
 
 
 @keyframes zoom {
@@ -1577,6 +1622,21 @@ tr:hover {
         padding: 5px  5px 5px 100px;
     }
 
+    .tableEscala{
+        margin-left: 210px;
+        width: 75%;
+    }
+    .tableVisualizarEscala{
+        margin-left: 210px;
+        width: 75%;
+    }
+
+    .containerQuadro{
+        width: 75%; /* Faz com que o contêiner ocupe toda a largura disponível */
+        margin-left: 200px;
+    }
+    
+
     
 }
 
@@ -1622,4 +1682,21 @@ tr:hover {
         margin: 10px auto;
         width: 50%;
     }
+
+    .tableEscala{
+        margin-left: 210px;
+        width: 60%;
+    }
+    
+    .tableVisualizarQuadro,
+    .tableVisualizarEscala{
+        margin-left: 210px;
+        width: 60%;
+    }
+
+    .containerQuadro{
+        width: 60%; /* Faz com que o contêiner ocupe toda a largura disponível */
+        margin-left: 200px;
+    }
+
 }

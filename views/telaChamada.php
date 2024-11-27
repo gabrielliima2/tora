@@ -2,7 +2,7 @@
 include("../scripts/conexao.php");
 include("../scripts/protect.php");
 
-date_default_timezone_set('America/Sao_Paulo');
+date_default_timezone_set('America/Sao_Paulo'); // Define o fuso horário para São Paulo
 
 $id_patente = $_SESSION['id_patente'];
 if ($id_patente == "4" || $id_patente == "3" || $id_patente == "2") {}
@@ -17,8 +17,8 @@ if ($id_patente == "4") {
 
 $turma_id = $_SESSION['turma_id'];
 
-$data_hoje = date("d/m/Y"); 
-$hora_agora = date("H:i:s"); 
+$data_hoje = date("d/m/Y"); // Formato dd/mm/aaaa
+$hora_agora = date("H:i:s"); // Formato 24 horas
 
 $queryVerificaData = "SELECT * FROM data_chamada WHERE data = CURDATE() AND id_turma = '$turma_id'";
 $resultVerificaData = $mysqli->query($queryVerificaData);
@@ -26,7 +26,7 @@ $resultVerificaData = $mysqli->query($queryVerificaData);
 $chamada_feita = ($resultVerificaData->num_rows > 0);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $data_banco = date("d-m-Y");
+    $data_banco = date("Y-m-d"); // Formato para salvar no banco
     $queryDataChamada = "INSERT INTO data_chamada (data, hora, id_turma) VALUES ('$data_banco', '$hora_agora', '$turma_id')";
     $mysqli->query($queryDataChamada) or die("Erro ao inserir data da chamada: " . $mysqli->error);
 
@@ -88,108 +88,94 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <h1>Registro de Chamada</h1>
                 <p>Data: <?php echo date("Y-m-d"); ?> | Hora: <?php echo date("H:i:s"); ?></p>
             </div>
-            <table class="tabelaChamada">
-                <thead>
-                    <tr>
-                        <th>Nome do Participante</th>
-                        <th>Presente</th>
-                        <th>Ausente</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $queryUsuarios = "SELECT u.id, u.nome 
-                                      FROM turma_usuario tu 
-                                      INNER JOIN usuarios u ON tu.id_usuario = u.id 
-                                      WHERE tu.id_turma = '$turma_id' AND u.id_patente = 1 OR u.id_patente = 2";
-                    $resultUsuarios = mysqli_query($mysqli, $queryUsuarios) or die(mysqli_connect_error());
+            <div class="table-container">
+                <table class="tabelaChamada">
+                    <thead>
+                        <tr>
+                            <th>Nome do Participante</th>
+                            <th>Presente</th>
+                            <th>Ausente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $queryUsuarios = "SELECT u.id, u.nome 
+                                        FROM turma_usuario tu 
+                                        INNER JOIN usuarios u ON tu.id_usuario = u.id 
+                                        WHERE tu.id_turma = '$turma_id'";
+                        $resultUsuarios = mysqli_query($mysqli, $queryUsuarios) or die(mysqli_connect_error());
 
-                    if (mysqli_num_rows($resultUsuarios) > 0) {
-                        while ($usuario = mysqli_fetch_assoc($resultUsuarios)) {
-                            echo "
-                            <tr>
-                                <td>" . htmlspecialchars($usuario['nome'], ENT_QUOTES, 'UTF-8') . "</td>
-                                <td class='checkbox-group'>
-                                <input type='checkbox' name='presencas[" . $usuario['id'] . "]' value='1' onclick='desmarcarOutro(this)' id='presente_" . $usuario['id'] . "'>
-                                </td>
-                                <td class='checkbox-group'>
-                                <input type='checkbox' name='presencas[" . $usuario['id'] . "]' value='2' onclick='desmarcarOutro(this)' id='ausente_" . $usuario['id'] . "'>
-                                </td>
-                            </tr>";
+                        if (mysqli_num_rows($resultUsuarios) > 0) {
+                            while ($usuario = mysqli_fetch_assoc($resultUsuarios)) {
+                                echo "
+                                <tr>
+                                    <td>" . htmlspecialchars($usuario['nome'], ENT_QUOTES, 'UTF-8') . "</td>
+                                    <td class='checkbox-group'>
+                                    <input type='checkbox' name='presencas[" . $usuario['id'] . "]' value='1' onclick='desmarcarOutro(this)' id='presente_" . $usuario['id'] . "'>
+                                    </td>
+                                    <td class='checkbox-group'>
+                                    <input type='checkbox' name='presencas[" . $usuario['id'] . "]' value='2' onclick='desmarcarOutro(this)' id='ausente_" . $usuario['id'] . "'>
+                                    </td>
+                                </tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='3'>Nenhum participante encontrado</td></tr>";
                         }
-                    } else {
-                        echo "<tr><td colspan='3'>Nenhum participante encontrado</td></tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
+                        ?>
+                    </tbody>
+                </table>
+            </div>
             <div style="display: flex; gap: 20px;">
                 <button type="submit" class="buttons salvarChamada">Salvar</button>
                 <div class="cancelarChamada buttons excluir">Cancelar</div>
             </div>
         </form>
 
-        <form method="GET" class="formPesquisaData">
-            <label for="data_chamada">Pesquisar por data:</label>
-            <input type="date" name="data_chamada" id="data_chamada" value="<?php echo isset($_GET['data_chamada']) ? $_GET['data_chamada'] : ''; ?>">
-            <button type="submit" class="buttons">Pesquisar</button>
-            <a href="telaChamada.php" class="buttons">Limpar Pesquisa</a>
-        </form>
-
         <h2>Chamadas</h2>
         <div class="containerListaTurma">
             <?php
-            $data_pesquisa = isset($_GET['data_chamada']) ? $_GET['data_chamada'] : null;
-
-            if ($data_pesquisa) {
                 $query = "SELECT DISTINCT dc.id AS data_chamada_id, dc.data, dc.hora
                         FROM data_chamada dc 
                         INNER JOIN chamada c ON dc.id = c.id_data_chamada 
-                        WHERE c.id_turma = '$turma_id' AND dc.data = '$data_pesquisa'
-                        ORDER BY dc.data ASC, dc.hora ASC";
-            } else {
+                        WHERE c.id_turma = '$turma_id' 
+                        ORDER BY dc.data DESC, dc.hora DESC";
+                $result = mysqli_query($mysqli, $query) or die(mysqli_connect_error());
 
-                $query = "SELECT DISTINCT dc.id AS data_chamada_id, dc.data, dc.hora
-                        FROM data_chamada dc 
-                        INNER JOIN chamada c ON dc.id = c.id_data_chamada 
-                        WHERE c.id_turma = '$turma_id'
-                        ORDER BY dc.data ASC, dc.hora ASC";
-            }
+                if (mysqli_num_rows($result) > 0) {
+                    $last_date = null;
 
-            $result = mysqli_query($mysqli, $query) or die(mysqli_connect_error());
+                    while ($reg = mysqli_fetch_array($result)) {
+                        $current_date = $reg['data'];
 
-            if (mysqli_num_rows($result) > 0) {
-                $last_date = null;
+                        if ($current_date !== $last_date) {
+                            if ($last_date !== null) {
+                                echo "</div>"; 
+                            }
 
-                while ($reg = mysqli_fetch_array($result)) {
-                    $current_date = $reg['data'];
+                            echo "<div class='listaTurmas' style='display:flex; gap: 30px;'>";
+                            echo "<h3>Data: " . date("d/m/Y", strtotime($current_date)) . "</h3>"; // Formato brasileiro
+                            echo "<p>Hora da chamada: " . date("H:i:s", strtotime($reg['hora'])) . "</p>";
 
-                    if ($current_date !== $last_date) {
-                        if ($last_date !== null) {
-                            echo "</div>"; 
+                            echo "<a href='editarChamada.php?id=" . $reg['data_chamada_id'] . "' class='botao editar'>";
+                            echo "<ion-icon name='pencil-sharp'></ion-icon>";
+                            echo "</a>";
+
+                            $last_date = $current_date;
                         }
-
-                        echo "<div class='listaTurmas' style='display:flex; gap: 30px;'>";
-                        echo "<h3>Data: " . date("d/m/Y", strtotime($current_date)) . "</h3>"; // Formato brasileiro
-                        echo "<p>Hora da chamada: " . date("H:i:s", strtotime($reg['hora'])) . "</p>";
-
-                        echo "<a href='editarChamada.php?id=" . $reg['data_chamada_id'] . "' class='botao editar'>";
-                        echo "<ion-icon name='pencil-sharp'></ion-icon>";
-                        echo "</a>";
-
-                        $last_date = $current_date;
                     }
-                }
 
-                echo "</div>"; 
-            } else {
-                echo "<p>Nenhuma chamada encontrada!</p>";
-            }
+                    echo "</div>"; // Fecha a última lista
+                } else {
+                    echo "<p>Nenhuma chamada encontrada!</p>";
+                }
             ?>
         </div>
 
+
+
     </main>
 
+        <!--Para nao dar erro no JS-->
         <input type="hidden" class="novaChamada">
         <input type="hidden" class="editarChamada">
 
@@ -198,11 +184,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             const checkboxes = document.querySelectorAll(`input[name='${checkbox.name}']`);
             checkboxes.forEach(chk => {
                 if (chk !== checkbox) {
-                    chk.checked = false; 
+                    chk.checked = false; // Desmarca o outro checkbox
                 }
             });
         }
     </script>
 </body>
 </html>
-
