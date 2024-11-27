@@ -122,6 +122,22 @@ if (isset($_POST['editar_escala'])) {
 }
 
 
+function isFeriado($data) {
+    // Lista de feriados fixos e móveis
+    $feriadosFixos = [
+        date('Y') . '-01-01', // Ano Novo
+        date('Y') . '-09-07', // Independência do Brasil
+        date('Y') . '-12-25', // Natal
+    ];
+
+    // Adicione feriados móveis aqui, se necessário
+    // Exemplo: Páscoa (usando cálculo ou banco de dados)
+
+    return in_array($data, $feriadosFixos);
+}
+
+
+
 
 $queryEscalas = "SELECT * FROM escala_de_guarda WHERE id_turma = '$turma_id' ORDER BY data";
 $escalas = mysqli_query($mysqli, $queryEscalas);
@@ -144,6 +160,114 @@ $escalas = mysqli_query($mysqli, $queryEscalas);
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
 
+    <style>
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-left: 200px;
+        }
+
+        /* Cabeçalho da tabela */
+        th {
+            background-color: #4CAF50;
+            color: white;
+            text-align: left;
+            padding: 12px;
+            font-weight: bold;
+        }
+
+        th input[type="checkbox"] {
+            margin: 0;
+        }
+
+        /* Linhas da tabela */
+        td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            vertical-align: top;
+        }
+
+        /* Estilo das linhas alternadas */
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Estilos para as colunas P1 e P2 */
+        td:nth-child(4), td:nth-child(5) {
+            white-space: nowrap;
+        }
+
+        td input[type="checkbox"] {
+            margin: 0;
+        }
+
+
+        /* Estilo para os campos especiais (final de semana e feriado) */
+        .finalSemanaFeriado {
+            background-color: #ffcccc !important;
+        }
+
+        /* Estilos responsivos */
+        @media (max-width: 768px) {
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+
+            td:nth-child(1),
+            td:nth-child(2),
+            td:nth-child(6) {
+                display: none;
+            }
+
+            td:nth-child(4), td:nth-child(5) {
+                display: block;
+                padding-top: 10px;
+            }
+
+            td:nth-child(4):before {
+                content: "P1: ";
+                font-weight: bold;
+            }
+
+            td:nth-child(5):before {
+                content: "P2: ";
+                font-weight: bold;
+            }
+
+            tr {
+                display: block;
+                margin-bottom: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 6px;
+            }
+
+            td:nth-child(4), td:nth-child(5) {
+                display: block;
+            }
+        }
+
+    </style>
 
     <title>Tóra</title>
 </head>
@@ -178,49 +302,74 @@ $escalas = mysqli_query($mysqli, $queryEscalas);
             <table border="1">
                 <thead>
                     <tr>
-                        <th><input type="checkbox" id="selecionarTodos"> Selecionar Todos</th>
+                        <th><input type="checkbox" id="selecionarTodos"><br>Selecionar Todos</th>
                         <th>Data</th>
                         <th>Monitor</th>
-                        <th>Atiradores</th>
+                        <th>P1</th>
+                        <th>P2</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($escala = mysqli_fetch_assoc($escalas)) { ?>
-                        <tr>
-                            <td><input type="checkbox" name="escalas_selecionadas[]" value="<?= $escala['id'] ?>"></td>
-                            <td><?= $escala['data'] ?></td>
-                            <td>
-                                <?php
-                                
-                                $monitor_id = $escala['id_monitor'];
-                                $queryMonitor = "SELECT nome FROM usuarios WHERE id = '$monitor_id'";
-                                $resultMonitor = mysqli_query($mysqli, $queryMonitor);
-                                $monitor = mysqli_fetch_assoc($resultMonitor);
-                                echo $monitor['nome'];
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                
-                                $atiradores_ids = explode(",", $escala['atiradores']);
-                                foreach ($atiradores_ids as $atirador_id) {
-                                    $queryAtirador = "SELECT nome FROM usuarios WHERE id = '$atirador_id'";
-                                    $resultAtirador = mysqli_query($mysqli, $queryAtirador);
-                                    $atirador = mysqli_fetch_assoc($resultAtirador);
-                                    echo $atirador['nome'] . "<br>";
-                                }
-                                ?>
-                            </td>
-                            <td>
+                    <?php while ($escala = mysqli_fetch_assoc($escalas)) {
+                        $classeEspecial = '';
+                        $dataEscala = $escala['data'];
+                        $diaSemana = date('w', strtotime($dataEscala));
 
-                                <a href="telaEscalaDeGuarda.php?editar=<?= $escala['id'] ?>">Editar</a> |
-                                <a href="telaEscalaDeGuarda.php?excluir=<?= $escala['id'] ?>" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
-                            </td>
-                        </tr>
+                        if ($diaSemana == 0 || $diaSemana == 6 || isFeriado($dataEscala)) {
+                            $classeEspecial = 'finalSemanaFeriado';
+                        }
+                    ?>
+                    <tr class="<?= $classeEspecial ?>">
+                        <td><input type="checkbox" name="escalas_selecionadas[]" value="<?= $escala['id'] ?>"></td>
+                        <td><?= $escala['data'] ?></td>
+                        <td>
+                            <?php
+                            $monitor_id = $escala['id_monitor'];
+                            $queryMonitor = "SELECT nome FROM usuarios WHERE id = '$monitor_id'";
+                            $resultMonitor = mysqli_query($mysqli, $queryMonitor);
+                            $monitor = mysqli_fetch_assoc($resultMonitor);
+                            echo $monitor['nome'];
+                            ?>
+                        </td>
+                        <td>
+                            <?php
+                            $atiradores_ids = explode(",", $escala['atiradores']);
+                            $p1 = array_slice($atiradores_ids, 0, 3);
+                            foreach ($p1 as $atirador_id) {
+                                $queryAtirador = "SELECT nome FROM usuarios WHERE id = '$atirador_id'";
+                                $resultAtirador = mysqli_query($mysqli, $queryAtirador);
+                                $atirador = mysqli_fetch_assoc($resultAtirador);
+                                echo $atirador['nome'] . "<br>";
+                            }
+                            ?>
+                        </td>
+                        <td>
+                            <?php
+                            $p2 = array_slice($atiradores_ids, 3, 3); 
+                            foreach ($p2 as $atirador_id) {
+                                $queryAtirador = "SELECT nome FROM usuarios WHERE id = '$atirador_id'";
+                                $resultAtirador = mysqli_query($mysqli, $queryAtirador);
+                                $atirador = mysqli_fetch_assoc($resultAtirador);
+                                echo $atirador['nome'] . "<br>";
+                            }
+                            ?>
+                        </td>
+                        <td>
+                            <a href="telaEscalaDeGuarda.php?editar=<?= $escala['id'] ?>" class='botao editar'>
+                                <ion-icon name='pencil-sharp'></ion-icon>
+                                <span class='tooltip'>Editar</span>
+                            </a> |
+                            <a href="telaEscalaDeGuarda.php?excluir=<?= $escala['id'] ?>" class='botao excluir' onclick="return confirm('Tem certeza que deseja excluir?')">
+                                <ion-icon name='trash-outline'></ion-icon>
+                                <span class='tooltip'>Excluir</span>
+                            </a>
+                        </td>
+                    </tr>
                     <?php } ?>
                 </tbody>
             </table>
+
         </form>
 
         <?php if (isset($_GET['editar'])) {

@@ -5,13 +5,17 @@ include("../scripts/protect.php");
 date_default_timezone_set('America/Sao_Paulo');
 
 $id_usuario = $_SESSION['id']; 
+$turma_id = $_SESSION['turma_id'];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_GET['editar'])) {
     $titulo = $_POST['titulo'];
     $descricao = $_POST['descricao'];
     $data = $_POST['data'];
+    $id_superior = $_POST['id_superior'];
+    $turma_id = $_SESSION['turma_id']; 
 
-    $queryInserir = "INSERT INTO qtq (titulo, descricao, data, id_usuario) VALUES ('$titulo', '$descricao', '$data', '$id_usuario')";
+    $queryInserir = "INSERT INTO qtq (titulo, descricao, data, id_superior, id_turma) 
+                     VALUES ('$titulo', '$descricao', '$data', '$id_superior', '$turma_id')";
     if ($mysqli->query($queryInserir)) {
         echo "Quadro de Trabalho Quinzenal criado com sucesso!";
         header("Location: telaQtq.php");
@@ -22,12 +26,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_GET['editar'])) {
 }
 
 
+
 if (isset($_GET['excluir'])) {
     $id_quadro = $_GET['excluir'];
 
     $queryExcluir = "DELETE FROM qtq WHERE id = '$id_quadro'";
     if ($mysqli->query($queryExcluir)) {
-        echo "Quadro de Trabalho Quinzenal excluído com sucesso!";
+        header("Location: telaQtq.php");
+
     } else {
         echo "Erro ao excluir o quadro: " . $mysqli->error;
     }
@@ -41,8 +47,13 @@ if (isset($_GET['editar'])) {
         $titulo = $_POST['titulo'];
         $descricao = $_POST['descricao'];
         $data = $_POST['data'];
+        $id_superior = $_POST['id_superior'];
+        $turma_id = $_SESSION['turma_id'];
 
-        $queryEditar = "UPDATE qtq SET titulo = '$titulo', descricao = '$descricao', data = '$data' WHERE id = '$id_quadro'";
+        $queryEditar = "UPDATE qtq SET titulo = '$titulo', descricao = '$descricao', data = '$data', 
+                    id_superior = '$id_superior', id_turma = '$turma_id' 
+                    WHERE id = '$id_quadro'";
+
         if ($mysqli->query($queryEditar)) {
             echo "Quadro de Trabalho Quinzenal atualizado com sucesso!";
             header("Location: telaQtq.php"); 
@@ -103,9 +114,29 @@ $resultQtq = $mysqli->query($queryQtq);
                 </div>
                 
                 <div class="inputBox">
-                    <input type="date" name="data" id="data" class="inputs" >
+                    <input type="date" name="data" id="data" class="inputs" required>
                     <label for="data" class="labelInput">Data</label>
                 </div>
+                <div class="inputBox"> 
+                    <select name="id_superior" id="id_superior" class="inputs" required>
+                        <option value="">Selecione o Superior</option>
+                        <?php
+                        $querySuperiores = "SELECT id, nome FROM usuarios WHERE id_patente = 4";
+                        $resultSuperiores = $mysqli->query($querySuperiores);
+
+                        while ($superior = $resultSuperiores->fetch_assoc()) {
+                            echo "<option value='" . $superior['id'] . "'>" . $superior['nome'] . "</option>";
+                        }
+                        ?>
+                    </select>
+                    <label for="id_superior" class="labelInput">Superior</label>
+                </div>
+
+
+                <div class="inputBox">
+                    <input type="hidden" name="id_turma" id="id_turma" value="<?php echo $turma_id; ?>" class="inputs" required >
+                </div>
+
                 <div style="margin: 20px;">
                     <button type="submit" class="buttons">Criar Quadro</button>
                     <a href="telaQTQ.php" class="buttons excluir">Cancelar</a>
@@ -131,6 +162,29 @@ $resultQtq = $mysqli->query($queryQtq);
                 <input type="date" name="data" id="data" class="inputs" >
                 <label for="data" class="labelInput" value="<?= $qtq['data'] ?>">Data</label>
             </div>
+            <div class="inputBox"> 
+                <select name="id_superior" id="id_superior" class="inputs" required>
+                    <option value="">Selecione o Superior</option>
+                    <?php
+                    $id_superior_atual = $qtq['id_superior'];
+
+                    $querySuperiores = "SELECT id, nome FROM usuarios WHERE id_patente = 4";
+                    $resultSuperiores = $mysqli->query($querySuperiores);
+
+                    while ($superior = $resultSuperiores->fetch_assoc()) {
+                        $selected = ($superior['id'] == $id_superior_atual) ? 'selected' : '';
+                        echo "<option value='" . $superior['id'] . "' $selected>" . $superior['nome'] . "</option>";
+                    }
+                    ?>
+                </select>
+                <label for="id_superior" class="labelInput">Superior</label>
+            </div>
+
+
+
+                <div class="inputBox">
+                    <input type="hidden" name="id_turma" id="id_turma" value="<?php echo $turma_id; ?>" class="inputs" required >
+                </div>
             <div style="margin: 20px;">
                 <button type="submit" class="buttons">Atualizar Quadro</button>
                 <a href="telaQTQ.php" class="buttons excluir">Cancelar</a>
@@ -153,28 +207,33 @@ $resultQtq = $mysqli->query($queryQtq);
                 </thead>
                 <tbody>
                     <?php
-                    if ($resultQtq->num_rows > 0) {
-                        while ($qtq = $resultQtq->fetch_assoc()) {
-
-                            $id_usuario_criador = $qtq['id_usuario'];
-                            $queryUsuario = "SELECT nome FROM usuarios WHERE id = '$id_usuario_criador'";
-                            $resultUsuario = $mysqli->query($queryUsuario);
-                            $usuario = $resultUsuario->fetch_assoc();
-
-                            echo "<tr>";
-                            echo "<td>" . $qtq['titulo'] . "</td>";
-                            echo "<td>" . $qtq['descricao'] . "</td>";
-                            echo "<td>" . date("d/m/Y", strtotime($qtq['data'])) . "</td>";
-                            echo "<td>" . $usuario['nome'] . "</td>";
-                            echo "<td>
-                                    <a href='telaQtq.php?editar=" . $qtq['id'] . "'>Editar</a> |
-                                    <a href='telaQtq.php?excluir=" . $qtq['id'] . "' onclick='return confirm(\"Tem certeza que deseja excluir?\")'>Excluir</a>
-                                </td>";
-                            echo "</tr>";
+                        $queryQtq = "SELECT qtq.*, usuarios.nome AS autor_nome, turma.nome AS turma_nome 
+                        FROM qtq
+                        JOIN usuarios ON qtq.id_superior = usuarios.id
+                        JOIN turma ON qtq.id_turma = turma.id
+                        WHERE qtq.id_turma = '$turma_id' 
+                        ORDER BY qtq.data DESC ";
+       
+                        $resultQtq = $mysqli->query($queryQtq);
+                        
+                        if ($resultQtq->num_rows > 0) {
+                            while ($qtq = $resultQtq->fetch_assoc()) {
+                                echo "<tr>";
+                                echo "<td>" . $qtq['titulo'] . "</td>";
+                                echo "<td>" . $qtq['descricao'] . "</td>";
+                                echo "<td>" . date("d/m/Y", strtotime($qtq['data'])) . "</td>";
+                                echo "<td>" . $qtq['autor_nome'] . "</td>";
+                                echo "<td>" . $qtq['turma_nome'] . "</td>";
+                                echo "<td>
+                                        <a href='telaQtq.php?editar=" . $qtq['id'] . "'>Editar</a> |
+                                        <a href='telaQtq.php?excluir=" . $qtq['id'] . "' onclick='return confirm(\"Tem certeza que deseja excluir?\")'>Excluir</a>
+                                        </td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='6'>Nenhum quadro de trabalho quinzenal encontrado.</td></tr>";
                         }
-                    } else {
-                        echo "<tr><td colspan='5'>Nenhum quadro de trabalho quinzenal encontrado.</td></tr>";
-                    }
+       
                     ?>
                 </tbody>
             </table>

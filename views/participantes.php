@@ -74,7 +74,7 @@ $result_usuarios = mysqli_query($mysqli, $query_usuarios) or die(mysqli_error($m
                 while ($usuario = mysqli_fetch_assoc($result_usuarios)) {
                 ?>
                     <div class='listaTurmas'>
-                        <a href='perfilParticipante.php?id=<?php echo $usuario['id_usuario']?>' class='linkAbrir'></a>
+                        <a href='perfilParticipante.php?id=<?php echo $usuario['id']?>' class='linkAbrir'></a>
                         <div class="fotoPerfilParticipante">
                             <?php if (!empty($usuario['foto']) && file_exists($usuario['foto'])): ?>
                                 <img src="<?php echo $usuario['foto']; ?>" alt="Foto de perfil" class="profileImageParticipante">
@@ -87,11 +87,11 @@ $result_usuarios = mysqli_query($mysqli, $query_usuarios) or die(mysqli_error($m
                             <p><?php echo $usuario['patente'];?></p>
                         </div>
                         <div class='containerAcoesTurma'>
-                            <a href='patenteParticipante.php?id=<?php echo $usuario['id_usuario']?>' class='botao editar'>
+                            <a href='patenteParticipante.php?id=<?php echo $usuario['id']?>' class='botao editar'>
                                 Patente
                                 <span class='tooltip'>Alterar patente</span>
                             </a>
-                            <a href='removerParticipante.php?id=<?php echo $usuario['id_usuario']?>' class='botao excluir'>
+                            <a href='removerParticipante.php?id=<?php echo $usuario['id']?>' class='botao excluir'>
                                 Remover
                                 <span class='tooltip'>Remover usuário</span>
                             </a>
