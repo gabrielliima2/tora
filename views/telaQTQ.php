@@ -18,8 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_GET['editar'])) {
     $queryInserir = "INSERT INTO qtq (titulo, descricao, data, id_superior, id_turma) 
                      VALUES ('$titulo', '$descricao', '$data', '$id_superior', '$turma_id')";
     if ($mysqli->query($queryInserir)) {
-        echo "Quadro de Trabalho Quinzenal criado com sucesso!";
-        header("Location: telaQtq.php");
+        header("Location: telaQTQ.php");
         exit;
     } else {
         echo "Erro ao criar o quadro: " . $mysqli->error;
@@ -33,7 +32,7 @@ if (isset($_GET['excluir'])) {
 
     $queryExcluir = "DELETE FROM qtq WHERE id = '$id_quadro'";
     if ($mysqli->query($queryExcluir)) {
-        header("Location: telaQtq.php");
+        header("Location: telaQTQ.php");
 
     } else {
         echo "Erro ao excluir o quadro: " . $mysqli->error;
@@ -56,8 +55,7 @@ if (isset($_GET['editar'])) {
                     WHERE id = '$id_quadro'";
 
         if ($mysqli->query($queryEditar)) {
-            echo "Quadro de Trabalho Quinzenal atualizado com sucesso!";
-            header("Location: telaQtq.php"); 
+            header("Location: telaQTQ.php"); 
             exit;
         } else {
             echo "Erro ao editar o quadro: " . $mysqli->error;
@@ -105,7 +103,7 @@ $resultQtq = $mysqli->query($queryQtq);
         ?>
 
         <div class="backFormCriarNovoQuadro hide"></div>
-        <form method="POST" action="telaQtq.php" class="formCriarNovoQuadro hide">
+        <form method="POST" action="telaQTQ.php" class="formCriarNovoQuadro hide">
                 <h2>Criar Novo QTQ</h2>
                 <div class="inputBox">
                     <input type="text" name="titulo" id="titulo" class="inputs" required>
@@ -150,7 +148,7 @@ $resultQtq = $mysqli->query($queryQtq);
         <?php if (isset($qtq)): ?>
         <div class="backFormEditarQTQ"></div>
 
-        <form method="POST" action="telaQtq.php?editar=<?= $qtq['id'] ?>" class="formEditarQTQ">
+        <form method="POST" action="telaQTQ.php?editar=<?= $qtq['id'] ?>" class="formEditarQTQ">
             <h2>Editar QTQ</h2>
             <div class="inputBox">
                 <input type="text" name="titulo" id="titulo" class="inputs"  value="<?= $qtq['titulo'] ?>" required>
@@ -231,10 +229,10 @@ $resultQtq = $mysqli->query($queryQtq);
                                     echo "<td>" . $qtq['autor_nome'] . "</td>";
                                     if($id_patente== 4 || $id_patente==3){
                                         echo "  <td>
-                                                    <a href='telaQtq.php?editar=" . $qtq['id'] . "'  class='botao editar'>
+                                                    <a href='telaQTQ.php?editar=" . $qtq['id'] . "'  class='botao editar'>
                                                         <ion-icon name='pencil-sharp'></ion-icon>
                                                         <span class='tooltip'>Editar</span></a> |
-                                                    <a href='telaQtq.php?excluir=" . $qtq['id'] . "'  class='botao excluir' onclick='return confirm(\"Tem certeza que deseja excluir?\")'>
+                                                    <a href='telaQTQ.php?excluir=" . $qtq['id'] . "'  class='botao excluir' onclick='return confirm(\"Tem certeza que deseja excluir?\")'>
                                                         <ion-icon name='trash-outline'></ion-icon>
                                                         <span class='tooltip'>Excluir</span>
                                                     </a>

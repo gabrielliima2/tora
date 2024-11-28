@@ -16,7 +16,6 @@ if($resuCheck->num_rows > 0) {
     $resu = $mysqli->query($query) or die("Falha na execução do código SQL: " . $mysqli->error);
 
     if($resu) {
-        echo 'Turma cadastrada com sucesso!';
         header('Location: ../views/home.php');
     } else {
         echo 'Falha ao cadastrar nova turma!';

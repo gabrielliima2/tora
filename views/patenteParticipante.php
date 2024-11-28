@@ -23,8 +23,6 @@ if (isset($_GET["id"])) {
             $nova_patente = $_POST['nova_patente'];
             $query_update = "UPDATE usuarios SET id_patente = '$nova_patente' WHERE id = '$id_usuario'";
             if (mysqli_query($mysqli, $query_update)) {
-                echo "Patente alterada com sucesso!";
-
                 header("Location: participantes.php");
                 exit;
             } else {

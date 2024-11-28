@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['atualizar'])) {
                         <label class="labelInput">Data de Nascimento</label>
                     </div>
                     <div class="inputBox">
-                        <input type="text" name="endereco" id="endereco" class="inputs" value="<?php echo !empty($reg['endereco']) ? $reg['endereco'] : ''; ?>">
+                        <input type="text" name="endereco" id="endereco" class="inputs" value="<?php echo !empty($reg['endereco']) ? $reg['endereco'] : ''; ?>" >
                         <label class="labelInput">Endereço</label>
                     </div>
                     <div class="inputBox">
@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['atualizar'])) {
                         <label class="labelInput">Cidade</label>
                     </div>
                     <div class="inputBox">
-                        <input type="text" name="estado" id="estado" class="inputs" value="<?php echo !empty($reg['estado']) ? $reg['estado'] : ''; ?>">
+                        <input type="text" name="estado" id="estado" class="inputs" value="<?php echo !empty($reg['estado']) ? $reg['estado'] : ''; ?>" maxlength="2">
                         <label class="labelInput">Estado</label>
                     </div>
                     <div class="inputBox">

@@ -10,7 +10,6 @@ if (isset($_POST['email']) || isset($_POST['senha'])) {
         $email = $mysqli->real_escape_string($_POST['email']);
         $senha = $_POST['senha']; // Não escapamos a senha
 
-        // Consulta para buscar o usuário pelo e-mail
         $query = "SELECT * FROM usuarios WHERE email = '$email'";
         $resu = $mysqli->query($query) or die("Falha na execução do código SQL: " . $mysqli->error);
 

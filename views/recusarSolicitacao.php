@@ -14,7 +14,6 @@ if (isset($_GET['id'])) {
     $query = "DELETE FROM solicitacoes WHERE id = '$solicitacao_id' AND status = 'pendente'";
 
     if (mysqli_query($mysqli, $query)) {
-        echo "Solicitação recusada com sucesso!";
         header("Location: visualizarSolicitacoes.php");
     } else {
         echo "Erro ao recusar a solicitação: " . mysqli_error($mysqli);

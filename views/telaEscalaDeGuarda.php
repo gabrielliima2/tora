@@ -69,7 +69,7 @@ if (isset($_POST['gerar_escala'])) {
     $num_dias = $_POST['num_dias'];
 
     gerarEscalasSequenciais($mysqli, $turma_id, $data_inicio, $num_dias);
-    echo "Escalas geradas com sucesso!";
+
     header("Location: telaEscalaDeGuarda.php");
 }
 
@@ -81,7 +81,7 @@ if (isset($_POST['excluir_multiplas'])) {
             $queryExcluir = "DELETE FROM escala_de_guarda WHERE id = '$escala_id'";
             mysqli_query($mysqli, $queryExcluir);
         }
-        echo "Escalas excluídas com sucesso!";
+
         header("Location: telaEscalaDeGuarda.php");
 
     }
@@ -91,7 +91,7 @@ if (isset($_GET['excluir'])) {
     $escala_id = $_GET['excluir'];
     $queryExcluir = "DELETE FROM escala_de_guarda WHERE id = '$escala_id'";
     if (mysqli_query($mysqli, $queryExcluir)) {
-        echo "Escala excluída com sucesso!";
+
         header("Location: telaEscalaDeGuarda.php");
 
     } else {
@@ -111,7 +111,6 @@ if (isset($_POST['editar_escala'])) {
                     WHERE id = '$escala_id'";
 
     if (mysqli_query($mysqli, $queryEditar)) {
-        echo "Escala atualizada com sucesso!";
         header("Location: telaEscalaDeGuarda.php");
 
     } else {

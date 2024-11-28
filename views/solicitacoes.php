@@ -16,7 +16,6 @@ if (isset($_GET['id'])) {
         if (mysqli_query($mysqli, $query)) {
             header("Location: encontrarTurma.php");
         } else {
-            echo "Erro ao enviar a solicitação: " . mysqli_error($mysqli);
             header("Location: encontrarTurma.php");
         }
     }

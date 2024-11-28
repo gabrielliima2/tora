@@ -21,7 +21,6 @@ if (isset($_GET['id'])) {
             $insertQuery = "INSERT INTO turma_usuario (id_usuario, id_turma) VALUES ('$usuario_id', '$turma_id')";
 
             if (mysqli_query($mysqli, $insertQuery)) {
-                echo "Solicitação aceita e usuário adicionado à turma com sucesso!";
                 header("Location: visualizarSolicitacoes.php");
                 exit();
             } else {

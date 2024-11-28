@@ -22,7 +22,6 @@ if (isset($_GET["id"])) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remover_usuario'])) {
             $query_remover = "DELETE FROM turma_usuario WHERE id_turma = '$turma_id' AND id_usuario = '$id_usuario'";
             if (mysqli_query($mysqli, $query_remover)) {
-                echo "Usuário removido com sucesso!";
                 header("Location: participantes.php");
                 exit;
             } else {
