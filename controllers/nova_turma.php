@@ -1,6 +1,11 @@
 <?php
 include('../scripts/conexao.php');
 
+if ($id_patente == "4") {
+    verificaAcesso("4");
+} else{
+    verificaAcesso("3");
+}
 
 $nome = $_POST['nomeTurma'];
 $ano = $_POST['anoTurma'];

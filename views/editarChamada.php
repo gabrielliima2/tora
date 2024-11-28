@@ -2,6 +2,16 @@
 include("../scripts/conexao.php");
 include("../scripts/protect.php");
 
+$id_patente = $_SESSION['id_patente'];
+if ($id_patente == "4") {
+    verificaAcesso("4");
+} else if($id_patente == "3") {
+    verificaAcesso("3");
+}else{
+    verificaAcesso("2");
+}
+
+
 date_default_timezone_set('America/Sao_Paulo');
 
 $id_turma = $_SESSION['turma_id'];

@@ -8,6 +8,14 @@ if (!isset($_SESSION['noticia_editar_id'])) {
     exit();
 }
 
+$id_patente = $_SESSION['id_patente'];
+if ($id_patente == "4") {
+    verificaAcesso("4");
+} else{
+    verificaAcesso("3");
+}
+
+
 $noticia_id = $_SESSION['noticia_editar_id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

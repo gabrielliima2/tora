@@ -2,6 +2,14 @@
 include("../scripts/conexao.php");
 include("../scripts/protect.php");
 
+$id_patente = $_SESSION['id_patente'];
+if ($id_patente == "4") {
+    verificaAcesso("4");
+} else{
+    verificaAcesso("3");
+}
+
+
 if (isset($_GET['id'])) {
     $solicitacao_id = $_GET['id'];
 

@@ -8,12 +8,11 @@ $userId = $_SESSION['id'];
 $id_patente = $_SESSION['id_patente'];
 $turma_id = $_SESSION['turma_id'];
 
+
 if ($id_patente == "4") {
     verificaAcesso("4");
-} else if ($id_patente == "3") {
+} else{
     verificaAcesso("3");
-} else {
-    verificaAcesso("1");
 }
 
 $queryAtiradores = "SELECT u.id, u.nome 

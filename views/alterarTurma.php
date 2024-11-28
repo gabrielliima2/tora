@@ -3,11 +3,12 @@ include("../scripts/conexao.php");
 include("../scripts/protect.php");
 
 $id_patente = $_SESSION['id_patente'];
-if($id_patente == 4){
+if ($id_patente == "4") {
     verificaAcesso("4");
-}else{
+} else{
     verificaAcesso("3");
 }
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['atualizar'])) {
     $id = $_POST['id'];
