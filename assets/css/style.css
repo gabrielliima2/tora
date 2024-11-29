@@ -1484,6 +1484,13 @@ table.tabelaChamada th, table.tabelaChamada td {
     border: 2px solid red;
 }
 
+.mainQuantidadesGuardas{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .tableContagemEscalas {
     width: 90%;
     border-collapse: collapse;
@@ -1634,6 +1641,10 @@ tr:hover {
     .containerQuadro{
         width: 75%; /* Faz com que o contêiner ocupe toda a largura disponível */
         margin-left: 200px;
+    }
+    .tableContagemEscalas {
+        margin: 10px auto;
+        width: 50%;
     }
     
 

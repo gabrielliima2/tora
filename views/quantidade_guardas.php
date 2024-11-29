@@ -77,6 +77,7 @@ while ($atirador = mysqli_fetch_assoc($resultAtiradores)) {
                 <?php } ?>
             </tbody>
         </table>
+        <a href="telaEscalaDeGuarda.php" class="buttons">Voltar</a>
     </main>
 </body>
 </html>

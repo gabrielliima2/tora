@@ -250,6 +250,7 @@ $escalas = mysqli_query($mysqli, $queryEscalas);
         <h2>Escala de Guarda</h2>
 
         <form method="POST" class="formEscalasCadastratas">
+            <a href="quantidade_guardas.php" class="buttons">Quantidade de escalas</a>
             <div style="display: flex; align-items:center; justify-content: space-around; padding: 20px; gap: 20px;">
                 <button type="submit" name="excluir_multiplas" class="buttons excluir">Excluir Selecionadas</button>    
                 <div id="botaoAparecerGerarEscala" class="buttons">Gerar Escala</div>
