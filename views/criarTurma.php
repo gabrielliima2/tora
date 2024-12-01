@@ -91,18 +91,28 @@ if($id_patente == "4"){
                 $query = "INSERT INTO turma (nome, ano) VALUES ('$nome', '$ano')";
                 $resu = $mysqli->query($query) or die("Falha na execução do código SQL: " . $mysqli->error);
 
-                if($resu) {
-                    ?>
-                    <div class="backPopUp"></div>
-                            <div class="containerPopUp">
-                                <div class="popUp edicao">
-                                    <ion-icon class="checkmarkPopUp" name="checkmark-circle-outline"></ion-icon>
-                                    <h1>Turma cadastrada com sucesso</h1>
-                                    <a href="criarTurma.php"  class="buttonsPopUp"> OK</a>
 
-                                </div>
+                if($resu) {
+                    $id_turma = $mysqli->insert_id;
+
+                    // Insere o superior na tabela turma_usuario
+                    $queryTurmaUsuario = "INSERT INTO turma_usuario (id_turma, id_usuario) VALUES ('$id_turma', '$id_usuario')";
+                    $resuTurmaUsuario = $mysqli->query($queryTurmaUsuario) or die("Falha ao associar o superior à turma: " . $mysqli->error);
+            
+                    if ($resuTurmaUsuario) {
+                        ?>
+                        <div class="backPopUp"></div>
+                        <div class="containerPopUp">
+                            <div class="popUp edicao">
+                                <ion-icon class="checkmarkPopUp" name="checkmark-circle-outline"></ion-icon>
+                                <h1>Turma cadastrada com sucesso</h1>
+                                <a href="criarTurma.php" class="buttonsPopUp"> OK</a>
                             </div>
-                    <?php
+                        </div>
+                        <?php
+                    } else {
+                        echo 'Falha ao associar o superior à turma!';
+                    }
                 } else {
                     echo 'Falha ao cadastrar nova turma!';
                 }
