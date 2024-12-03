@@ -465,7 +465,7 @@ NAVIGATION STYLES
 ------------------------*/
 .backPopUp{
     background-color: rgba(0, 0, 0, 0.8);
-    position: absolute;
+    position: fixed;
     left: 0;
     right: 0;
     top: 0;
@@ -1032,7 +1032,7 @@ button:hover{
 }
 
 .backContainerNewPost{
-    position: absolute;
+    position: fixed;
     background-color: rgba(0, 0, 0, 0.8);
     top: 0;
     right: 0;
@@ -1179,7 +1179,7 @@ CHAMADA
 }
 
 .backFormChamada{
-    position: absolute;
+    position: fixed;
     background-color: rgb(0, 0, 0, 0.8);
     top: 0;
     left: 0;
@@ -1355,7 +1355,7 @@ table.tabelaChamada th, table.tabelaChamada td {
 }
 
 .backFormEscala{
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
@@ -1379,7 +1379,7 @@ table.tabelaChamada th, table.tabelaChamada td {
 }
 
 .backFormEditarEscala{
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
@@ -1408,7 +1408,7 @@ table.tabelaChamada th, table.tabelaChamada td {
 }
 
 .backFormCriarNovoQuadro{
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
@@ -1437,7 +1437,7 @@ table.tabelaChamada th, table.tabelaChamada td {
 }
 
 .backFormEditarQTQ{
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
