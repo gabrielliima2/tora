@@ -33,7 +33,9 @@
         $atirador_id = $atirador['id'];
 
         $queryContagemEscalas = "SELECT COUNT(*) as quantidade FROM escala_de_guarda 
-                                WHERE FIND_IN_SET('$atirador_id', atiradores) > 0 AND id_turma = '$turma_id'";
+                                WHERE 
+                                (FIND_IN_SET('$atirador_id', atiradores) > 0 OR FIND_IN_SET('$atirador_id', id_monitor) > 0) 
+                                AND id_turma = '$turma_id'";
         $resultContagem = mysqli_query($mysqli, $queryContagemEscalas);
         $contagem = mysqli_fetch_assoc($resultContagem);
 

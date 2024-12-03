@@ -37,7 +37,7 @@ $queryChamada = "
     SELECT c.id AS chamada_id, u.id AS usuario_id, u.nome, c.id_status 
     FROM chamada c 
     INNER JOIN usuarios u ON c.id_usuario = u.id 
-    WHERE c.id_data_chamada = '$data_chamada_id' AND c.id_turma = '$id_turma'
+    WHERE c.id_data_chamada = '$data_chamada_id' AND c.id_turma = '$id_turma' AND u.id_patente NOT IN (3, 4)
 ";
 $resultChamada = $mysqli->query($queryChamada) or die($mysqli->error);
 

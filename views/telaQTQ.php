@@ -116,11 +116,11 @@ $resultQtq = $mysqli->query($queryQtq);
                 </div>
                 
                 <div class="inputBox">
-                    <input type="date" name="data" id="data" class="inputs" >
+                    <input type="date" name="data" id="data" class="inputs" required>
                     <label for="data" class="labelInput">Data</label>
                 </div>
                 <div class="inputBox"> 
-                    <select name="id_superior" id="id_superior" class="inputs">
+                    <select name="id_superior" id="id_superior" class="inputs" required>
                         <option value="">Selecione o Superior</option>
                         <?php
                         $querySuperiores = "SELECT u.id, u.nome FROM usuarios u INNER JOIN turma_usuario tu ON tu.id_usuario = u.id WHERE u.id_patente = 4 AND tu.id_turma = '$turma_id' ";
@@ -165,7 +165,7 @@ $resultQtq = $mysqli->query($queryQtq);
                 <label for="data" class="labelInput" >Data</label>
             </div>
             <div class="inputBox"> 
-                <select name="id_superior" id="id_superior" class="inputs" >
+                <select name="id_superior" id="id_superior" class="inputs" required >
                     <option value="">Selecione o Superior</option>
                     <?php
                     $id_superior_atual = $qtq['id_superior'];
@@ -231,10 +231,10 @@ $resultQtq = $mysqli->query($queryQtq);
                                         echo "  <td>
                                                     <a href='telaQTQ.php?editar=" . $qtq['id'] . "'  class='botao editar'>
                                                         <ion-icon name='pencil-sharp'></ion-icon>
-                                                        <span class='tooltip'>Editar</span></a> |
+                                                        </a> |
                                                     <a href='telaQTQ.php?excluir=" . $qtq['id'] . "'  class='botao excluir' onclick='return confirm(\"Tem certeza que deseja excluir?\")'>
                                                         <ion-icon name='trash-outline'></ion-icon>
-                                                        <span class='tooltip'>Excluir</span>
+                                                        
                                                     </a>
                                                 </td>";
                                     }

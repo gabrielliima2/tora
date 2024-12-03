@@ -15,28 +15,42 @@ if ($id_patente == "4") {
     verificaAcesso("3");
 }
 
-$queryAtiradores = "SELECT u.id, u.nome 
-                    FROM usuarios u
-                    INNER JOIN turma_usuario tu ON u.id = tu.id_usuario
-                    WHERE tu.id_turma = '$turma_id' AND u.id_patente = 1";
+
+$queryAtiradores = "
+    SELECT u.id, u.nome 
+    FROM usuarios u
+    INNER JOIN turma_usuario tu ON u.id = tu.id_usuario
+    WHERE tu.id_turma = '$turma_id' AND (u.id_patente = 1 OR u.id_patente = 2)
+";
+
 $resultAtiradores = mysqli_query($mysqli, $queryAtiradores);
 
 $atiradoresQuantidades = [];
 
+
 while ($atirador = mysqli_fetch_assoc($resultAtiradores)) {
     $atirador_id = $atirador['id'];
 
-    // Conta quantas vezes o atirador aparece nas escalas
-    $queryContagemEscalas = "SELECT COUNT(*) as quantidade FROM escala_de_guarda 
-                             WHERE FIND_IN_SET('$atirador_id', atiradores) > 0 AND id_turma = '$turma_id'";
+
+    $queryContagemEscalas = "
+        SELECT COUNT(*) AS quantidade 
+        FROM escala_de_guarda 
+        WHERE 
+            (FIND_IN_SET('$atirador_id', atiradores) > 0 OR FIND_IN_SET('$atirador_id', id_monitor) > 0) 
+            AND id_turma = '$turma_id';
+
+    ";
+    
     $resultContagem = mysqli_query($mysqli, $queryContagemEscalas);
     $contagem = mysqli_fetch_assoc($resultContagem);
 
+
     $atiradoresQuantidades[] = [
         'nome' => $atirador['nome'],
-        'quantidade' => $contagem['quantidade']
+        'quantidade' => $contagem['quantidade'] ?? 0
     ];
 }
+
 
 ?>
 

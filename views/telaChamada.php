@@ -103,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             FROM turma_usuario tu 
                             INNER JOIN usuarios u ON tu.id_usuario = u.id 
                             WHERE tu.id_turma = '$turma_id' 
-                            AND u.id NOT IN (3, 4)";
+                            AND u.id_patente NOT IN (3, 4)";
         
                         $resultUsuarios = mysqli_query($mysqli, $queryUsuarios) or die(mysqli_connect_error());
 

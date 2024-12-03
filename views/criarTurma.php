@@ -30,36 +30,71 @@ if($id_patente == "4"){
     
     <main id="mainTurma">
         <div class="containerListaTurma">
-            <?php
-                $query = "SELECT * FROM turma";
-                $result = mysqli_query($mysqli, $query) or die(mysqli_connect_error());
-                if(mysqli_num_rows($result) > 0) {
-                    while ($reg = mysqli_fetch_array($result)) {
-                        $turma_id = $reg['id'];
-                        echo "  
-                        <div class='listaTurmas'>
+        <?php
+            $query = "SELECT * FROM turma";
+            $result = mysqli_query($mysqli, $query) or die(mysqli_connect_error());
+            if(mysqli_num_rows($result) > 0) {
+                while ($reg = mysqli_fetch_array($result)) {
+                    $turma_id = $reg['id'];
+
+                    // Verifica se o administrador já participa da turma
+                    $admin_in_turma_query = "SELECT * FROM turma_usuario WHERE id_usuario = '{$_SESSION['id']}' AND id_turma = '$turma_id'";
+                    $admin_in_turma_result = mysqli_query($mysqli, $admin_in_turma_query);
+                    $is_admin_in_turma = mysqli_num_rows($admin_in_turma_result) > 0;
+
+                    echo "  
+                    <div class='listaTurmas'>";
+
+                    if ($is_admin_in_turma) {
+                        echo "
+            
+                        <div class='containerInfoTurma'>
+                            <a href='#' onclick='abrirTurma({$turma_id})' class='linkAbrir'></a>
+                                <h3>{$reg['nome']}</h3>
+                                <p>{$reg['ano']}</p>
+                        </div>
+                        <div class='containerAcoesTurma'>
+                            <a href='alterarTurma.php?id={$reg['id']}' class='botao editar'>
+                                <ion-icon name='pencil-sharp'></ion-icon>
+                                <span class='tooltip'>Editar</span>
+                            </a>
+
+                            <a href='#' class='botao excluir' onclick='excluirTurma({$reg['id']})'>
+                                <ion-icon name='trash-outline'></ion-icon>
+                                <span class='tooltip'>Excluir</span>
+                            </a>
+                           
+                            <a href='sairTurma.php?id={$turma_id}' class='botao excluir'>
+                                <ion-icon name='log-out-outline'></ion-icon>
+                                <span class='tooltip'>Sair</span>
+                            </a>
+                        </div>
+                            
+                            ";
+
+                    } else {
+                        echo "
                             <div class='containerInfoTurma'>
-                                <a href='#' onclick='abrirTurma({$turma_id})' class='linkAbrir'></a>
-                                    <h3>{$reg['nome']}</h3>
-                                    <p>{$reg['ano']}</p>
-                                
+                                <h3>{$reg['nome']}</h3>
+                                <p>{$reg['ano']}</p>
                             </div>
                             <div class='containerAcoesTurma'>
-                                <a href='alterarTurma.php?id={$reg['id']}' class='botao editar'>
-                                    <ion-icon name='pencil-sharp'></ion-icon>
-                                    <span class='tooltip'>Editar</span>
-                                </a>
-                                <a href='#' class='botao excluir' onclick='excluirTurma({$reg['id']})'>
-                                    <ion-icon name='trash-outline'></ion-icon>
-                                    <span class='tooltip'>Excluir</span>
+                                <a href='participarTurma.php?id={$turma_id}' class='botao editar'>
+                                    <ion-icon name='log-in-outline'></ion-icon>
+                                    <span class='tooltip'>Fazer parte</span>
                                 </a>
                             </div>
-                        </div>";
+                            ";
                     }
-                } else {
-                    echo "Nenhuma turma cadastrada!";
+
+                    echo "  
+                        </div>";
                 }
+            } else {
+                echo "Nenhuma turma cadastrada!";
+            }
             ?>
+
         </div>
 
         <div class="FormularioNovaTurma hide">

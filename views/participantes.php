@@ -59,11 +59,12 @@ $result_usuarios = mysqli_query($mysqli, $query_usuarios) or die(mysqli_error($m
       
         <div class="formPesquisa">
             <form method="GET" class="formBusca">
-                <input type="text" name="nome" placeholder="Pesquisar por nome" value="<?php echo $pesquisa_nome; ?>">
-                <input type="date" name="nascimento" placeholder="Pesquisar por nascimento" value="<?php echo $pesquisa_nascimento; ?>">
-                <input type="text" name="email" placeholder="Pesquisar por email" value="<?php echo $pesquisa_email; ?>">
-                <button type="submit" class="buttons">Pesquisar</button>
-                <a href="participantes.php" class="buttons">Limpar Pesquisa</a> 
+                <div class="inputBox">
+                    <input type="text" name="nome" class="inputs" value="<?php echo $pesquisa_nome; ?>">
+                    <label class="labelInput">Buscar</label>
+                    <button type="submit" class="buttons">Pesquisar</button>
+                    <a href="participantes.php" class="buttons">Limpar Pesquisa</a> 
+                </div>
             </form>
         </div>
 
